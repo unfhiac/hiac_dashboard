@@ -720,6 +720,186 @@ font-size:16px;
 height:12px;
 }
 
+#himssBody{
+display:block;
+width:100%;
+}
+
+#himssBody tr{
+display:block;
+background:#fff;
+border:1px solid #e5e7eb;
+border-radius:18px;
+padding:14px;
+margin-bottom:14px;
+box-shadow:0 4px 12px rgba(0,0,0,.06);
+}
+
+#himssBody td{
+display:block;
+width:100%;
+border:none;
+padding:8px 0;
+}
+
+#himssBody td:nth-child(1){
+font-size:18px;
+font-weight:700;
+color:#0f172a;
+}
+
+#podcastTable{
+display:block;
+width:100%;
+}
+
+#podcastTable tr{
+display:block;
+background:#fff;
+border:1px solid #e5e7eb;
+border-radius:18px;
+padding:14px;
+margin-bottom:14px;
+}
+
+#podcastTable td{
+display:block;
+width:100%;
+border:none;
+padding:8px 0;
+}
+
+#podcastTable td::before{
+display:block;
+font-size:12px;
+font-weight:700;
+color:#64748b;
+margin-bottom:4px;
+}
+
+#podcastTable td:nth-child(1)::before{content:"Guest";}
+#podcastTable td:nth-child(2)::before{content:"Owner";}
+#podcastTable td:nth-child(3)::before{content:"Status";}
+#podcastTable td:nth-child(4)::before{content:"Target Date";}
+#podcastTable td:nth-child(5)::before{content:"Notes";}
+
+#eventTable{
+display:block;
+width:100%;
+}
+
+#eventTable tr{
+display:block;
+background:#fff;
+border:1px solid #e5e7eb;
+border-radius:18px;
+padding:14px;
+margin-bottom:14px;
+}
+
+#eventTable td{
+display:block;
+width:100%;
+border:none;
+padding:8px 0;
+}
+
+#eventTable td::before{
+display:block;
+font-size:12px;
+font-weight:700;
+color:#64748b;
+margin-bottom:4px;
+}
+
+#eventTable td:nth-child(1)::before{content:"Event";}
+#eventTable td:nth-child(2)::before{content:"Lead";}
+#eventTable td:nth-child(3)::before{content:"Status";}
+#eventTable td:nth-child(4)::before{content:"Target Date";}
+#eventTable td:nth-child(5)::before{content:"Progress";}
+
+#marketingTable{
+display:block;
+width:100%;
+}
+
+#marketingTable tr{
+display:block;
+background:#fff;
+border:1px solid #e5e7eb;
+border-radius:18px;
+padding:14px;
+margin-bottom:14px;
+}
+
+#marketingTable td{
+display:block;
+width:100%;
+border:none;
+padding:8px 0;
+}
+
+#marketingTable td::before{
+display:block;
+font-size:12px;
+font-weight:700;
+color:#64748b;
+margin-bottom:4px;
+}
+
+#marketingTable td:nth-child(1)::before{content:"Task";}
+#marketingTable td:nth-child(2)::before{content:"Owner";}
+#marketingTable td:nth-child(3)::before{content:"Status";}
+#marketingTable td:nth-child(4)::before{content:"Due Date";}
+#marketingTable td:nth-child(5)::before{content:"Notes";}
+
+#eventCards{
+display:grid;
+grid-template-columns:1fr;
+gap:12px;
+}
+
+#eventCards .card{
+width:100%;
+}
+
+#targetBudget,
+#currentBudget,
+#fundsRaised,
+#remainingGap{
+font-size:20px;
+word-break:break-word;
+}
+
+.schedule{
+display:block;
+min-width:100%;
+width:100%;
+overflow:hidden;
+}
+
+.day,
+.time,
+.slot{
+font-size:13px;
+}
+
+#statusChart,
+#workloadChart,
+#eventChart{
+height:250px;
+overflow-x:auto;
+overflow-y:hidden;
+}
+
+#statusChart .barcol,
+#workloadChart .barcol,
+#eventChart .barcol{
+min-width:70px;
+}
+
+
+
 /* AGENDA MANAGEMENT MOBILE CARDS */
 
 #taskTable{
@@ -775,6 +955,7 @@ width:100%;
 min-height:80px;
 }
 
+#taskTable + thead,
 .panel table thead{
 display:none;
 }
