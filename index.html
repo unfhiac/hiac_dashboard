@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -7,8 +8,7 @@
 
 <meta
 name="viewport"
-content="width=device-width, initial-scale=1.0"
->
+content="width=device-width, initial-scale=1.0">
 
 <title>
 HIAC Executive Dashboard
@@ -16,231 +16,682 @@ HIAC Executive Dashboard
 
 <link
 href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-rel="stylesheet"
->
+rel="stylesheet">
 
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/mobile.css">
+<link
+rel="stylesheet"
+href="css/style.css">
+
+<link
+rel="stylesheet"
+href="css/mobile.css">
 
 </head>
 
 <body>
 
-<div class="app-container">
+<!-- ==========================================
+HEADER
+========================================== -->
 
-    <!-- =========================
-         HEADER
-    ========================== -->
+<header class="header">
 
-    <header class="app-header">
+<div class="brand">
 
-        <div class="brand">
+<img
+src="assets/logo.png"
+alt="HIAC Logo"
+class="logo-img">
 
-            <img
-            src="assets/UNF HIAC Logo & Announcement - 3 (1).png"
-            class="logo-img"
-            alt="HIAC Logo"
-            >
+<div>
 
-            <div>
+<h1>
+HIAC Executive Dashboard
+</h1>
 
-                <h1>
-                    HIAC Executive Dashboard
-                </h1>
-
-                <p class="subtitle">
-                    Health Informatics & Analytics Club
-                </p>
-
-            </div>
-
-        </div>
-
-        <div class="header-actions">
-
-            <button onclick="addTask()">
-                + Task
-            </button>
-
-            <button onclick="addMeeting()">
-                + Meeting
-            </button>
-
-            <button onclick="exportCSV()">
-                Export
-            </button>
-
-            <button onclick="location.reload()">
-                Refresh
-            </button>
-
-        </div>
-
-    </header>
-
-    <!-- =========================
-         KPI SUMMARY
-    ========================== -->
-
-    <section class="summary-grid">
-
-        <div class="summary-card">
-
-            <span>Total Tasks</span>
-
-            <strong id="totalTasks">
-                0
-            </strong>
-
-        </div>
-
-        <div class="summary-card">
-
-            <span>Completed</span>
-
-            <strong id="completedTasks">
-                0
-            </strong>
-
-        </div>
-
-        <div class="summary-card">
-
-            <span>Events</span>
-
-            <strong id="eventCount">
-                0
-            </strong>
-
-        </div>
-
-        <div class="summary-card">
-
-            <span>Attendance</span>
-
-            <strong id="attendanceRate">
-                0%
-            </strong>
-
-        </div>
-
-    </section>
-
-    <!-- =========================
-         MOBILE DASHBOARD
-    ========================== -->
-
-    <div id="mobileDashboard">
-
-        <section id="mobileOfficer"></section>
-
-        <section id="mobileAttendance"></section>
-
-        <section id="mobileTasks"></section>
-
-        <section id="mobileEvents"></section>
-
-        <section id="mobilePodcasts"></section>
-
-        <section id="mobileMarketing"></section>
-
-        <section id="mobileBudget"></section>
-
-    </div>
-
-    <!-- =========================
-         DESKTOP DASHBOARD
-    ========================== -->
-
-    <div id="desktopDashboard">
-
-        <!-- OFFICERS -->
-
-        <section class="panel">
-
-            <h2>
-                Executive Board
-            </h2>
-
-            <div id="officerCards"></div>
-
-        </section>
-
-        <!-- ATTENDANCE -->
-
-        <section class="panel">
-
-            <h2>
-                Attendance Dashboard
-            </h2>
-
-            <div id="attendanceCards"></div>
-
-        </section>
-
-        <!-- TASKS -->
-
-        <section class="panel">
-
-            <h2>
-                Agenda Management
-            </h2>
-
-            <div id="taskCards"></div>
-
-        </section>
-
-        <!-- EVENTS -->
-
-        <section class="panel">
-
-            <h2>
-                Event Tracker
-            </h2>
-
-            <div id="eventCards"></div>
-
-        </section>
-
-        <!-- PODCASTS -->
-
-        <section class="panel">
-
-            <h2>
-                Podcast Tracker
-            </h2>
-
-            <div id="podcastCards"></div>
-
-        </section>
-
-        <!-- MARKETING -->
-
-        <section class="panel">
-
-            <h2>
-                Marketing Dashboard
-            </h2>
-
-            <div id="marketingCards"></div>
-
-        </section>
-
-        <!-- HIMSS -->
-
-        <section class="panel">
-
-            <h2>
-                HIMSS Budget
-            </h2>
-
-            <div id="budgetCards"></div>
-
-        </section>
-
-    </div>
+<p class="subtitle">
+Health Informatics & Analytics Club
+</p>
 
 </div>
+
+</div>
+
+<div class="actions">
+
+<button onclick="addTask()">
++ Add Task
+</button>
+
+<button onclick="addMeeting()">
++ Meeting
+</button>
+
+<button onclick="exportCSV()">
+Export CSV
+</button>
+
+<button onclick="window.print()">
+Export PDF
+</button>
+
+<button onclick="location.reload()">
+Refresh
+</button>
+
+</div>
+
+</header>
+
+<!-- ==========================================
+SUMMARY KPI CARDS
+========================================== -->
+
+<section class="summary-grid">
+
+<div class="summary-card">
+
+<span>Total Tasks</span>
+
+<strong id="totalTasks">
+0
+</strong>
+
+</div>
+
+<div class="summary-card">
+
+<span>Completed</span>
+
+<strong id="completedTasks">
+0
+</strong>
+
+</div>
+
+<div class="summary-card">
+
+<span>In Progress</span>
+
+<strong id="progressTasks">
+0
+</strong>
+
+</div>
+
+<div class="summary-card">
+
+<span>Upcoming</span>
+
+<strong id="upcomingTasks">
+0
+</strong>
+
+</div>
+
+<div class="summary-card">
+
+<span>Blocked</span>
+
+<strong id="declinedTasks">
+0
+</strong>
+
+</div>
+
+<div class="summary-card">
+
+<span>Completion</span>
+
+<strong id="completionRate">
+0%
+</strong>
+
+</div>
+
+</section>
+
+<!-- ==========================================
+DESKTOP DASHBOARD
+========================================== -->
+
+<div id="desktopDashboard">
+
+<!-- OFFICER DASHBOARD -->
+
+<section class="panel">
+
+<h2>
+Officer Dashboard
+</h2>
+
+<div class="carousel-wrap">
+
+<button
+class="nav-btn"
+onclick="prevOfficer()">
+◀
+</button>
+
+<div id="officerCards"></div>
+
+<button
+class="nav-btn"
+onclick="nextOfficer()">
+▶
+</button>
+
+</div>
+
+</section>
+
+<!-- ATTENDANCE -->
+
+<section class="panel">
+
+<h2>
+Attendance Dashboard
+</h2>
+
+<div class="summary-grid">
+
+<div class="summary-card">
+
+<span>Total Meetings</span>
+
+<strong id="meetingCount">
+0
+</strong>
+
+</div>
+
+<div class="summary-card">
+
+<span>Average Attendance</span>
+
+<strong id="attendanceAvg">
+0%
+</strong>
+
+</div>
+
+</div>
+
+<div
+class="chart"
+id="attendanceChart">
+</div>
+
+<br>
+
+<table>
+
+<thead
+id="attendanceHead">
+</thead>
+
+<tbody
+id="attendanceTable">
+</tbody>
+
+</table>
+
+</section>
+
+<!-- TASKS -->
+
+<section class="panel">
+
+<h2>
+Agenda Management
+</h2>
+
+<div class="filters">
+
+<input
+id="search"
+placeholder="Search Tasks">
+
+<select
+id="agendaFilter">
+</select>
+
+<select
+id="ownerFilter">
+</select>
+
+<select
+id="statusFilter">
+</select>
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Agenda</th>
+<th>Task</th>
+<th>Owner</th>
+<th>Priority</th>
+<th>Status</th>
+<th>Due</th>
+<th>Progress</th>
+<th>Notes</th>
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody
+id="taskTable">
+</tbody>
+
+</table>
+
+</section>
+
+<!-- HIMSS BUDGET -->
+
+<section class="panel">
+
+<h2>
+HIMSS 2027 Budget Dashboard
+</h2>
+
+<div class="card-grid">
+
+<div class="card">
+
+<div class="row">
+
+<h3>
+Budget Summary
+</h3>
+
+<span class="badge Budgeting">
+Budgeting
+</span>
+
+</div>
+
+<div class="kpis">
+
+<div class="kpi">
+
+<small>
+Target Budget
+</small>
+
+<strong id="targetBudget">
+$0
+</strong>
+
+</div>
+
+<div class="kpi">
+
+<small>
+Current Budget
+</small>
+
+<strong id="currentBudget">
+$0
+</strong>
+
+</div>
+
+<div class="kpi">
+
+<small>
+Funds Raised
+</small>
+
+<strong id="fundsRaised">
+$0
+</strong>
+
+</div>
+
+<div class="kpi">
+
+<small>
+Remaining Gap
+</small>
+
+<strong id="remainingGap">
+$0
+</strong>
+
+</div>
+
+</div>
+
+<div class="progress">
+
+<div
+class="fill"
+id="budgetFill">
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Category</th>
+<th>Per Student</th>
+<th>Students</th>
+<th>Total</th>
+<th>Status</th>
+
+</tr>
+
+</thead>
+
+<tbody
+id="himssBody">
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- PODCASTS -->
+
+<section class="panel">
+
+<div class="row">
+
+<h2>
+Podcast Tracker
+</h2>
+
+<button onclick="addPodcast()">
++ Add Guest
+</button>
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Guest</th>
+<th>Owner</th>
+<th>Status</th>
+<th>Date</th>
+<th>Notes</th>
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody
+id="podcastTable">
+</tbody>
+
+</table>
+
+</section>
+
+<!-- EVENTS -->
+
+<section class="panel">
+
+<h2>
+Event Dashboard
+</h2>
+
+<div
+class="card-grid"
+id="eventCards">
+</div>
+
+<br>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Event</th>
+<th>Lead</th>
+<th>Status</th>
+<th>Target</th>
+<th>Progress</th>
+
+</tr>
+
+</thead>
+
+<tbody
+id="eventTable">
+</tbody>
+
+</table>
+
+</section>
+
+<!-- MARKETING -->
+
+<section class="panel">
+
+<div class="row">
+
+<div>
+
+<h2>
+Marketing Dashboard
+</h2>
+
+<p class="sub">
+Cynthia • Selena • Emmanuelle
+</p>
+
+</div>
+
+<button onclick="addMarketingTask()">
++ Add Marketing Task
+</button>
+
+</div>
+
+<div class="card-grid">
+
+<div class="card">
+
+<h3>
+Marketing Metrics
+</h3>
+
+<div class="kpis">
+
+<div class="kpi">
+<small>Total</small>
+<strong id="marketingTotal">0</strong>
+</div>
+
+<div class="kpi">
+<small>Completed</small>
+<strong id="marketingCompleted">0</strong>
+</div>
+
+<div class="kpi">
+<small>Active</small>
+<strong id="marketingProgress">0</strong>
+</div>
+
+<div class="kpi">
+<small>Completion</small>
+<strong id="marketingRate">0%</strong>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Task</th>
+<th>Owner</th>
+<th>Status</th>
+<th>Due</th>
+<th>Notes</th>
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody
+id="marketingTable">
+</tbody>
+
+</table>
+
+</section>
+
+<!-- AVAILABILITY -->
+
+<section class="panel">
+
+<h2>
+Availability Calendar
+</h2>
+
+<div class="filters">
+
+<select
+id="availabilityPerson">
+</select>
+
+<input
+type="date"
+id="scheduleWeek">
+
+<button onclick="findBestTime()">
+Find Best Meeting Time
+</button>
+
+</div>
+
+<div
+class="schedule"
+id="scheduleGrid">
+</div>
+
+<p
+id="bestTime"
+class="sub">
+</p>
+
+</section>
+
+<!-- ANALYTICS -->
+
+<section class="panel">
+
+<h2>
+Analytics Dashboard
+</h2>
+
+<div class="card-grid">
+
+<div class="card">
+
+<h3>
+Tasks by Status
+</h3>
+
+<div
+class="chart"
+id="statusChart">
+</div>
+
+</div>
+
+<div class="card">
+
+<h3>
+Officer Workload
+</h3>
+
+<div
+class="chart"
+id="workloadChart">
+</div>
+
+</div>
+
+<div class="card">
+
+<h3>
+Event Progress
+</h3>
+
+<div
+class="chart"
+id="eventChart">
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+</div>
+
+<!-- ==========================================
+MOBILE DASHBOARD
+========================================== -->
+
+<div id="mobileDashboard">
+
+<section id="mobileOfficer"></section>
+
+<section id="mobileAttendance"></section>
+
+<section id="mobileTasks"></section>
+
+<section id="mobileEvents"></section>
+
+<section id="mobilePodcasts"></section>
+
+<section id="mobileMarketing"></section>
+
+<section id="mobileBudget"></section>
+
+</div>
+
+<!-- ==========================================
+JAVASCRIPT FILES
+========================================== -->
 
 <script src="js/data.js"></script>
 <script src="js/ui.js"></script>
