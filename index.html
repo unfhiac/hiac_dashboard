@@ -444,8 +444,56 @@ color:#991b1b;
 }
 
 /* =========================
-   SMART ATTENDANCE TRACKER
+   SMART KPI ATTENDANCE
 ========================= */
+
+.attendance-kpi-grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:14px;
+margin-bottom:18px;
+}
+
+.attendance-kpi{
+background:#f8fafc;
+border:1px solid #dbeafe;
+border-radius:18px;
+padding:16px;
+text-align:center;
+}
+
+.attendance-kpi span{
+display:block;
+font-size:13px;
+font-weight:800;
+color:#64748b;
+}
+
+.attendance-kpi strong{
+display:block;
+font-size:26px;
+margin-top:8px;
+color:#1d4ed8;
+}
+
+.quick-attendance{
+background:#f8fafc;
+border:1px solid #e5e7eb;
+border-radius:18px;
+padding:16px;
+margin-bottom:18px;
+}
+
+.quick-attendance h3{
+margin-top:0;
+}
+
+.quick-attendance-row{
+display:grid;
+grid-template-columns:1fr 1fr 1fr auto;
+gap:10px;
+align-items:center;
+}
 
 .attendance-toolbar{
 display:grid;
@@ -456,45 +504,57 @@ margin-bottom:16px;
 
 .attendance-cards{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(350px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
 gap:16px;
 margin-top:20px;
 }
 
 .att-card{
-background:#f8fafc;
+background:white;
 border:1px solid #e5e7eb;
+border-left:6px solid #16a34a;
 border-radius:20px;
 padding:18px;
 box-shadow:0 8px 20px rgba(0,0,0,.08);
 }
 
+.att-card.good{
+border-left-color:#ca8a04;
+}
+
+.att-card.warning{
+border-left-color:#ea580c;
+}
+
+.att-card.critical{
+border-left-color:#dc2626;
+}
+
 .att-header{
 display:flex;
 justify-content:space-between;
-align-items:flex-start;
 gap:10px;
 margin-bottom:14px;
 }
 
 .att-name{
 font-size:18px;
-font-weight:800;
+font-weight:900;
 color:#0f172a;
 }
 
 .att-role{
 font-size:13px;
 color:#64748b;
-margin-top:4px;
 }
 
 .att-score{
-padding:8px 12px;
-border-radius:999px;
-font-weight:800;
 color:white;
+border-radius:999px;
+padding:8px 12px;
 font-size:13px;
+font-weight:900;
+text-align:center;
 }
 
 .score-green{
@@ -513,46 +573,64 @@ background:#ea580c;
 background:#dc2626;
 }
 
-.att-stats{
+.att-mini-grid{
 display:grid;
 grid-template-columns:repeat(3,1fr);
 gap:8px;
 margin-bottom:14px;
 }
 
-.att-stat{
-background:white;
+.att-mini{
+background:#f8fafc;
 border:1px solid #e5e7eb;
 border-radius:12px;
 padding:10px;
 text-align:center;
 }
 
-.att-stat strong{
+.att-mini strong{
 display:block;
-font-size:18px;
+font-size:20px;
+color:#0f172a;
 }
 
-.att-row{
+.att-meeting-row{
 display:grid;
-grid-template-columns:1fr 150px;
+grid-template-columns:1fr 140px;
 gap:10px;
 align-items:center;
-margin-bottom:10px;
+border-top:1px solid #f1f5f9;
+padding:9px 0;
 }
 
 .alert-missed{
 background:#fee2e2;
 color:#991b1b;
-padding:10px;
 border-radius:12px;
-font-weight:700;
+padding:10px;
+font-weight:800;
 margin-bottom:12px;
 }
 
-@media(max-width:768px){
+@media(max-width:900px){
+
+.attendance-kpi-grid{
+grid-template-columns:repeat(2,1fr);
+}
+
+.quick-attendance-row{
+grid-template-columns:1fr;
+}
 
 .attendance-toolbar{
+grid-template-columns:1fr;
+}
+
+}
+
+@media(max-width:520px){
+
+.attendance-kpi-grid{
 grid-template-columns:1fr;
 }
 
@@ -560,15 +638,16 @@ grid-template-columns:1fr;
 grid-template-columns:1fr;
 }
 
-.att-row{
+.att-meeting-row{
 grid-template-columns:1fr;
 }
 
-.att-stats{
+.att-mini-grid{
 grid-template-columns:1fr 1fr;
 }
 
 }
+
 
    
  /* =========================
