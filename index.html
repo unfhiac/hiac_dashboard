@@ -443,94 +443,121 @@ background:#fee2e2;
 color:#991b1b;
 }
 
-/* =========================
-   SMART KPI ATTENDANCE
-========================= */
+/* ======================================
+   ATTENDANCE DASHBOARD
+====================================== */
 
 .attendance-kpi-grid{
 display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:14px;
-margin-bottom:18px;
+grid-template-columns:repeat(4,minmax(180px,1fr));
+gap:16px;
+margin-bottom:20px;
 }
 
 .attendance-kpi{
 background:#f8fafc;
 border:1px solid #dbeafe;
 border-radius:18px;
-padding:16px;
+padding:18px;
 text-align:center;
+box-shadow:0 4px 12px rgba(0,0,0,.05);
 }
 
 .attendance-kpi span{
 display:block;
 font-size:13px;
-font-weight:800;
+font-weight:700;
 color:#64748b;
+margin-bottom:6px;
 }
 
 .attendance-kpi strong{
 display:block;
-font-size:26px;
-margin-top:8px;
-color:#1d4ed8;
+font-size:28px;
+font-weight:800;
+color:#2563eb;
 }
 
 .quick-attendance{
 background:#f8fafc;
 border:1px solid #e5e7eb;
 border-radius:18px;
-padding:16px;
+padding:18px;
 margin-bottom:18px;
 }
 
 .quick-attendance h3{
-margin-top:0;
+margin:0 0 14px;
 }
 
 .quick-attendance-row{
 display:grid;
-grid-template-columns:1fr 1fr 1fr auto;
-gap:10px;
+grid-template-columns:
+180px
+260px
+180px
+140px;
+gap:12px;
 align-items:center;
 }
 
 .attendance-toolbar{
 display:grid;
-grid-template-columns:1fr 220px;
+grid-template-columns:1fr 240px;
 gap:12px;
-margin-bottom:16px;
+margin-bottom:18px;
 }
 
-
 #attendanceChart{
+height:300px;
 display:flex;
 align-items:flex-end;
-gap:14px;
-overflow-x:auto;
+justify-content:flex-start;
+gap:16px;
 padding:20px;
+background:#f8fafc;
+border:1px solid #e5e7eb;
+border-radius:18px;
+overflow-x:auto;
+overflow-y:hidden;
 }
 
 #attendanceChart .barcol{
-min-width:80px;
+min-width:90px;
 text-align:center;
+font-size:13px;
+font-weight:700;
 }
 
 #attendanceChart .bar{
 width:100%;
-min-height:25px;
+border-radius:12px 12px 0 0;
+background:linear-gradient(
+180deg,
+#2563eb,
+#22c55e
+);
+transition:.3s;
 }
 
+#attendanceChart .bar:hover{
+transform:translateY(-4px);
+}
 
+/* ======================================
+   TABLET
+====================================== */
 
-@media(max-width:900px){
+@media screen and (max-width:1024px){
 
 .attendance-kpi-grid{
 grid-template-columns:repeat(2,1fr);
 }
 
 .quick-attendance-row{
-grid-template-columns:1fr;
+grid-template-columns:
+1fr
+1fr;
 }
 
 .attendance-toolbar{
@@ -539,15 +566,16 @@ grid-template-columns:1fr;
 
 }
 
-@media(max-width:520px){
+/* ======================================
+   MOBILE
+====================================== */
 
-@media(max-width:768px){
+@media screen and (max-width:768px){
 
 .attendance-kpi-grid{
 grid-template-columns:1fr 1fr;
 gap:10px;
 }
-
 
 .attendance-kpi{
 padding:14px;
@@ -557,22 +585,54 @@ padding:14px;
 font-size:22px;
 }
 
-}
-
-.attendance-cards{
+.quick-attendance-row{
 grid-template-columns:1fr;
 }
 
-.att-meeting-row{
+.attendance-toolbar{
 grid-template-columns:1fr;
 }
 
-.att-mini-grid{
+#attendanceChart{
+height:260px;
+padding:14px;
+gap:12px;
+}
+
+#attendanceChart .barcol{
+min-width:70px;
+}
+
+}
+
+/* ======================================
+   SMALL PHONES
+====================================== */
+
+@media screen and (max-width:480px){
+
+.attendance-kpi-grid{
 grid-template-columns:1fr 1fr;
 }
 
+.attendance-kpi{
+padding:12px;
 }
 
+.attendance-kpi strong{
+font-size:18px;
+}
+
+#attendanceChart{
+height:220px;
+}
+
+#attendanceChart .barcol{
+min-width:60px;
+font-size:11px;
+}
+
+}
 
    
  /* =========================
