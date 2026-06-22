@@ -540,7 +540,181 @@ grid-template-columns:1fr 1fr;
    ONLY AGENDA BECOMES PLANNER
 ========================= */
 
+.mobile-planner{
+display:none;
+}
+
+.desktop-agenda{
+display:block;
+}
+
 @media screen and (max-width:768px){
+.desktop-agenda{
+display:none;
+}
+
+.desktop-filters{
+display:none;
+}
+
+.mobile-planner{
+display:block;
+margin-top:10px;
+}
+
+/* HEADER */
+
+.agenda-panel{
+
+padding:0;
+overflow:hidden;
+
+background:white;
+
+}
+
+/* TOP CALENDAR */
+
+.mobile-planner::before{
+
+content:"HIAC Planner";
+
+display:block;
+
+background:
+linear-gradient(
+135deg,
+#06122a,
+#102a43
+);
+
+color:white;
+
+font-size:22px;
+
+font-weight:800;
+
+padding:22px;
+
+text-align:center;
+
+}
+
+/* EVENTS */
+
+.planner-event{
+
+display:grid;
+
+grid-template-columns:
+85px
+1fr;
+
+gap:12px;
+
+padding:14px;
+
+border-bottom:
+1px solid #e5e7eb;
+
+align-items:center;
+
+}
+
+/* TIME */
+
+.planner-time{
+
+font-size:12px;
+
+font-weight:700;
+
+color:#64748b;
+
+text-align:center;
+
+}
+
+/* EVENT CARD */
+
+.planner-card{
+
+background:
+linear-gradient(
+135deg,
+#06122a,
+#2563eb
+);
+
+border-radius:18px;
+
+padding:14px;
+
+color:white;
+
+box-shadow:
+0 10px 25px
+rgba(0,0,0,.15);
+
+}
+
+/* AGENDA */
+
+.planner-agenda{
+
+font-size:11px;
+
+font-weight:800;
+
+opacity:.8;
+
+margin-bottom:6px;
+
+}
+
+/* TASK */
+
+.planner-title{
+
+font-size:16px;
+
+font-weight:800;
+
+margin-bottom:8px;
+
+}
+
+/* OWNER */
+
+.planner-owner{
+
+font-size:12px;
+
+opacity:.9;
+
+margin-bottom:6px;
+
+}
+
+/* STATUS */
+
+.planner-status{
+
+display:inline-block;
+
+padding:4px 10px;
+
+border-radius:999px;
+
+background:white;
+
+color:#111827;
+
+font-size:11px;
+
+font-weight:700;
+
+}
 
 body{
 padding:10px;
@@ -1210,18 +1384,68 @@ display:table-cell !important;
 
 </div>
 
-<div class="panel">
+<div class="panel agenda-panel">
+
 <h2>Agenda Management</h2>
-<div class="filters">
-<input id="search" placeholder="Search tasks..." onkeyup="renderTasks()">
-<select id="agendaFilter" onchange="renderTasks()"></select>
-<select id="ownerFilter" onchange="renderTasks()"></select>
-<select id="statusFilter" onchange="renderTasks()"></select>
+
+<div class="filters desktop-filters">
+
+<input
+id="search"
+placeholder="Search tasks..."
+onkeyup="renderTasks()"
+>
+
+<select
+id="agendaFilter"
+onchange="renderTasks()">
+</select>
+
+<select
+id="ownerFilter"
+onchange="renderTasks()">
+</select>
+
+<select
+id="statusFilter"
+onchange="renderTasks()">
+</select>
+
 </div>
+
+<!-- Desktop Table -->
+
+<div class="desktop-agenda">
+
 <table>
-<thead><tr><th>Agenda</th><th>Task</th><th>Owner</th><th>Priority</th><th>Status</th><th>Due</th><th>Progress</th><th>Notes</th><th></th></tr></thead>
+
+<thead>
+<tr>
+<th>Agenda</th>
+<th>Task</th>
+<th>Owner</th>
+<th>Priority</th>
+<th>Status</th>
+<th>Due</th>
+<th>Progress</th>
+<th>Notes</th>
+<th></th>
+</tr>
+</thead>
+
 <tbody id="taskTable"></tbody>
+
 </table>
+
+</div>
+
+<!-- Mobile Planner -->
+
+<div
+class="mobile-planner"
+id="agendaPlanner">
+</div>
+
 </div>
 
 <div class="panel">
@@ -1737,6 +1961,7 @@ renderStats();
 renderOfficers();
 renderAttendance();
 renderTasks();
+renderAgendaPlanner();
 renderPodcasts();
 renderEvents();
 renderMarketing();
@@ -2077,7 +2302,64 @@ taskTable.innerHTML+=`
 </tr>`;
 });
 }
+function renderAgendaPlanner(){
 
+const planner =
+document.getElementById(
+"agendaPlanner"
+);
+
+if(!planner) return;
+
+planner.innerHTML="";
+
+tasks.forEach(task=>{
+
+planner.innerHTML += `
+
+<div class="planner-event">
+
+<div class="planner-time">
+
+${task.due || "--"}
+
+</div>
+
+<div class="planner-card">
+
+<div class="planner-agenda">
+
+${task.agenda}
+
+</div>
+
+<div class="planner-title">
+
+${task.task}
+
+</div>
+
+<div class="planner-owner">
+
+${task.owner}
+
+</div>
+
+<div class="planner-status">
+
+${task.status}
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
 function addTask(){
 tasks.unshift({agenda:"Strategic Planning",task:"New Task",owner:"Agrani Sinha",priority:"Medium",status:"Not Started",due:"2026-08-01",progress:0,notes:""});
 save();renderAll();
