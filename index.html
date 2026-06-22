@@ -1772,107 +1772,64 @@ return streak;
 
 }
    
-function attendanceGrade(pct){
+function addMeeting(){
 
-pct = Number(pct);
+const name = prompt("Enter Meeting Name");
 
-if(pct >= 95){
-return {label:"Excellent",class:"score-green",card:"excellent"};
-}
+if(!name) return;
 
-if(pct >= 80){
-return {label:"Good",class:"score-yellow",card:"good"};
-}
+meetings.push(name);
 
-if(pct >= 60){
-return {label:"Warning",class:"score-orange",card:"warning"};
-}
+attendance.forEach(a=>{
+a[name]="N/A";
+});
 
-return {label:"Critical",class:"score-red",card:"critical"};
-
-}
-
-function getMissedStreak(person){
-
-let streak = 0;
-
-for(let i=meetings.length-1;i>=0;i--){
-
-if(person[meetings[i]]==="Absent"){
-streak++;
-}else{
-break;
-}
-
-}
-
-return streak;
+save();
+renderAll();
 
 }
 
 function renderQuickAttendance(){
 
 quickMeeting.innerHTML =
-option(meetings,meetings[0]);
+option(meetings,quickMeeting.value || meetings[0]);
 
 quickOfficer.innerHTML =
-attendance
-.map(a=>`
-<option>
+attendance.map(a=>`
+<option ${a.name===quickOfficer.value?"selected":""}>
 ${a.name}
 </option>
-`)
-.join("");
+`).join("");
 
 }
 
 function quickUpdateAttendance(){
 
-let meeting =
-quickMeeting.value;
-
-let officer =
-quickOfficer.value;
-
-let status =
-quickStatus.value;
+let meeting = quickMeeting.value;
+let officer = quickOfficer.value;
+let status = quickStatus.value;
 
 let person =
-attendance.find(
-a=>a.name===officer
-);
+attendance.find(a=>a.name===officer);
 
 if(!person) return;
 
 person[meeting] = status;
 
 save();
-
 renderAttendance();
-
-renderStats();
-
+renderOfficers();
 renderAnalytics();
 
 }
-   
+
 function renderAttendance(){
 
 attendanceChart.innerHTML = "";
 
 renderQuickAttendance();
 
-let vals = [
-"Present",
-"Absent",
-"Excused",
-"Virtual",
-"Advisor Meeting",
-"N/A"
-];
-
-meetingCount.innerText =
-meetings.length;
+meetingCount.innerText = meetings.length;
 
 let percentages =
 attendance
@@ -1882,40 +1839,9 @@ attendance
 attendanceAvg.innerText =
 percentages.length
 ?
-Math.round(
-percentages.reduce((a,b)=>a+b,0) / percentages.length
-)+"%"
+Math.round(percentages.reduce((a,b)=>a+b,0)/percentages.length)+"%"
 :
 "0%";
-let best =
-[...attendance]
-.filter(a=>attendancePercent(a)!=="N/A")
-.sort(
-(a,b)=>
-attendancePercent(b)
--
-attendancePercent(a)
-)[0];
-
-bestOfficer.innerText =
-best
-?
-best.name.split(" ")[0]
-:
-"-";
-
-riskCount.innerText =
-attendance.filter(a=>{
-
-let pct =
-attendancePercent(a);
-
-return (
-pct!=="N/A" &&
-pct < 80
-);
-
-}).length;
 
 let best =
 [...attendance]
@@ -1923,26 +1849,19 @@ let best =
 .sort((a,b)=>attendancePercent(b)-attendancePercent(a))[0];
 
 bestOfficer.innerText =
-best
-?
-best.name.split(" ")[0]
-:
-"-";
+best ? best.name.split(" ")[0] : "-";
 
 riskCount.innerText =
-attendance
-.filter(a=>{
+attendance.filter(a=>{
 let pct = attendancePercent(a);
 return pct !== "N/A" && pct < 80;
-})
-.length;
+}).length;
 
 let officersList = [...attendance];
 
 let searchText =
-(
-document.getElementById("attendanceSearch")?.value || ""
-).toLowerCase();
+(document.getElementById("attendanceSearch")?.value || "")
+.toLowerCase();
 
 officersList =
 officersList.filter(a =>
@@ -1967,13 +1886,35 @@ officersList.sort((a,b)=>a.name.localeCompare(b.name));
 
 officersList.forEach(a=>{
 
-let index =
-attendance.findIndex(x=>x.name===a.name);
+let pct = attendancePercent(a);
 
-let pct =
-attendancePercent(a);
+let chartHeight =
+pct==="N/A"
+?
+25
+:
+Math.max(25,pct*2.1);
 
+attendanceChart.innerHTML += `
 
+<div class="barcol">
+
+<div
+class="bar"
+style="height:${chartHeight}px">
+</div>
+
+<div>
+${a.name.split(" ")[0]}
+</div>
+
+<b>
+${pct}${pct==="N/A"?"":"%"}
+</b>
+
+</div>
+
+`;
 
 });
 
