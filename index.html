@@ -509,37 +509,30 @@ margin-bottom:18px;
 }
 
 #attendanceChart{
-height:300px;
 display:flex;
 align-items:flex-end;
-justify-content:flex-start;
+justify-content:space-evenly;
 gap:16px;
-padding:20px;
+padding:25px;
 background:#f8fafc;
-border:1px solid #e5e7eb;
 border-radius:18px;
+min-height:320px;
 overflow-x:auto;
-overflow-y:hidden;
 }
 
 #attendanceChart .barcol{
-min-width:90px;
+min-width:95px;
 text-align:center;
-font-size:13px;
 font-weight:700;
 }
 
 #attendanceChart .bar{
 width:100%;
-border-radius:12px 12px 0 0;
-background:linear-gradient(
-180deg,
-#2563eb,
-#22c55e
-);
-transition:.3s;
+border-radius:14px 14px 0 0;
+box-shadow:0 8px 16px rgba(37,99,235,.20);
 }
 
+   
 #attendanceChart .bar:hover{
 transform:translateY(-4px);
 }
