@@ -400,11 +400,15 @@ color:#991b1b;
 }
 
 
-/* =========================
-   TABLETS
-   ========================= */
+/* ==========================================
+   TABLET RESPONSIVE
+========================================== */
 
-@media (max-width:1024px){
+@media screen and (max-width:1024px){
+
+body{
+padding:16px;
+}
 
 .summary-grid{
 grid-template-columns:repeat(2,1fr);
@@ -414,32 +418,34 @@ grid-template-columns:repeat(2,1fr);
 grid-template-columns:1fr;
 }
 
-.analytics-grid{
-grid-template-columns:1fr;
+.filters{
+grid-template-columns:1fr 1fr;
 }
 
 .officer-single{
-width:95%;
-max-width:95%;
+width:100%;
+max-width:100%;
 }
 
 .chart{
-height:250px;
+height:260px;
 }
 
 }
 
-/* =========================
-   MOBILE
-   ========================= */
 
-@media (max-width:768px){
+/* ==========================================
+   MOBILE RESPONSIVE
+========================================== */
+
+@media screen and (max-width:768px){
 
 body{
-padding:12px;
+padding:10px;
+overflow-x:hidden;
 }
 
-/* Header */
+/* HEADER */
 
 .header{
 flex-direction:column;
@@ -449,6 +455,8 @@ gap:12px;
 }
 
 .brand{
+width:100%;
+display:flex;
 flex-direction:column;
 align-items:flex-start;
 gap:10px;
@@ -462,172 +470,275 @@ height:auto;
 h1{
 font-size:22px;
 margin:0;
+line-height:1.2;
 }
 
-/* Buttons */
+/* ACTION BUTTONS */
 
 .actions{
-display:flex;
-flex-direction:column;
 width:100%;
+display:grid;
+grid-template-columns:1fr;
 gap:8px;
 }
 
-button{
+.actions button{
 width:100%;
 }
 
-/* EVERYTHING STACKED */
+/* SUMMARY CARDS */
 
-.summary-grid,
-.card-grid,
-.kpis,
-.analytics-grid{
-grid-template-columns:1fr !important;
-}
-
-/* Cards */
-
-.summary-card,
-.card,
-.kpi{
-width:100%;
+.summary-grid{
+grid-template-columns:1fr;
+gap:10px;
 }
 
 .summary-card{
-padding:16px;
+padding:14px;
 }
 
 .summary-card strong{
 font-size:24px;
 }
 
-/* Officer Carousel */
+/* PANELS */
+
+.panel{
+padding:14px;
+border-radius:16px;
+overflow:hidden;
+}
+
+/* FILTERS */
+
+.filters{
+grid-template-columns:1fr;
+gap:8px;
+}
+
+/* ROWS */
+
+.row{
+flex-direction:column;
+align-items:flex-start;
+}
+
+/* OFFICER CAROUSEL */
 
 .carousel-wrap{
 width:100%;
+display:flex;
+justify-content:center;
+align-items:center;
 gap:6px;
 }
 
 .officer-single{
 width:100%;
 max-width:100%;
-padding:16px;
-margin:auto;
+padding:14px;
 border-radius:18px;
+margin:auto;
 }
 
 .nav-btn{
-width:42px;
-height:42px;
+width:40px;
+height:40px;
+font-size:16px;
+flex-shrink:0;
+}
+
+/* CARDS */
+
+.card-grid{
+grid-template-columns:1fr;
+gap:10px;
+}
+
+.card{
+width:100%;
+padding:12px;
+}
+
+/* KPI */
+
+.kpis{
+grid-template-columns:1fr 1fr;
+gap:8px;
+}
+
+.kpi{
+padding:10px;
+}
+
+.kpi strong{
 font-size:18px;
 }
 
-/* Panels */
-
-.panel{
-padding:14px;
-overflow-x:auto;
-}
-
-/* Filters */
-
-.filters{
-grid-template-columns:1fr;
-}
-
-/* Tables */
+/* TABLES */
 
 table{
 display:block;
 width:100%;
 overflow-x:auto;
-min-width:950px;
 white-space:nowrap;
+border-collapse:collapse;
 }
 
-/* Charts */
+/* CHARTS */
 
 .chart{
-height:240px;
+height:220px;
 overflow-x:auto;
+padding-bottom:8px;
 }
 
 .barcol{
 min-width:55px;
 }
 
-/* HIMSS */
-
-.progress{
-height:14px;
-}
-
-/* Availability Calendar */
+/* AVAILABILITY */
 
 .schedule{
-min-width:1300px;
+width:max-content;
+min-width:900px;
 }
 
-/* KPI Text */
+/* INPUTS */
 
-.kpi strong{
-font-size:18px;
+input,
+select,
+textarea{
+font-size:16px;
+}
+
+/* PROGRESS */
+
+.progress{
+height:12px;
+}
+
+/* ATTENDANCE */
+
+#attendanceChart{
+overflow-x:auto;
+}
+
+/* PODCASTS */
+
+#podcastTable,
+#eventTable,
+#taskTable,
+#marketingTable{
+font-size:13px;
 }
 
 }
 
-/* =========================
-   SMALL PHONES
-   ========================= */
 
-@media (max-width:480px){
+/* ==========================================
+   SMALL PHONE RESPONSIVE
+========================================== */
+
+@media screen and (max-width:480px){
 
 body{
 padding:8px;
 }
 
+/* LOGO */
+
 .logo-img{
 width:65px;
 }
 
+/* TITLE */
+
 h1{
-font-size:20px;
+font-size:18px;
 }
+
+/* SUMMARY */
 
 .summary-card{
-padding:14px;
-}
-
-.summary-card strong{
-font-size:22px;
-}
-
-.card{
 padding:12px;
 }
 
+.summary-card strong{
+font-size:20px;
+}
+
+/* PANELS */
+
+.panel{
+padding:12px;
+}
+
+/* CARDS */
+
+.card{
+padding:10px;
+}
+
+/* OFFICER */
+
 .officer-single{
-padding:14px;
+padding:12px;
+}
+
+.nav-btn{
+width:34px;
+height:34px;
+font-size:14px;
+}
+
+/* KPI */
+
+.kpis{
+grid-template-columns:1fr;
 }
 
 .kpi strong{
 font-size:16px;
 }
 
-.nav-btn{
-width:36px;
-height:36px;
-font-size:16px;
-}
+/* CHARTS */
 
 .chart{
-height:220px;
+height:200px;
+}
+
+.barcol{
+min-width:50px;
+}
+
 }
 
 
+/* ==========================================
+   DESKTOP OVERRIDES
+========================================== */
+
+@media screen and (min-width:769px){
+
+.officer-single{
+width:680px;
+max-width:680px;
 }
 
+.summary-grid{
+grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+}
+
+.kpis{
+grid-template-columns:repeat(2,1fr);
+}
+
+.schedule{
+min-width:850px;
+}
+
+}
 /* =========================
    PRINT / PDF
    ========================= */
