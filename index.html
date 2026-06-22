@@ -879,16 +879,37 @@ overflow:visible;
 
 </div>
   
-<div class="chart" id="attendanceChart"></div><br>
-<table>
+<div class="attendance-toolbar">
 
-<thead id="attendanceHead">
-</thead>
+<input
+id="attendanceSearch"
+placeholder="Search Officer..."
+onkeyup="renderAttendance()"
+>
 
-<tbody id="attendanceTable">
-</tbody>
+<select
+id="attendanceSort"
+onchange="renderAttendance()"
+>
+<option value="high">
+Highest Attendance
+</option>
 
-</table>
+<option value="low">
+Lowest Attendance
+</option>
+
+<option value="name">
+Name A-Z
+</option>
+</select>
+
+</div>
+
+<div class="chart" id="attendanceChart"></div>
+
+<div id="attendanceCards"
+class="attendance-cards">
 </div>
 
 <div class="panel">
