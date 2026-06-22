@@ -1818,180 +1818,224 @@ return streak;
 
 }
    
+function attendanceGrade(pct){
+
+pct = Number(pct);
+
+if(pct >= 95){
+return {label:"Excellent",class:"score-green",card:"excellent"};
+}
+
+if(pct >= 80){
+return {label:"Good",class:"score-yellow",card:"good"};
+}
+
+if(pct >= 60){
+return {label:"Warning",class:"score-orange",card:"warning"};
+}
+
+return {label:"Critical",class:"score-red",card:"critical"};
+
+}
+
+function getMissedStreak(person){
+
+let streak = 0;
+
+for(let i=meetings.length-1;i>=0;i--){
+
+if(person[meetings[i]]==="Absent"){
+streak++;
+}else{
+break;
+}
+
+}
+
+return streak;
+
+}
+
+function renderQuickAttendance(){
+
+quickMeeting.innerHTML =
+option(meetings,meetings[0]);
+
+quickOfficer.innerHTML =
+attendance
+.map(a=>`
+<option>
+${a.name}
+</option>
+`)
+.join("");
+
+}
+
+function quickUpdateAttendance(){
+
+let meeting =
+quickMeeting.value;
+
+let officer =
+quickOfficer.value;
+
+let status =
+quickStatus.value;
+
+let person =
+attendance.find(a=>a.name===officer);
+
+if(!person) return;
+
+person[meeting] = status;
+
+save();
+
+renderAll();
+
+}
+
 function renderAttendance(){
 
 attendanceChart.innerHTML = "";
-
 attendanceCards.innerHTML = "";
 
-let vals = [
+renderQuickAttendance();
 
+let vals = [
 "Present",
 "Absent",
 "Excused",
 "Virtual",
 "Advisor Meeting",
 "N/A"
-
 ];
 
 meetingCount.innerText =
 meetings.length;
 
-let avg =
+let percentages =
 attendance
 .map(a=>attendancePercent(a))
 .filter(x=>x!=="N/A");
 
 attendanceAvg.innerText =
-avg.length
+percentages.length
 ?
 Math.round(
-avg.reduce((a,b)=>a+b,0)
-/avg.length
+percentages.reduce((a,b)=>a+b,0) / percentages.length
 )+"%"
 :
 "0%";
 
+let best =
+[...attendance]
+.filter(a=>attendancePercent(a)!=="N/A")
+.sort((a,b)=>attendancePercent(b)-attendancePercent(a))[0];
+
+bestOfficer.innerText =
+best
+?
+best.name.split(" ")[0]
+:
+"-";
+
+riskCount.innerText =
+attendance
+.filter(a=>{
+let pct = attendancePercent(a);
+return pct !== "N/A" && pct < 80;
+})
+.length;
+
 let officersList = [...attendance];
 
-const searchText =
+let searchText =
 (
-document.getElementById(
-"attendanceSearch"
-)?.value || ""
+document.getElementById("attendanceSearch")?.value || ""
 ).toLowerCase();
 
 officersList =
 officersList.filter(a =>
-a.name
-.toLowerCase()
-.includes(searchText)
+a.name.toLowerCase().includes(searchText) ||
+a.role.toLowerCase().includes(searchText)
 );
 
-const sortType =
-document.getElementById(
-"attendanceSort"
-)?.value || "high";
+let sortType =
+document.getElementById("attendanceSort")?.value || "high";
 
 if(sortType==="high"){
-
-officersList.sort(
-(a,b)=>
-attendancePercent(b)
--
-attendancePercent(a)
-);
-
+officersList.sort((a,b)=>attendancePercent(b)-attendancePercent(a));
 }
 
 if(sortType==="low"){
-
-officersList.sort(
-(a,b)=>
-attendancePercent(a)
--
-attendancePercent(b)
-);
-
+officersList.sort((a,b)=>attendancePercent(a)-attendancePercent(b));
 }
 
 if(sortType==="name"){
-
-officersList.sort(
-(a,b)=>
-a.name.localeCompare(b.name)
-);
-
+officersList.sort((a,b)=>a.name.localeCompare(b.name));
 }
 
-officersList.forEach((a)=>{
+officersList.forEach(a=>{
 
 let index =
-attendance.findIndex(
-x=>x.name===a.name
-);
+attendance.findIndex(x=>x.name===a.name);
 
 let pct =
 attendancePercent(a);
-
-let chartHeight =
-pct==="N/A"
-?
-25
-:
-Math.max(
-25,
-pct * 2.4
-);
-
-attendanceChart.innerHTML += `
-
-<div class="barcol">
-
-<div
-class="bar"
-style="
-height:${chartHeight}px
-">
-</div>
-
-<div>
-${a.name.split(" ")[0]}
-</div>
-
-<b>
-${pct}
-${pct==="N/A"?"":"%"}
-</b>
-
-</div>
-
-`;
 
 let grade =
 attendanceGrade(
 pct==="N/A" ? 0 : pct
 );
 
+let chartHeight =
+pct==="N/A"
+?
+25
+:
+Math.max(25,pct*2.4);
+
+attendanceChart.innerHTML += `
+
+<div class="barcol">
+<div class="bar" style="height:${chartHeight}px"></div>
+<div>${a.name.split(" ")[0]}</div>
+<b>${pct}${pct==="N/A"?"":"%"}</b>
+</div>
+
+`;
+
 let presentCount =
-meetings.filter(
-m =>
+meetings.filter(m=>
 a[m]==="Present" ||
 a[m]==="Virtual" ||
 a[m]==="Advisor Meeting"
 ).length;
 
 let absentCount =
-meetings.filter(
-m =>
-a[m]==="Absent"
-).length;
+meetings.filter(m=>a[m]==="Absent").length;
+
+let naCount =
+meetings.filter(m=>a[m]==="N/A").length;
 
 let streak =
 getMissedStreak(a);
 
 attendanceCards.innerHTML += `
 
-<div class="att-card">
+<div class="att-card ${grade.card}">
 
 <div class="att-header">
 
 <div>
-
-<div class="att-name">
-${a.name}
-</div>
-
-<div class="att-role">
-${a.role}
-</div>
-
+<div class="att-name">${a.name}</div>
+<div class="att-role">${a.role}</div>
 </div>
 
 <div class="att-score ${grade.class}">
-${pct==="N/A"?"N/A":pct+"%"}
-<br>
+${pct==="N/A"?"N/A":pct+"%"}<br>
 ${grade.label}
 </div>
 
@@ -2008,28 +2052,28 @@ ${streak>=2
 ""
 }
 
-<div class="att-stats">
+<div class="att-mini-grid">
 
-<div class="att-stat">
+<div class="att-mini">
 <strong>${presentCount}</strong>
 Present
 </div>
 
-<div class="att-stat">
+<div class="att-mini">
 <strong>${absentCount}</strong>
 Absent
 </div>
 
-<div class="att-stat">
-<strong>${meetings.length}</strong>
-Meetings
+<div class="att-mini">
+<strong>${naCount}</strong>
+N/A
 </div>
 
 </div>
 
 ${meetings.map(meeting=>`
 
-<div class="att-row">
+<div class="att-meeting-row">
 
 <div>
 <b>${meeting}</b>
@@ -2042,10 +2086,7 @@ save();
 renderAll();
 ">
 
-${option(
-vals,
-a[meeting] || "N/A"
-)}
+${option(vals,a[meeting] || "N/A")}
 
 </select>
 
