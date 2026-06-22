@@ -538,4 +538,73 @@ color:black;
 box-shadow:none;
 }
 
+/* =====================================
+   OFFICER DASHBOARD
+===================================== */
+
+.officer-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+gap:16px;
+}
+
+.officer-card{
+background:#f8fafc;
+border:1px solid #e5e7eb;
+border-radius:22px;
+padding:18px;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.officer-header{
+display:flex;
+justify-content:space-between;
+align-items:flex-start;
+margin-bottom:12px;
+}
+
+.officer-name{
+font-size:18px;
+font-weight:800;
+color:#111827;
+}
+
+.officer-role{
+font-size:13px;
+color:#64748b;
+margin-top:4px;
+}
+
+.officer-stats{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:8px;
+margin-top:14px;
+}
+
+.officer-stat{
+background:white;
+border:1px solid #e5e7eb;
+border-radius:12px;
+padding:10px;
+text-align:center;
+}
+
+.officer-stat small{
+display:block;
+font-size:11px;
+font-weight:700;
+color:#64748b;
+}
+
+.officer-stat strong{
+font-size:18px;
+font-weight:800;
+}
+
+.officer-progress{
+margin-top:12px;
+margin-bottom:12px;
+}
+
 }
