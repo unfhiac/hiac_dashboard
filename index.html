@@ -2086,11 +2086,40 @@ planner.innerHTML = `
 
 <div class="calendar-header">
 
+<div class="calendar-nav">
+
+<button
+class="month-btn"
+onclick="changeMonth(-1)">
+
+◀
+
+</button>
+
+<div>
+
 <div class="calendar-month">
-${now.toLocaleString(
-'default',
-{month:'long'}
-)}
+
+${monthName}
+
+</div>
+
+<div class="calendar-year">
+
+${year}
+
+</div>
+
+</div>
+
+<button
+class="month-btn"
+onclick="changeMonth(1)">
+
+▶
+
+</button>
+
 </div>
 
 <div class="calendar-year">
@@ -2118,6 +2147,14 @@ id="calendarGrid">
 class="agenda-task-list"
 id="agendaTaskList">
 </div>
+
+<button
+class="planner-fab"
+onclick="plannerAddTask()">
+
++
+
+</button>
 
 `;
 
@@ -2162,6 +2199,16 @@ showPlannerTasks(
 '${dateString}'
 )
 "
+
+ondragover="
+event.preventDefault()
+"
+
+ondrop="
+moveTask(
+'${dateString}'
+)
+"
 >
 
 ${day}
@@ -2183,6 +2230,83 @@ todayString
 
 }
 
+
+function changeMonth(direction){
+
+plannerMonth += direction;
+
+if(plannerMonth < 0){
+
+plannerMonth = 11;
+
+plannerYear--;
+
+}
+
+if(plannerMonth > 11){
+
+plannerMonth = 0;
+
+plannerYear++;
+
+}
+
+renderAgendaPlanner();
+
+}
+
+function moveTask(date){
+
+if(dragTask===null)
+return;
+
+tasks[dragTask].due =
+date;
+
+save();
+
+renderAll();
+
+showPlannerTasks(date);
+
+dragTask = null;
+
+}
+   
+function plannerAddTask(){
+
+const today =
+new Date()
+.toISOString()
+.split("T")[0];
+
+tasks.unshift({
+
+agenda:"Strategic Planning",
+
+task:"New Task",
+
+owner:"Agrani Sinha",
+
+priority:"Medium",
+
+status:"Not Started",
+
+due:today,
+
+progress:0,
+
+notes:""
+
+});
+
+save();
+
+renderAll();
+
+showPlannerTasks(today);
+
+}
    
 function showPlannerTasks(date){
 
@@ -2207,9 +2331,12 @@ box.innerHTML = `
 if(dayTasks.length===0){
 
 box.innerHTML += `
-<div class="agenda-task-card">
-No tasks scheduled.
-</div>
+<div
+class="agenda-task-card"
+draggable="true"
+ondragstart="
+dragTask=${i}
+">
 `;
 
 return;
