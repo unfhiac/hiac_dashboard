@@ -2146,6 +2146,11 @@ task.agenda=meetings[0];
 
 agendas=[...meetings];
 
+localStorage.setItem(
+"hiac_agendas_v1",
+JSON.stringify(agendas)
+);
+
 save();
 
 initFilters();
