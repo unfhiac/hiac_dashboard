@@ -1190,23 +1190,33 @@ const officerInfo={
 "Kay Thiemann":["Faculty Advisor","Advisor"]
 };
 let meetings =
-JSON.parse(
-localStorage.getItem(
-"hiac_meetings_v1"
-)
-) || [
-
+JSON.parse(localStorage.getItem("hiac_meetings_v1")) || [
 "Board #1",
 "Board #2",
-"Board #3"
-
+"Board #3",
+"Strategic Planning"
 ];
 
 let agendas = [...meetings];
-const priorities=["Critical","High","Medium","Low"];
-const taskStatuses=["Not Started","In Progress","Completed","On Hold","Blocked","Declined"];
-let currentOfficerIndex=0;
 
+function normalizeMeetingLists(){
+
+const savedMeetings =
+JSON.parse(localStorage.getItem("hiac_meetings_v1")) || [];
+
+const savedAgendas =
+JSON.parse(localStorage.getItem("hiac_agendas_v1")) || [];
+
+const allItems =
+[...savedMeetings,...savedAgendas,...meetings];
+
+meetings =
+[...new Set(allItems)]
+.filter(x => x && String(x).trim() !== "");
+
+agendas = [...meetings];
+
+}
 
 
 let tasks=JSON.parse(localStorage.getItem("hiac_tasks_v3"))||[
@@ -1423,6 +1433,11 @@ localStorage.setItem(
 JSON.stringify(events)
 );
 localStorage.setItem(
+"hiac_meetings_v1",
+JSON.stringify(meetings)
+);
+
+localStorage.setItem(
 "hiac_agendas_v1",
 JSON.stringify(meetings)
 );
@@ -1441,10 +1456,6 @@ localStorage.setItem(
 JSON.stringify(schedule)
 );
 
-localStorage.setItem(
-"hiac_meetings_v1",
-JSON.stringify(meetings)
-);
 
 }
 
@@ -1487,14 +1498,26 @@ function option(list,current){return list.map(x=>`<option ${x===current?"selecte
 function clean(x){return String(x).replaceAll(" ","")}
 
 function initFilters(){
+
+normalizeMeetingLists();
+
 agendaFilter.innerHTML =
 '<option>All Agendas</option>' +
-meetings.map(m=>
-`<option>${m}</option>`
-).join("");
-ownerFilter.innerHTML='<option>All Owners</option>'+option(officers,"");
-statusFilter.innerHTML='<option>All Statuses</option>'+option(taskStatuses,"");
-availabilityPerson.innerHTML=option(Object.keys(officerInfo),"Agrani Sinha");
+meetings.map(m=>`
+<option>${m}</option>
+`).join("");
+
+ownerFilter.innerHTML =
+'<option>All Owners</option>' +
+option(officers,"");
+
+statusFilter.innerHTML =
+'<option>All Statuses</option>' +
+option(taskStatuses,"");
+
+availabilityPerson.innerHTML =
+option(Object.keys(officerInfo),"Agrani Sinha");
+
 }
 
 function renderAll(){
@@ -1669,44 +1692,32 @@ return streak;
 function addMeeting(){
 
 const meetingName =
-prompt(
-"Enter Board Meeting Name"
-);
+prompt("Enter Board Meeting Name");
 
 if(!meetingName) return;
 
-if(
-meetings.includes(meetingName)
-){
-alert(
-"Meeting already exists."
-);
+const cleanName =
+meetingName.trim();
+
+normalizeMeetingLists();
+
+if(meetings.includes(cleanName)){
+alert("Meeting already exists.");
 return;
 }
 
-meetings.push(meetingName);
-
-/* Sync Agenda */
-
+meetings.push(cleanName);
 agendas = [...meetings];
 
-/* Add attendance field */
-
 attendance.forEach(person=>{
-
-person[meetingName] =
-"N/A";
-
+person[cleanName] = "N/A";
 });
 
 save();
-
 initFilters();
-
 renderAll();
 
 }
-
 function syncAgendaMeetings(){
 
 agendas = [...meetings];
@@ -1828,15 +1839,17 @@ ${pct==="N/A"?"N/A":pct+"%"}
 
 });
 
+normalizeMeetingLists();
+
 quickMeeting.innerHTML =
-meetings.map(m=>
-`<option>${m}</option>`
-).join("");
+meetings.map(m=>`
+<option>${m}</option>
+`).join("");
 
 quickOfficer.innerHTML =
-attendance.map(a=>
-`<option>${a.name}</option>`
-).join("");
+attendance.map(a=>`
+<option>${a.name}</option>
+`).join("");
 
 }
 function renderTasks(){
