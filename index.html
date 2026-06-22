@@ -348,7 +348,9 @@ gap:10px;
 margin-bottom:14px;
 }
 
-/* ATTENDANCE */
+/* =========================
+   ATTENDANCE
+========================= */
 
 .attendance-header{
 display:flex;
@@ -439,7 +441,9 @@ text-align:center;
 min-width:100px;
 }
 
-/* AVAILABILITY DESKTOP */
+/* =========================
+   AVAILABILITY DESKTOP
+========================= */
 
 .schedule{
 display:grid;
@@ -490,7 +494,9 @@ background:#fee2e2;
 color:#991b1b;
 }
 
-/* TABLET */
+/* =========================
+   TABLET
+========================= */
 
 @media screen and (max-width:1024px){
 
@@ -528,7 +534,11 @@ grid-template-columns:1fr 1fr;
 
 }
 
-/* MOBILE */
+/* =========================
+   MOBILE
+   DESKTOP STYLE KEPT FOR ALL
+   ONLY AGENDA BECOMES PLANNER
+========================= */
 
 @media screen and (max-width:768px){
 
@@ -593,7 +603,7 @@ font-size:24px;
 .panel{
 padding:14px;
 border-radius:16px;
-overflow-x:hidden;
+overflow-x:auto;
 overflow-y:hidden;
 }
 
@@ -658,7 +668,7 @@ textarea{
 font-size:16px;
 }
 
-/* Attendance Mobile */
+/* Attendance stays dashboard-style */
 
 .attendance-header{
 flex-direction:column;
@@ -700,7 +710,66 @@ min-width:70px;
 font-size:12px;
 }
 
-/* Agenda Mobile Card Layout */
+/* =========================
+   AGENDA MOBILE CALENDAR PLANNER
+========================= */
+
+.panel:has(#taskTable){
+background:linear-gradient(180deg,#7c3aed 0%,#8b5cf6 34%,#ffffff 34%,#ffffff 100%);
+padding:0;
+overflow:hidden;
+border-radius:28px;
+}
+
+.panel:has(#taskTable) h2{
+color:white;
+padding:22px 18px 0;
+margin-bottom:8px;
+}
+
+.panel:has(#taskTable) .filters{
+padding:0 18px 16px;
+}
+
+.panel:has(#taskTable) .filters input,
+.panel:has(#taskTable) .filters select{
+background:rgba(255,255,255,.95);
+border:none;
+box-shadow:0 6px 14px rgba(0,0,0,.12);
+}
+
+.panel:has(#taskTable)::before{
+content:"JAN 2026";
+display:block;
+color:white;
+font-size:14px;
+font-weight:800;
+letter-spacing:1px;
+padding:18px 18px 4px;
+}
+
+.panel:has(#taskTable)::after{
+content:"S   M   T   W   T   F   S\A 1   2   3   4   5   6   7\A 8   9  10  11  12  13  14\A15  16  17  18  19  20  21";
+white-space:pre;
+display:block;
+font-size:14px;
+line-height:2.1;
+font-weight:700;
+color:white;
+letter-spacing:6px;
+padding:0 18px 22px;
+}
+
+.panel:has(#taskTable) table{
+display:block;
+width:100%;
+padding:18px;
+background:white;
+}
+
+.panel:has(#taskTable) thead{
+display:none;
+}
 
 #taskTable{
 display:grid;
@@ -711,46 +780,96 @@ width:100%;
 
 #taskTable tr{
 display:grid;
-grid-template-columns:1fr 1fr;
+grid-template-columns:72px 1fr;
 gap:10px;
 background:#ffffff;
 border:1px solid #e5e7eb;
 border-radius:18px;
 padding:14px;
-box-shadow:0 6px 18px rgba(0,0,0,.06);
+box-shadow:0 8px 24px rgba(0,0,0,.08);
+position:relative;
+overflow:hidden;
+}
+
+#taskTable tr::before{
+content:"";
+position:absolute;
+left:0;
+top:0;
+bottom:0;
+width:5px;
+background:#7c3aed;
 }
 
 #taskTable td{
-display:flex;
-flex-direction:column;
+display:block;
 border:none;
 padding:0;
-width:100%;
 white-space:normal;
 }
 
-#taskTable td::before{
+#taskTable td:nth-child(6){
+grid-row:1 / span 4;
+grid-column:1;
+background:#f3e8ff;
+border-radius:16px;
+padding:12px 6px;
+text-align:center;
+font-weight:900;
+color:#6d28d9;
+font-size:13px;
+align-self:stretch;
+}
+
+#taskTable td:nth-child(6)::before{
+content:"Due";
+display:block;
 font-size:11px;
-font-weight:800;
-color:#64748b;
-margin-bottom:4px;
+color:#7c3aed;
+margin-bottom:6px;
+}
+
+#taskTable td:nth-child(1){
+grid-column:2;
+font-size:12px;
+font-weight:900;
+color:#7c3aed;
 text-transform:uppercase;
 }
 
-#taskTable td:nth-child(1)::before{content:"Agenda";}
-#taskTable td:nth-child(2)::before{content:"Task";}
-#taskTable td:nth-child(3)::before{content:"Owner";}
-#taskTable td:nth-child(4)::before{content:"Priority";}
-#taskTable td:nth-child(5)::before{content:"Status";}
-#taskTable td:nth-child(6)::before{content:"Due";}
-#taskTable td:nth-child(7)::before{content:"Progress";}
-#taskTable td:nth-child(8)::before{content:"Notes";}
-#taskTable td:nth-child(9)::before{content:"Action";}
+#taskTable td:nth-child(2){
+grid-column:2;
+font-size:18px;
+font-weight:900;
+color:#0f172a;
+}
 
-#taskTable td:nth-child(2),
+#taskTable td:nth-child(3){
+grid-column:2;
+font-size:13px;
+font-weight:700;
+color:#64748b;
+}
+
+#taskTable td:nth-child(4),
+#taskTable td:nth-child(5){
+grid-column:2;
+}
+
+#taskTable td:nth-child(7),
 #taskTable td:nth-child(8),
 #taskTable td:nth-child(9){
 grid-column:1 / span 2;
+}
+
+#taskTable td:nth-child(8){
+background:#f8fafc;
+border-radius:12px;
+padding:10px;
+}
+
+#taskTable td:nth-child(9){
+padding-top:4px;
 }
 
 #taskTable select,
@@ -762,274 +881,71 @@ font-size:14px;
 }
 
 #taskTable textarea{
-min-height:70px;
+min-height:60px;
 }
 
-/* HIMSS Mobile */
+/* Keep all other sections desktop-style on mobile */
 
-#himssBody{
-display:grid;
-grid-template-columns:1fr;
-gap:14px;
-width:100%;
+#himssBody,
+#podcastTable,
+#eventTable,
+#marketingTable{
+display:table-row-group !important;
 }
 
-#himssBody tr{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
-background:white;
-border:1px solid #e5e7eb;
-border-radius:18px;
-padding:14px;
-box-shadow:0 6px 16px rgba(0,0,0,.06);
+#himssBody tr,
+#podcastTable tr,
+#eventTable tr,
+#marketingTable tr{
+display:table-row !important;
 }
 
-#himssBody td{
-display:flex;
-flex-direction:column;
-border:none;
-padding:0;
+#himssBody td,
+#podcastTable td,
+#eventTable td,
+#marketingTable td{
+display:table-cell !important;
+border-bottom:1px solid #e5e7eb;
+padding:9px;
 }
 
-#himssBody td::before{
-font-size:11px;
-font-weight:800;
-color:#64748b;
-margin-bottom:4px;
-text-transform:uppercase;
+#himssBody td::before,
+#podcastTable td::before,
+#eventTable td::before,
+#marketingTable td::before{
+content:none !important;
 }
-
-#himssBody td:nth-child(1){
-grid-column:1 / span 2;
-font-size:18px;
-font-weight:800;
-color:#0f172a;
-}
-
-#himssBody td:nth-child(1)::before{content:"Category";}
-#himssBody td:nth-child(2)::before{content:"Per Student";}
-#himssBody td:nth-child(3)::before{content:"Students";}
-#himssBody td:nth-child(4)::before{content:"Total";}
-#himssBody td:nth-child(5)::before{content:"Status";}
-
-#targetBudget,
-#currentBudget,
-#fundsRaised,
-#remainingGap{
-font-size:20px;
-word-break:break-word;
-}
-
-/* Podcast Mobile */
-
-#podcastTable{
-display:grid;
-grid-template-columns:1fr;
-gap:14px;
-width:100%;
-}
-
-#podcastTable tr{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
-background:white;
-border:1px solid #e5e7eb;
-border-radius:18px;
-padding:14px;
-box-shadow:0 6px 16px rgba(0,0,0,.06);
-}
-
-#podcastTable td{
-display:flex;
-flex-direction:column;
-border:none;
-padding:0;
-}
-
-#podcastTable td::before{
-font-size:11px;
-font-weight:800;
-color:#64748b;
-margin-bottom:4px;
-text-transform:uppercase;
-}
-
-#podcastTable td:nth-child(1){
-grid-column:1 / span 2;
-font-size:18px;
-font-weight:800;
-}
-
-#podcastTable td:nth-child(5),
-#podcastTable td:nth-child(6){
-grid-column:1 / span 2;
-}
-
-#podcastTable td:nth-child(1)::before{content:"Guest";}
-#podcastTable td:nth-child(2)::before{content:"Owner";}
-#podcastTable td:nth-child(3)::before{content:"Status";}
-#podcastTable td:nth-child(4)::before{content:"Target Date";}
-#podcastTable td:nth-child(5)::before{content:"Notes";}
-#podcastTable td:nth-child(6)::before{content:"Action";}
-
-/* Event Mobile */
 
 #eventCards{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
-}
-
-#eventCards .card{
-padding:12px;
-}
-
-#eventTable{
-display:grid;
 grid-template-columns:1fr;
-gap:14px;
-width:100%;
 }
 
-#eventTable tr{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
-background:white;
-border:1px solid #e5e7eb;
-border-radius:18px;
-padding:14px;
-box-shadow:0 6px 16px rgba(0,0,0,.06);
-}
-
-#eventTable td{
-display:flex;
-flex-direction:column;
-border:none;
-padding:0;
-}
-
-#eventTable td::before{
-font-size:11px;
-font-weight:800;
-color:#64748b;
-margin-bottom:4px;
-text-transform:uppercase;
-}
-
-#eventTable td:nth-child(1){
-grid-column:1 / span 2;
-font-size:18px;
-font-weight:800;
-}
-
-#eventTable td:nth-child(5){
-grid-column:1 / span 2;
-}
-
-#eventTable td:nth-child(1)::before{content:"Event";}
-#eventTable td:nth-child(2)::before{content:"Lead";}
-#eventTable td:nth-child(3)::before{content:"Status";}
-#eventTable td:nth-child(4)::before{content:"Target Date";}
-#eventTable td:nth-child(5)::before{content:"Progress";}
-
-/* Marketing Mobile */
-
-#marketingTable{
-display:grid;
-grid-template-columns:1fr;
-gap:14px;
-width:100%;
-}
-
-#marketingTable tr{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
-background:white;
-border:1px solid #e5e7eb;
-border-radius:18px;
-padding:14px;
-box-shadow:0 6px 16px rgba(0,0,0,.06);
-}
-
-#marketingTable td{
-display:flex;
-flex-direction:column;
-border:none;
-padding:0;
-}
-
-#marketingTable td::before{
-font-size:11px;
-font-weight:800;
-color:#64748b;
-margin-bottom:4px;
-text-transform:uppercase;
-}
-
-#marketingTable td:nth-child(1){
-grid-column:1 / span 2;
-font-size:17px;
-font-weight:800;
-}
-
-#marketingTable td:nth-child(5),
-#marketingTable td:nth-child(6){
-grid-column:1 / span 2;
-}
-
-#marketingTable td:nth-child(1)::before{content:"Task";}
-#marketingTable td:nth-child(2)::before{content:"Owner";}
-#marketingTable td:nth-child(3)::before{content:"Status";}
-#marketingTable td:nth-child(4)::before{content:"Due Date";}
-#marketingTable td:nth-child(5)::before{content:"Notes";}
-#marketingTable td:nth-child(6)::before{content:"Action";}
-
-#marketingTotal,
-#marketingCompleted,
-#marketingProgress,
-#marketingRate{
-font-size:20px;
-}
-
-/* Availability Mobile */
+/* Availability remains desktop style */
 
 .schedule{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:10px;
-min-width:100%;
-width:100%;
+display:grid !important;
+grid-template-columns:105px repeat(7,1fr) !important;
+gap:6px;
+width:max-content;
+min-width:850px;
 }
 
 .day,
 .time{
-display:none;
+display:block !important;
 }
 
 .slot{
-min-height:52px;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:13px;
-font-weight:800;
-border-radius:14px;
+display:block;
+min-height:auto;
 }
 
-/* Analytics Mobile */
+/* Analytics stays desktop chart with horizontal scroll */
 
 #statusChart,
 #workloadChart,
 #eventChart{
-height:260px;
-display:flex;
-align-items:flex-end;
-gap:12px;
-padding:14px;
+height:240px;
 overflow-x:auto;
 overflow-y:hidden;
 }
@@ -1040,13 +956,11 @@ overflow-y:hidden;
 min-width:85px;
 }
 
-.panel table thead{
-display:none;
 }
 
-}
-
-/* SMALL PHONES */
+/* =========================
+   SMALL PHONES
+========================= */
 
 @media screen and (max-width:480px){
 
@@ -1127,8 +1041,18 @@ min-width:60px;
 font-size:11px;
 }
 
-#eventCards{
-grid-template-columns:1fr;
+.panel:has(#taskTable)::after{
+font-size:12px;
+letter-spacing:4px;
+}
+
+#taskTable tr{
+grid-template-columns:64px 1fr;
+padding:12px;
+}
+
+#taskTable td:nth-child(2){
+font-size:16px;
 }
 
 #statusChart .barcol,
@@ -1139,7 +1063,9 @@ min-width:70px;
 
 }
 
-/* PRINT */
+/* =========================
+   PRINT
+========================= */
 
 @media print{
 
