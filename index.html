@@ -463,6 +463,8 @@ display:block !important;
 display:grid !important;
 }
 
+
+
 /* =========================
    AVAILABILITY
 ========================= */
@@ -2379,7 +2381,7 @@ showPlannerTasks(selectedPlannerDate);
 
 }
    
-function showPlannerTasks(meeting){
+function showPlannerTasks(date){
 
 const box =
 document.getElementById(
@@ -2388,26 +2390,26 @@ document.getElementById(
 
 if(!box) return;
 
-const meetingTasks =
+const dayTasks =
 tasks.filter(
-t=>t.due===meeting
+t=>t.due===date
 );
 
 box.innerHTML = `
 
 <h3>
-📋 ${meeting}
+📅 ${date}
 </h3>
 
 `;
 
-if(meetingTasks.length===0){
+if(dayTasks.length===0){
 
 box.innerHTML += `
 
 <div class="agenda-task-card">
 
-No agenda items.
+No agenda items scheduled.
 
 </div>
 
@@ -2417,7 +2419,7 @@ return;
 
 }
 
-meetingTasks.forEach(task=>{
+dayTasks.forEach(task=>{
 
 const i =
 tasks.indexOf(task);
@@ -2434,15 +2436,36 @@ dragTask=${i}
 <div class="row">
 
 <h4>
+
 ${task.task}
+
 </h4>
 
 <button
 class="red"
 onclick="
-tasks.splice(${i},1);
+
+if(
+confirm(
+'Delete this task?'
+)
+){
+
+tasks.splice(
+${i},
+1
+);
+
 save();
+
 renderAll();
+
+showPlannerTasks(
+selectedPlannerDate
+);
+
+}
+
 ">
 
 Delete
@@ -2457,7 +2480,9 @@ Delete
 
 📌 ${task.priority}<br>
 
-📅 ${task.due}
+📅 ${task.due}<br>
+
+📋 ${task.agenda}
 
 </div>
 
@@ -2469,18 +2494,92 @@ ${task.status}
 
 <div class="agenda-task-edit">
 
+<label>
+Task
+</label>
+
 <input
 value="${task.task}"
 onchange="
 tasks[${i}].task=this.value;
 save();
+renderAll();
 ">
+
+<label>
+Meeting
+</label>
 
 <select
 onchange="
-tasks[${i}].status=this.value;
+tasks[${i}].agenda=this.value;
 save();
 renderAll();
+">
+
+${option(
+meetings,
+task.agenda
+)}
+
+</select>
+
+<label>
+Assigned To
+</label>
+
+<select
+onchange="
+tasks[${i}].owner=this.value;
+save();
+renderAll();
+">
+
+${option(
+officers,
+task.owner
+)}
+
+</select>
+
+<label>
+Priority
+</label>
+
+<select
+onchange="
+tasks[${i}].priority=this.value;
+save();
+renderAll();
+">
+
+${option(
+priorities,
+task.priority
+)}
+
+</select>
+
+<label>
+Status
+</label>
+
+<select
+onchange="
+
+tasks[${i}].status=
+this.value;
+
+if(
+this.value==='Completed'
+){
+tasks[${i}].progress=100;
+}
+
+save();
+
+renderAll();
+
 ">
 
 ${option(
@@ -2490,13 +2589,76 @@ task.status
 
 </select>
 
-<textarea
+<label>
+Due Date
+</label>
+
+<input
+type="date"
+value="${task.due}"
 onchange="
-tasks[${i}].notes=this.value;
+
+tasks[${i}].due=
+this.value;
+
 save();
+
+renderAll();
+
+showPlannerTasks(
+selectedPlannerDate
+);
+
 ">
 
-${task.notes}
+<label>
+Progress
+(${task.progress}%)
+</label>
+
+<input
+type="range"
+min="0"
+max="100"
+value="${task.progress}"
+oninput="
+
+tasks[${i}].progress=
+parseInt(
+this.value
+);
+
+this.nextElementSibling.innerText=
+this.value+'%';
+
+save();
+
+renderAll();
+
+">
+
+<div
+class="progress-value">
+
+${task.progress}%
+
+</div>
+
+<label>
+Notes
+</label>
+
+<textarea
+onchange="
+
+tasks[${i}].notes=
+this.value;
+
+save();
+
+">
+
+${task.notes || ""}
 
 </textarea>
 
