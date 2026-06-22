@@ -1358,6 +1358,14 @@ const officerInfo={
 
 let currentOfficerIndex = 0;
 
+let plannerMonth =
+new Date().getMonth();
+
+let plannerYear =
+new Date().getFullYear();
+
+let dragTask = null;
+
 const priorities = [
 "Low",
 "Medium",
