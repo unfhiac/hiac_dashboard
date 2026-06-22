@@ -1,149 +1,169 @@
-/* ======================================
-   HIAC MOBILE APP
-====================================== */
+/* ==========================================
+HIAC MOBILE APP UI
+========================================== */
+
+#mobileDashboard{
+display:none;
+}
+
+/* ==========================================
+MOBILE VERSION
+========================================== */
 
 @media screen and (max-width:768px){
 
-/* =========================
-   GLOBAL
-========================= */
+/* Hide Desktop */
+
+#desktopDashboard{
+display:none !important;
+}
+
+#mobileDashboard{
+display:block;
+padding:12px;
+padding-bottom:80px;
+}
+
+/* ==========================================
+BODY
+========================================== */
 
 html,
 body{
 
 margin:0;
-
 padding:0;
-
-width:100%;
-
-overflow-x:hidden;
 
 background:#f3f6fb;
 
-color:#111827;
+overflow-x:hidden;
 
 }
 
-.app-container{
+body{
 
-padding:0;
-
-}
-
-/* =========================
-   HIDE DESKTOP
-========================= */
-
-#desktopDashboard{
-
-display:none;
+font-family:'Inter',sans-serif;
 
 }
 
-#mobileDashboard{
+/* ==========================================
+HEADER
+========================================== */
 
-display:block;
-
-padding:12px;
-
-padding-bottom:100px;
-
-}
-
-/* =========================
-   HEADER
-========================= */
-
-.app-header{
-
-margin:0;
-
-padding:16px;
-
-border-radius:0;
-
-background:#06122a;
+.header{
 
 position:sticky;
 
 top:0;
 
-z-index:1000;
+z-index:999;
+
+background:#06122a;
+
+padding:14px;
+
+border-radius:0;
+
+margin:0;
+
+display:flex;
+
+flex-direction:column;
+
+align-items:flex-start;
+
+gap:12px;
+
+box-shadow:
+0 4px 18px rgba(0,0,0,.15);
 
 }
 
 .brand{
 
-flex-direction:row;
+display:flex;
 
 align-items:center;
 
 gap:12px;
 
+width:100%;
+
 }
 
 .logo-img{
 
-width:70px;
+width:55px;
 
-padding:6px;
+background:white;
+
+padding:4px;
 
 border-radius:12px;
 
 }
 
-.app-header h1{
+.brand h1{
 
-font-size:20px;
+font-size:18px;
 
-line-height:1.2;
+margin:0;
+
+color:white;
+
+font-weight:800;
 
 }
 
 .subtitle{
 
+color:#cbd5e1;
+
 font-size:12px;
+
+margin-top:3px;
 
 }
 
-/* =========================
-   ACTION BUTTONS
-========================= */
+/* ==========================================
+HEADER ACTIONS
+========================================== */
 
-.header-actions{
+.actions{
 
 display:grid;
 
-grid-template-columns:1fr 1fr;
-
-width:100%;
+grid-template-columns:
+1fr 1fr;
 
 gap:8px;
 
-margin-top:12px;
+width:100%;
 
 }
 
-.header-actions button{
+.actions button{
 
 width:100%;
 
 font-size:13px;
 
-padding:10px;
+padding:11px;
+
+border-radius:12px;
 
 }
 
-/* =========================
-   KPI SUMMARY
-========================= */
+/* ==========================================
+SUMMARY
+========================================== */
 
 .summary-grid{
 
 display:grid;
 
-grid-template-columns:1fr 1fr;
+grid-template-columns:
+1fr 1fr;
 
 gap:10px;
 
@@ -164,13 +184,17 @@ padding:14px;
 border-radius:18px;
 
 box-shadow:
-0 2px 10px rgba(0,0,0,.08);
+0 4px 15px rgba(0,0,0,.08);
 
 }
 
 .summary-card span{
 
+display:block;
+
 font-size:11px;
+
+font-weight:600;
 
 color:#64748b;
 
@@ -178,17 +202,23 @@ color:#64748b;
 
 .summary-card strong{
 
+display:block;
+
 font-size:22px;
+
+margin-top:6px;
+
+font-weight:800;
 
 }
 
-/* =========================
-   MOBILE SECTION
-========================= */
+/* ==========================================
+SECTION
+========================================== */
 
 .mobile-section{
 
-margin-bottom:18px;
+margin-bottom:20px;
 
 }
 
@@ -198,24 +228,30 @@ font-size:20px;
 
 font-weight:800;
 
-margin-bottom:10px;
-
 color:#111827;
 
+margin-bottom:12px;
+
+padding-left:4px;
+
 }
+
+/* ==========================================
+CARD
+========================================== */
 
 .mobile-card{
 
 background:white;
 
-border-radius:18px;
+padding:16px;
 
-padding:14px;
+border-radius:20px;
 
-margin-bottom:10px;
+margin-bottom:12px;
 
 box-shadow:
-0 2px 10px rgba(0,0,0,.08);
+0 4px 15px rgba(0,0,0,.08);
 
 }
 
@@ -223,15 +259,29 @@ box-shadow:
 
 font-size:16px;
 
-margin-bottom:10px;
+font-weight:700;
+
+margin-bottom:12px;
 
 color:#111827;
 
 }
 
-/* =========================
-   MOBILE ROWS
-========================= */
+.mobile-card p{
+
+font-size:13px;
+
+color:#64748b;
+
+margin-top:6px;
+
+line-height:1.5;
+
+}
+
+/* ==========================================
+ROWS
+========================================== */
 
 .mobile-row{
 
@@ -243,7 +293,7 @@ align-items:center;
 
 gap:10px;
 
-margin-bottom:8px;
+margin-bottom:10px;
 
 }
 
@@ -251,7 +301,7 @@ margin-bottom:8px;
 
 font-size:12px;
 
-font-weight:700;
+font-weight:600;
 
 color:#64748b;
 
@@ -267,137 +317,102 @@ color:#111827;
 
 }
 
-/* =========================
-   OFFICER MOBILE
-========================= */
-
-.mobile-officer-grid{
-
-display:grid;
-
-gap:10px;
-
-}
-
-.mobile-officer-card{
-
-background:white;
-
-padding:14px;
-
-border-radius:18px;
-
-box-shadow:
-0 2px 10px rgba(0,0,0,.08);
-
-}
-
-.mobile-officer-name{
-
-font-size:16px;
-
-font-weight:800;
-
-margin-bottom:4px;
-
-}
-
-.mobile-officer-role{
-
-font-size:12px;
-
-color:#64748b;
-
-margin-bottom:10px;
-
-}
-
-.mobile-officer-stats{
-
-display:grid;
-
-grid-template-columns:
-repeat(3,1fr);
-
-gap:8px;
-
-}
-
-.mobile-officer-stat{
-
-background:#f8fafc;
-
-border-radius:10px;
-
-padding:8px;
-
-text-align:center;
-
-}
-
-.mobile-officer-stat small{
-
-display:block;
-
-font-size:10px;
-
-color:#64748b;
-
-font-weight:700;
-
-}
-
-.mobile-officer-stat strong{
-
-font-size:15px;
-
-}
-
-/* =========================
-   BADGES
-========================= */
+/* ==========================================
+BADGES
+========================================== */
 
 .badge{
 
-display:inline-block;
+display:inline-flex;
 
-padding:5px 8px;
+align-items:center;
 
-border-radius:999px;
+justify-content:center;
+
+padding:6px 10px;
 
 font-size:11px;
 
 font-weight:800;
 
+border-radius:999px;
+
 }
 
-.Completed{
+/* Green */
+
+.Completed,
+.Approved,
+.Published{
+
 background:#dcfce7;
 color:#166534;
+
 }
 
-.InProgress{
+/* Yellow */
+
+.InProgress,
+.Recorded,
+.Editing,
+.Fundraising,
+.Marketing,
+.Reviewing,
+.Drafting,
+.ReadyToPublish,
+.Budgeting{
+
 background:#fef3c7;
 color:#92400e;
+
 }
 
-.Planned{
+/* Blue */
+
+.NotStarted,
+.Planning,
+.Planned,
+.Proposed,
+.Scheduled,
+.Upcoming,
+.Prospect,
+.OutreachSent,
+.Confirmed{
+
 background:#dbeafe;
-color:#1e40af;
+color:#1d4ed8;
+
 }
 
+/* Purple */
+
+.Virtual,
+.AdvisorMeeting,
+.OnHold{
+
+background:#ede9fe;
+color:#6d28d9;
+
+}
+
+/* Red */
+
+.Declined,
+.Blocked,
 .Cancelled{
+
 background:#fee2e2;
 color:#991b1b;
+
 }
 
-/* =========================
-   PROGRESS BAR
-========================= */
+/* ==========================================
+PROGRESS BAR
+========================================== */
 
 .progress{
 
-height:8px;
+height:10px;
 
 background:#e5e7eb;
 
@@ -405,7 +420,7 @@ border-radius:999px;
 
 overflow:hidden;
 
-margin-top:10px;
+margin-top:8px;
 
 }
 
@@ -416,80 +431,41 @@ height:100%;
 background:
 linear-gradient(
 90deg,
-#2563eb,
-#22c55e
+#22c55e,
+#84cc16
 );
 
 }
 
-/* =========================
-   MOBILE NAV BAR
-========================= */
+/* ==========================================
+BUTTONS
+========================================== */
 
-.mobile-nav{
+button{
 
-position:fixed;
+min-height:44px;
 
-bottom:0;
-
-left:0;
-
-right:0;
-
-background:white;
-
-display:flex;
-
-justify-content:space-around;
-
-padding:12px;
-
-box-shadow:
-0 -4px 20px rgba(0,0,0,.12);
-
-z-index:999;
-
-}
-
-.mobile-nav button{
-
-background:none;
-
-color:#111827;
-
-font-size:12px;
+font-size:14px;
 
 font-weight:700;
 
-padding:6px;
-
 }
 
-/* =========================
-   SCROLLBAR
-========================= */
+/* ==========================================
+MOBILE FOOTER SPACE
+========================================== */
 
-::-webkit-scrollbar{
+.mobile-section:last-child{
 
-width:4px;
-
-height:4px;
-
-}
-
-::-webkit-scrollbar-thumb{
-
-background:#cbd5e1;
-
-border-radius:999px;
+margin-bottom:120px;
 
 }
 
 }
 
-/* ======================================
-   SMALL PHONES
-====================================== */
+/* ==========================================
+SMALL PHONES
+========================================== */
 
 @media screen and (max-width:480px){
 
@@ -499,21 +475,21 @@ grid-template-columns:1fr;
 
 }
 
-.header-actions{
+.actions{
 
 grid-template-columns:1fr;
 
 }
 
-.logo-img{
+.brand h1{
 
-width:60px;
+font-size:16px;
 
 }
 
-.app-header h1{
+.logo-img{
 
-font-size:18px;
+width:48px;
 
 }
 
@@ -523,16 +499,39 @@ font-size:20px;
 
 }
 
+.mobile-card{
+
+padding:14px;
+
+}
+
 .mobile-title{
 
 font-size:18px;
 
 }
 
-.mobile-officer-stats{
+.mobile-card h3{
 
-grid-template-columns:
-1fr 1fr;
+font-size:15px;
+
+}
+
+}
+
+/* ==========================================
+IPHONE SAFE AREA
+========================================== */
+
+@supports (padding:max(0px)){
+
+#mobileDashboard{
+
+padding-bottom:
+max(
+80px,
+env(safe-area-inset-bottom)
+);
 
 }
 
