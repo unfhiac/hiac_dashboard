@@ -765,6 +765,32 @@ let vals=[
 
 ];
 
+meetingCount.innerText =
+meetings.length;
+
+let avg =
+attendance
+.map(
+a=>attendancePercent(a)
+)
+.filter(
+x=>x!=="N/A"
+);
+
+attendanceAvg.innerText =
+avg.length
+?
+Math.round(
+avg.reduce(
+(a,b)=>a+b,
+0
+)
+/avg.length
+)
++"%"
+:
+"0%";
+
 attendance.forEach((a,i)=>{
 
 let pct =
