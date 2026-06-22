@@ -1189,19 +1189,20 @@ const officerInfo={
 "Emmanuelle Vinson":["Marketing Assistant","Spring"],
 "Kay Thiemann":["Faculty Advisor","Advisor"]
 };
-let agendas =
+let meetings =
 JSON.parse(
 localStorage.getItem(
-"hiac_agendas_v1"
+"hiac_meetings_v1"
 )
 ) || [
 
 "Board #1",
 "Board #2",
-"Board #3",
-"Strategic Planning"
+"Board #3"
 
 ];
+
+let agendas = [...meetings];
 const priorities=["Critical","High","Medium","Low"];
 const taskStatuses=["Not Started","In Progress","Completed","On Hold","Blocked","Declined"];
 let currentOfficerIndex=0;
@@ -1423,7 +1424,7 @@ JSON.stringify(events)
 );
 localStorage.setItem(
 "hiac_agendas_v1",
-JSON.stringify(agendas)
+JSON.stringify(meetings)
 );
 localStorage.setItem(
 "hiac_marketing_v3",
@@ -1486,10 +1487,10 @@ function option(list,current){return list.map(x=>`<option ${x===current?"selecte
 function clean(x){return String(x).replaceAll(" ","")}
 
 function initFilters(){
-agendaFilter.innerHTML=
+agendaFilter.innerHTML =
 '<option>All Agendas</option>' +
-agendas.map(a=>
-`<option>${a}</option>`
+meetings.map(m=>
+`<option>${m}</option>`
 ).join("");
 ownerFilter.innerHTML='<option>All Owners</option>'+option(officers,"");
 statusFilter.innerHTML='<option>All Statuses</option>'+option(taskStatuses,"");
@@ -1497,6 +1498,8 @@ availabilityPerson.innerHTML=option(Object.keys(officerInfo),"Agrani Sinha");
 }
 
 function renderAll(){
+
+syncAgendaMeetings();
 
 renderStats();
 
@@ -1665,15 +1668,15 @@ return streak;
    
 function addMeeting(){
 
-const name =
+const meetingName =
 prompt(
-"Enter Meeting Name"
+"Enter Board Meeting Name"
 );
 
-if(!name) return;
+if(!meetingName) return;
 
 if(
-meetings.includes(name)
+meetings.includes(meetingName)
 ){
 alert(
 "Meeting already exists."
@@ -1681,16 +1684,19 @@ alert(
 return;
 }
 
-meetings.push(name);
+meetings.push(meetingName);
 
-if(
-!agendas.includes(name)
-){
-agendas.push(name);
-}
+/* Sync Agenda */
 
-attendance.forEach(a=>{
-a[name]="N/A";
+agendas = [...meetings];
+
+/* Add attendance field */
+
+attendance.forEach(person=>{
+
+person[meetingName] =
+"N/A";
+
 });
 
 save();
@@ -1698,6 +1704,12 @@ save();
 initFilters();
 
 renderAll();
+
+}
+
+function syncAgendaMeetings(){
+
+agendas = [...meetings];
 
 }
 
@@ -1834,7 +1846,7 @@ tasks.filter(t=>(t.task+t.owner+t.agenda+t.notes).toLowerCase().includes(s)&&(af
 let i=tasks.indexOf(t);
 taskTable.innerHTML+=`
 <tr>
-<td><select onchange="tasks[${i}].agenda=this.value;save();renderAll()">${option(agendas,t.agenda)}</select></td>
+<td><select onchange="tasks[${i}].agenda=this.value;save();renderAll()">${option(meetings,t.agenda)}</select></td>
 <td contenteditable="true" onblur="tasks[${i}].task=this.innerText;save()">${t.task}</td>
 <td><select onchange="tasks[${i}].owner=this.value;save();renderAll()">${option(officers,t.owner)}</select></td>
 <td><select onchange="tasks[${i}].priority=this.value;save();renderAll()">${option(priorities,t.priority)}</select></td>
