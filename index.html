@@ -26,17 +26,17 @@ box-sizing:border-box;
 font-family:Segoe UI,Arial,sans-serif;
 }
 
-html{
+html,
+body{
 width:100%;
 overflow-x:hidden;
+margin:0;
 }
 
 body{
-margin:0;
 padding:24px;
 background:linear-gradient(135deg,var(--navy),var(--navy2));
 color:white;
-overflow-x:hidden;
 }
 
 /* =========================
@@ -102,7 +102,7 @@ color:#991b1b;
 }
 
 /* =========================
-   SUMMARY CARDS
+   SUMMARY
 ========================= */
 
 .summary-grid{
@@ -151,7 +151,7 @@ margin-bottom:14px;
 }
 
 /* =========================
-   OFFICER CAROUSEL
+   OFFICER
 ========================= */
 
 .carousel-wrap{
@@ -273,7 +273,7 @@ resize:vertical;
 }
 
 /* =========================
-   STATUS BADGES
+   BADGES
 ========================= */
 
 .badge{
@@ -284,9 +284,7 @@ font-size:11px;
 font-weight:800;
 }
 
-.Completed,
-.Published,
-.Approved{
+.Completed,.Published,.Approved{
 background:#dcfce7;
 color:#166534;
 }
@@ -334,7 +332,7 @@ color:#5b21b6;
 }
 
 /* =========================
-   PROGRESS BAR
+   PROGRESS
 ========================= */
 
 .progress{
@@ -445,17 +443,13 @@ color:#991b1b;
 }
 
 /* =========================
-   TABLET VERSION
+   TABLET
 ========================= */
 
-@media screen and (max-width:1024px){
+@media (max-width:1024px){
 
 body{
 padding:16px;
-}
-
-.header{
-padding:20px;
 }
 
 .summary-grid{
@@ -471,34 +465,27 @@ grid-template-columns:1fr 1fr;
 }
 
 .officer-single{
-width:100%;
 max-width:100%;
-}
-
-.chart{
-height:250px;
 }
 
 }
 
 /* =========================
-   MOBILE VERSION
+   MOBILE
 ========================= */
 
-@media screen and (max-width:768px){
+@media (max-width:768px){
 
 body{
 padding:10px;
 }
 
-/* Header */
-
 .header{
 flex-direction:column;
 align-items:flex-start;
-padding:16px;
 gap:12px;
-border-radius:20px;
+padding:16px;
+border-radius:18px;
 }
 
 .brand{
@@ -509,157 +496,80 @@ gap:10px;
 }
 
 .logo-img{
-width:80px;
-height:auto;
-border-radius:14px;
+width:75px;
 padding:8px;
 }
 
 h1{
 font-size:22px;
-line-height:1.2;
 }
 
-/* Buttons */
-
 .actions{
+display:flex;
+flex-direction:column;
 width:100%;
-display:grid;
-grid-template-columns:1fr;
 gap:8px;
 }
 
-.actions button,
-button{
+.actions button{
 width:100%;
-min-height:42px;
 }
-
-/* Summary Cards */
 
 .summary-grid{
 grid-template-columns:1fr;
-gap:10px;
 }
-
-.summary-card{
-padding:14px;
-border-radius:16px;
-}
-
-.summary-card strong{
-font-size:24px;
-}
-
-/* Panels */
-
-.panel{
-padding:14px;
-border-radius:16px;
-overflow-x:auto;
-overflow-y:hidden;
-}
-
-/* Filters */
 
 .filters{
-grid-template-columns:1fr;
-gap:8px;
+grid-template-columns:1fr !important;
 }
 
-/* Rows */
+.card-grid{
+grid-template-columns:1fr;
+}
 
 .row{
 flex-direction:column;
 align-items:flex-start;
-width:100%;
 }
 
-/* Officer Carousel */
-
-.carousel-wrap{
-gap:6px;
-width:100%;
-}
-
-.officer-single{
-width:100%;
-max-width:100%;
+.panel{
 padding:14px;
-border-radius:18px;
-}
-
-.nav-btn{
-width:40px;
-height:40px;
-font-size:16px;
-padding:0;
-flex-shrink:0;
-}
-
-/* Cards */
-
-.card-grid{
-grid-template-columns:1fr;
-gap:10px;
-}
-
-.card{
-width:100%;
-padding:12px;
 border-radius:16px;
 }
 
-/* KPI */
+.officer-single{
+max-width:100%;
+padding:14px;
+}
+
+.nav-btn{
+width:42px;
+height:42px;
+font-size:16px;
+}
 
 .kpis{
 grid-template-columns:1fr 1fr;
-gap:8px;
 }
-
-.kpi{
-padding:10px;
-}
-
-.kpi strong{
-font-size:18px;
-}
-
-/* Tables */
 
 table{
 display:block;
-width:100%;
 overflow-x:auto;
 white-space:nowrap;
+-webkit-overflow-scrolling:touch;
 }
-
-thead,
-tbody,
-tr{
-width:100%;
-}
-
-/* Charts */
 
 .chart{
 height:220px;
-overflow-x:auto;
-overflow-y:hidden;
-padding-bottom:8px;
 }
 
 .barcol{
 min-width:55px;
 }
 
-/* Availability */
-
 .schedule{
 min-width:900px;
 }
-
-/* Inputs */
 
 input,
 select,
@@ -667,42 +577,13 @@ textarea{
 font-size:16px;
 }
 
-/* Progress */
-
-.progress{
-height:12px;
-}
-
-/* Marketing panel fix */
-
-.panel .card-grid{
-width:100%;
-}
-
-/* Attendance chart */
-
-#attendanceChart{
-overflow-x:auto;
-}
-
-/* Table font */
-
-#podcastTable,
-#eventTable,
-#taskTable,
-#marketingTable,
-#attendanceTable,
-#himssBody{
-font-size:13px;
-}
-
 }
 
 /* =========================
-   SMALL PHONE VERSION
+   SMALL PHONES
 ========================= */
 
-@media screen and (max-width:480px){
+@media (max-width:480px){
 
 body{
 padding:8px;
@@ -710,15 +591,14 @@ padding:8px;
 
 .header{
 padding:12px;
-border-radius:18px;
 }
 
 .logo-img{
-width:65px;
+width:60px;
 }
 
 h1{
-font-size:19px;
+font-size:18px;
 }
 
 .summary-card{
@@ -726,12 +606,11 @@ padding:12px;
 }
 
 .summary-card strong{
-font-size:21px;
+font-size:20px;
 }
 
 .panel{
-padding:12px;
-border-radius:15px;
+padding:10px;
 }
 
 .card{
@@ -739,7 +618,7 @@ padding:10px;
 }
 
 .officer-single{
-padding:12px;
+padding:10px;
 }
 
 .kpis{
@@ -757,28 +636,13 @@ font-size:14px;
 }
 
 .chart{
-height:200px;
-}
-
-.barcol{
-min-width:50px;
-}
-
-button{
-font-size:14px;
-padding:9px 12px;
-}
-
-th,
-td{
-font-size:12px;
-padding:8px;
+height:190px;
 }
 
 }
 
 /* =========================
-   PRINT / PDF
+   PRINT
 ========================= */
 
 @media print{
@@ -807,11 +671,12 @@ overflow:visible;
 
 table{
 display:table;
-white-space:normal;
 overflow:visible;
+white-space:normal;
 }
+
 }
-}
+
 </style>
 
 </head>
