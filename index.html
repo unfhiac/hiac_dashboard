@@ -479,6 +479,32 @@ let himss=JSON.parse(localStorage.getItem("hiac_himss_v3"))||[
 
 let schedule=JSON.parse(localStorage.getItem("hiac_schedule_v3"))||{};
 
+
+  function renderAttendanceHeader(){
+
+let header = `
+<tr>
+<th>Name</th>
+<th>Role</th>
+`;
+
+meetings.forEach(m=>{
+
+header += `
+<th>${m}</th>
+`;
+
+});
+
+header += `
+<th>Attendance %</th>
+</tr>
+`;
+
+attendanceHead.innerHTML =
+header;
+
+}
 function addMeeting(){
 
 const name =
