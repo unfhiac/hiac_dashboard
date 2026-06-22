@@ -503,7 +503,23 @@ margin-bottom:16px;
 }
 
 
+#attendanceChart{
+display:flex;
+align-items:flex-end;
+gap:14px;
+overflow-x:auto;
+padding:20px;
+}
 
+#attendanceChart .barcol{
+min-width:80px;
+text-align:center;
+}
+
+#attendanceChart .bar{
+width:100%;
+min-height:25px;
+}
 
 
 
@@ -525,8 +541,21 @@ grid-template-columns:1fr;
 
 @media(max-width:520px){
 
+@media(max-width:768px){
+
 .attendance-kpi-grid{
-grid-template-columns:1fr;
+grid-template-columns:1fr 1fr;
+gap:10px;
+}
+
+.attendance-kpi{
+padding:14px;
+}
+
+.attendance-kpi strong{
+font-size:22px;
+}
+
 }
 
 .attendance-cards{
