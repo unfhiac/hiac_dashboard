@@ -506,13 +506,47 @@ renderAttendance();
 }
   
 function save(){
-localStorage.setItem("hiac_tasks_v3",JSON.stringify(tasks));
-localStorage.setItem("hiac_attendance_v3",JSON.stringify(attendance));
-localStorage.setItem("hiac_podcasts_v3",JSON.stringify(podcasts));
-localStorage.setItem("hiac_events_v3",JSON.stringify(events));
-localStorage.setItem("hiac_marketing_v3",JSON.stringify(marketing));
-localStorage.setItem("hiac_himss_v3",JSON.stringify(himss));
-localStorage.setItem("hiac_schedule_v3",JSON.stringify(schedule));
+
+localStorage.setItem(
+"hiac_tasks_v3",
+JSON.stringify(tasks)
+);
+
+localStorage.setItem(
+"hiac_attendance_v3",
+JSON.stringify(attendance)
+);
+
+localStorage.setItem(
+"hiac_podcasts_v3",
+JSON.stringify(podcasts)
+);
+
+localStorage.setItem(
+"hiac_events_v3",
+JSON.stringify(events)
+);
+
+localStorage.setItem(
+"hiac_marketing_v3",
+JSON.stringify(marketing)
+);
+
+localStorage.setItem(
+"hiac_himss_v3",
+JSON.stringify(himss)
+);
+
+localStorage.setItem(
+"hiac_schedule_v3",
+JSON.stringify(schedule)
+);
+
+localStorage.setItem(
+"hiac_meetings_v1",
+JSON.stringify(meetings)
+);
+
 }
 
 function renderMarketingMetrics(){
