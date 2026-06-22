@@ -183,26 +183,13 @@ height:220px;
 <h2>Attendance Dashboard</h2>
 <div class="chart" id="attendanceChart"></div><br>
 <table>
-let header = `
-<tr>
-<th>Name</th>
-<th>Role</th>
-`;
 
-meetings.forEach(m=>{
+<thead id="attendanceHead">
+</thead>
 
-header += `<th>${m}</th>`;
+<tbody id="attendanceTable">
+</tbody>
 
-});
-
-header += `
-<th>Attendance %</th>
-</tr>
-`;
-
-attendanceHead.innerHTML =
-header;
-<tbody id="attendanceTable"></tbody>
 </table>
 </div>
 
