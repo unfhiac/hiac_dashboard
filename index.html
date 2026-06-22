@@ -2061,10 +2061,6 @@ taskTable.innerHTML+=`
 }
 function renderAgendaPlanner(){
 
-if(window.innerWidth > 768){
-return;
-}
-
 const planner =
 document.getElementById(
 "agendaPlanner"
@@ -2082,6 +2078,9 @@ new Date(year,month,1).getDay();
 
 const daysInMonth =
 new Date(year,month+1,0).getDate();
+
+const todayString =
+now.toISOString().split("T")[0];
 
 planner.innerHTML = `
 
@@ -2127,21 +2126,27 @@ document.getElementById(
 "calendarGrid"
 );
 
-for(let i=0;i<firstDay;i++){
-
+for(
+let i=0;
+i<firstDay;
+i++
+){
 grid.innerHTML +=
-'<div></div>';
-
+"<div></div>";
 }
 
-for(let d=1;d<=daysInMonth;d++){
+for(
+let day=1;
+day<=daysInMonth;
+day++
+){
 
-let dateStr =
-`${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+const dateString =
+`${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
 
-let count =
+const taskCount =
 tasks.filter(
-t=>t.due===dateStr
+t=>t.due===dateString
 ).length;
 
 grid.innerHTML += `
@@ -2149,23 +2154,21 @@ grid.innerHTML += `
 <div
 class="
 calendar-day
-${count?'has-task':''}
-${d===now.getDate()?'today':''}
+${dateString===todayString?'today':''}
+${taskCount?'has-task':''}
 "
 onclick="
 showPlannerTasks(
-'${dateStr}'
+'${dateString}'
 )
 "
 >
 
-${d}
+${day}
 
-${count
-?
-`<small>${count}</small>`
-:
-''
+${taskCount
+? `<small>${taskCount}</small>`
+: ""
 }
 
 </div>
@@ -2175,36 +2178,37 @@ ${count
 }
 
 showPlannerTasks(
-new Date()
-.toISOString()
-.slice(0,10)
+todayString
 );
 
 }
 
+   
 function showPlannerTasks(date){
 
-const taskList =
+const box =
 document.getElementById(
 "agendaTaskList"
 );
 
-if(!taskList) return;
+if(!box) return;
 
 const dayTasks =
 tasks.filter(
 t=>t.due===date
 );
 
-taskList.innerHTML =
-
-`<h3>${date}</h3>`;
+box.innerHTML = `
+<h3>
+📅 ${date}
+</h3>
+`;
 
 if(dayTasks.length===0){
 
-taskList.innerHTML += `
+box.innerHTML += `
 <div class="agenda-task-card">
-No tasks scheduled
+No tasks scheduled.
 </div>
 `;
 
@@ -2214,28 +2218,57 @@ return;
 
 dayTasks.forEach(task=>{
 
-taskList.innerHTML += `
+const i =
+tasks.indexOf(task);
+
+box.innerHTML += `
 
 <div class="agenda-task-card">
 
-<h4>
-${task.task}
-</h4>
+<h4>${task.task}</h4>
 
 <div class="agenda-task-meta">
-
+👤 ${task.owner}<br>
 📂 ${task.agenda}
-<br>
-
-👤 ${task.owner}
-<br>
-
-📅 ${task.due}
-
 </div>
 
 <div class="agenda-task-status">
 ${task.status}
+</div>
+
+<div class="agenda-task-edit">
+
+<input
+value="${task.task}"
+onchange="
+tasks[${i}].task=this.value;
+save();
+">
+
+<select
+onchange="
+tasks[${i}].status=this.value;
+save();
+renderAll();
+">
+
+${option(
+taskStatuses,
+task.status
+)}
+
+</select>
+
+<textarea
+onchange="
+tasks[${i}].notes=this.value;
+save();
+">
+
+${task.notes}
+
+</textarea>
+
 </div>
 
 </div>
