@@ -813,10 +813,13 @@ vals.forEach(v=>{
 
 if(
 
-["Present",
+[
+"Present",
 "Absent",
 "Excused",
-"Virtual"]
+"Virtual",
+"Advisor Meeting"
+]
 
 .includes(v)
 
@@ -832,7 +835,11 @@ v==="Virtual"
 present++;
 
 }
-
+if(
+v==="Advisor Meeting"
+){
+present++;
+}
 if(
 v==="Excused"
 ){
