@@ -696,26 +696,111 @@ h1{
 font-size:18px;
 }
 
-.mobile-planner::before{
-font-size:18px;
-padding:20px;
+/* =====================================
+   GOOGLE CALENDAR MOBILE PLANNER
+===================================== */
+
+.calendar-header{
+background:linear-gradient(
+135deg,
+#06122a,
+#102a43,
+#2563eb
+);
+padding:22px;
+border-radius:24px;
+color:white;
+margin-bottom:14px;
 }
 
-.mobile-planner::after{
+.calendar-month{
+font-size:24px;
+font-weight:900;
+}
+
+.calendar-year{
+opacity:.8;
+margin-top:4px;
+}
+
+.calendar-week{
+display:grid;
+grid-template-columns:repeat(7,1fr);
+margin-top:18px;
+gap:4px;
+}
+
+.calendar-week div{
+text-align:center;
 font-size:12px;
+font-weight:800;
 }
 
-.planner-event{
-padding:12px;
+.calendar-grid{
+display:grid;
+grid-template-columns:repeat(7,1fr);
+gap:6px;
+margin-top:12px;
 }
 
-.planner-time{
-width:60px;
+.calendar-day{
+aspect-ratio:1;
+background:white;
+border-radius:14px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:12px;
+font-weight:700;
+color:#111827;
+box-shadow:0 2px 6px rgba(0,0,0,.08);
+}
+
+.calendar-day.today{
+background:#dfff00;
+}
+
+.calendar-day.has-task{
+border:2px solid #2563eb;
+background:#dbeafe;
+}
+
+.agenda-task-list{
+margin-top:16px;
+display:flex;
+flex-direction:column;
+gap:12px;
+}
+
+.agenda-task-card{
+background:white;
+border-radius:18px;
+padding:14px;
+border-left:5px solid #2563eb;
+box-shadow:0 4px 10px rgba(0,0,0,.08);
+}
+
+.agenda-task-card h4{
+margin:0 0 8px;
+font-size:15px;
+color:#111827;
+}
+
+.agenda-task-meta{
+font-size:12px;
+color:#64748b;
+line-height:1.5;
+}
+
+.agenda-task-status{
+margin-top:10px;
+display:inline-block;
+padding:5px 10px;
+border-radius:999px;
+background:#dbeafe;
+color:#1e40af;
 font-size:11px;
-}
-
-.planner-title{
-font-size:14px;
+font-weight:800;
 }
 
 }
@@ -1742,34 +1827,45 @@ document.getElementById(
 
 if(!planner) return;
 
-let today =
-new Date();
+const now = new Date();
 
-let year =
-today.getFullYear();
+const month =
+now.getMonth();
 
-let month =
-today.getMonth();
+const year =
+now.getFullYear();
 
-let firstDay =
-new Date(year,month,1).getDay();
+const firstDay =
+new Date(
+year,
+month,
+1
+).getDay();
 
-let totalDays =
-new Date(year,month+1,0).getDate();
+const daysInMonth =
+new Date(
+year,
+month+1,
+0
+).getDate();
 
-planner.innerHTML=`
+planner.innerHTML = `
 
 <div class="calendar-header">
 
 <div class="calendar-month">
-${today.toLocaleString(
+
+${now.toLocaleString(
 'default',
 {month:'long'}
 )}
+
 </div>
 
 <div class="calendar-year">
+
 ${year}
+
 </div>
 
 <div class="calendar-week">
@@ -1784,13 +1880,15 @@ ${year}
 
 </div>
 
-<div class="calendar-grid"
+<div
+class="calendar-grid"
 id="calendarGrid">
 </div>
 
 </div>
 
-<div class="agenda-task-list"
+<div
+class="agenda-task-list"
 id="agendaTaskList">
 </div>
 
@@ -1801,29 +1899,37 @@ document.getElementById(
 "calendarGrid"
 );
 
-for(let i=0;i<firstDay;i++){
+for(
+let i=0;
+i<firstDay;
+i++
+){
 
 grid.innerHTML +=
-'<div></div>';
+"<div></div>";
 
 }
 
-for(let d=1;d<=totalDays;d++){
+for(
+let d=1;
+d<=daysInMonth;
+d++
+){
 
-let dateString =
+let dateStr =
 `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
 
 let hasTask =
 tasks.some(
-t=>t.due===dateString
+t=>t.due===dateStr
 );
 
 grid.innerHTML += `
 
 <div class="
 calendar-day
-${hasTask?'has-task':''}
-${d===today.getDate()?'today':''}
+${hasTask ? 'has-task' : ''}
+${d===now.getDate() ? 'today' : ''}
 ">
 
 ${d}
@@ -1840,10 +1946,13 @@ document.getElementById(
 );
 
 tasks
-.sort((a,b)=>
-(a.due||"").localeCompare(
+.sort(
+(a,b)=>
+(a.due||"")
+.localeCompare(
 b.due||""
-))
+)
+)
 .forEach(task=>{
 
 taskList.innerHTML += `
@@ -1851,7 +1960,9 @@ taskList.innerHTML += `
 <div class="agenda-task-card">
 
 <h4>
+
 ${task.task}
+
 </h4>
 
 <div class="agenda-task-meta">
@@ -1866,11 +1977,11 @@ ${task.task}
 
 </div>
 
-<span class="agenda-task-status">
+<div class="agenda-task-status">
 
 ${task.status}
 
-</span>
+</div>
 
 </div>
 
