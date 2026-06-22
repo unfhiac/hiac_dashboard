@@ -1,11 +1,7 @@
 // ======================================
-// HIAC DASHBOARD 2.0
+// HIAC DASHBOARD
 // MOBILE.JS
 // MOBILE APP RENDERERS
-// ======================================
-
-// ======================================
-// OFFICERS
 // ======================================
 
 function renderMobileOfficer(){
@@ -22,68 +18,44 @@ el.innerHTML = `
 <div class="mobile-section">
 
 <h2 class="mobile-title">
-Executive Team
+
+Executive Board
+
 </h2>
 
-<div class="mobile-officer-grid">
+${Object.keys(officerInfo).map(name=>`
 
-${Object.keys(
-officerInfo
-).map(name=>{
+<div class="mobile-card">
 
-const related =
-tasks.filter(
-t=>t.owner===name
-);
+<h3>${name}</h3>
 
-const completed =
-related.filter(
-t=>t.status==="Completed"
-).length;
+<div class="mobile-row">
 
-const active =
-related.filter(
-t=>t.status==="In Progress"
-).length;
+<span class="mobile-label">
+Role
+</span>
 
-return `
-
-<div class="mobile-officer-card">
-
-<div class="mobile-officer-name">
-${name}
-</div>
-
-<div class="mobile-officer-role">
+<span class="mobile-value">
 ${officerInfo[name][0]}
+</span>
+
 </div>
 
-<div class="mobile-officer-stats">
+<div class="mobile-row">
 
-<div class="mobile-officer-stat">
-<small>Tasks</small>
-<strong>${related.length}</strong>
-</div>
+<span class="mobile-label">
+Term
+</span>
 
-<div class="mobile-officer-stat">
-<small>Done</small>
-<strong>${completed}</strong>
-</div>
-
-<div class="mobile-officer-stat">
-<small>Active</small>
-<strong>${active}</strong>
-</div>
+<span class="mobile-value">
+${officerInfo[name][1]}
+</span>
 
 </div>
 
 </div>
 
-`;
-
-}).join("")}
-
-</div>
+`).join("")}
 
 </div>
 
@@ -109,14 +81,18 @@ el.innerHTML = `
 <div class="mobile-section">
 
 <h2 class="mobile-title">
+
 Attendance
+
 </h2>
 
 ${attendance.map(a=>`
 
 <div class="mobile-card">
 
-<h3>${a.name}</h3>
+<h3>
+${a.name}
+</h3>
 
 <div class="mobile-row">
 
@@ -181,14 +157,30 @@ el.innerHTML = `
 <div class="mobile-section">
 
 <h2 class="mobile-title">
+
 Agenda Tasks
+
 </h2>
 
 ${tasks.map(t=>`
 
 <div class="mobile-card">
 
-<h3>${t.task}</h3>
+<h3>
+${t.task}
+</h3>
+
+<div class="mobile-row">
+
+<span class="mobile-label">
+Agenda
+</span>
+
+<span class="mobile-value">
+${t.agenda}
+</span>
+
+</div>
 
 <div class="mobile-row">
 
@@ -205,11 +197,35 @@ ${t.owner}
 <div class="mobile-row">
 
 <span class="mobile-label">
+Priority
+</span>
+
+<span class="mobile-value">
+${t.priority}
+</span>
+
+</div>
+
+<div class="mobile-row">
+
+<span class="mobile-label">
 Status
 </span>
 
 <span class="badge ${clean(t.status)}">
 ${t.status}
+</span>
+
+</div>
+
+<div class="mobile-row">
+
+<span class="mobile-label">
+Due
+</span>
+
+<span class="mobile-value">
+${t.due}
 </span>
 
 </div>
@@ -224,6 +240,12 @@ width:${t.progress}%
 </div>
 
 </div>
+
+<p>
+
+${t.progress}% Complete
+
+</p>
 
 </div>
 
@@ -253,14 +275,18 @@ el.innerHTML = `
 <div class="mobile-section">
 
 <h2 class="mobile-title">
+
 Events
+
 </h2>
 
 ${events.map(e=>`
 
 <div class="mobile-card">
 
-<h3>${e.event}</h3>
+<h3>
+${e.event}
+</h3>
 
 <div class="mobile-row">
 
@@ -282,6 +308,18 @@ Status
 
 <span class="badge ${clean(e.status)}">
 ${e.status}
+</span>
+
+</div>
+
+<div class="mobile-row">
+
+<span class="mobile-label">
+Target Date
+</span>
+
+<span class="mobile-value">
+${e.target}
 </span>
 
 </div>
@@ -325,14 +363,18 @@ el.innerHTML = `
 <div class="mobile-section">
 
 <h2 class="mobile-title">
+
 Podcasts
+
 </h2>
 
 ${podcasts.map(p=>`
 
 <div class="mobile-card">
 
-<h3>${p.guest}</h3>
+<h3>
+${p.guest}
+</h3>
 
 <div class="mobile-row">
 
@@ -357,6 +399,22 @@ ${p.status}
 </span>
 
 </div>
+
+<div class="mobile-row">
+
+<span class="mobile-label">
+Target
+</span>
+
+<span class="mobile-value">
+${p.target}
+</span>
+
+</div>
+
+<p>
+${p.notes}
+</p>
 
 </div>
 
@@ -386,14 +444,18 @@ el.innerHTML = `
 <div class="mobile-section">
 
 <h2 class="mobile-title">
+
 Marketing
+
 </h2>
 
 ${marketing.map(m=>`
 
 <div class="mobile-card">
 
-<h3>${m.task}</h3>
+<h3>
+${m.task}
+</h3>
 
 <div class="mobile-row">
 
@@ -419,6 +481,22 @@ ${m.status}
 
 </div>
 
+<div class="mobile-row">
+
+<span class="mobile-label">
+Due
+</span>
+
+<span class="mobile-value">
+${m.target}
+</span>
+
+</div>
+
+<p>
+${m.notes}
+</p>
+
 </div>
 
 `).join("")}
@@ -430,7 +508,7 @@ ${m.status}
 }
 
 // ======================================
-// BUDGET
+// HIMSS BUDGET
 // ======================================
 
 function renderMobileBudget(){
@@ -447,14 +525,18 @@ el.innerHTML = `
 <div class="mobile-section">
 
 <h2 class="mobile-title">
+
 HIMSS Budget
+
 </h2>
 
 ${budget.map(b=>`
 
 <div class="mobile-card">
 
-<h3>${b.category}</h3>
+<h3>
+${b.category}
+</h3>
 
 <div class="mobile-row">
 
@@ -479,7 +561,9 @@ Status
 </span>
 
 <span class="badge ${clean(b.status)}">
+
 ${b.status}
+
 </span>
 
 </div>
