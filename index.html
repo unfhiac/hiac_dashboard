@@ -35,6 +35,8 @@ var(--navy2)
 color:white;
 }
 
+/* HEADER */
+
 .header{
 display:flex;
 justify-content:space-between;
@@ -72,6 +74,8 @@ justify-content:center;
 font-weight:900;
 }
 
+/* BUTTONS */
+
 button{
 border:none;
 border-radius:12px;
@@ -97,12 +101,11 @@ gap:10px;
 flex-wrap:wrap;
 }
 
+/* SUMMARY CARDS */
+
 .summary-grid{
 display:grid;
-grid-template-columns:repeat(
-auto-fit,
-minmax(170px,1fr)
-);
+grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
 gap:14px;
 margin-bottom:20px;
 }
@@ -125,6 +128,8 @@ font-size:30px;
 margin-top:6px;
 }
 
+/* PANELS */
+
 .panel{
 background:white;
 color:#111827;
@@ -138,6 +143,8 @@ overflow:auto;
 color:#64748b;
 margin-bottom:14px;
 }
+
+/* OFFICER CAROUSEL */
 
 .carousel-wrap{
 display:flex;
@@ -161,17 +168,15 @@ border:1px solid #e5e7eb;
 border-radius:24px;
 padding:24px;
 box-shadow:0 12px 32px rgba(0,0,0,.16);
-
 touch-action:pan-y;
 user-select:none;
 }
 
+/* CARDS */
+
 .card-grid{
 display:grid;
-grid-template-columns:repeat(
-auto-fit,
-minmax(260px,1fr)
-);
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
 gap:14px;
 }
 
@@ -188,6 +193,8 @@ justify-content:space-between;
 gap:10px;
 align-items:flex-start;
 }
+
+/* KPI */
 
 .kpis{
 display:grid;
@@ -212,6 +219,8 @@ font-weight:700;
 .kpi strong{
 font-size:21px;
 }
+
+/* TABLES */
 
 table{
 width:100%;
@@ -245,6 +254,8 @@ border-radius:10px;
 textarea{
 min-height:44px;
 }
+
+/* BADGES */
 
 .badge{
 display:inline-block;
@@ -301,6 +312,8 @@ background:#ede9fe;
 color:#5b21b6;
 }
 
+/* PROGRESS */
+
 .progress{
 height:12px;
 background:#e5e7eb;
@@ -317,6 +330,8 @@ background:linear-gradient(
 #84cc16
 );
 }
+
+/* CHARTS */
 
 .chart{
 height:280px;
@@ -345,12 +360,16 @@ border-radius:10px 10px 0 0;
 min-height:14px;
 }
 
+/* FILTERS */
+
 .filters{
 display:grid;
 grid-template-columns:2fr 1fr 1fr 1fr;
 gap:10px;
 margin-bottom:14px;
 }
+
+/* AVAILABILITY */
 
 .schedule{
 display:grid;
@@ -406,9 +425,7 @@ border-color:#dc2626;
 font-weight:900;
 }
 
-/* =========================
-   MOBILE RESPONSIVE
-   ========================= */
+/* MOBILE */
 
 @media (max-width:768px){
 
