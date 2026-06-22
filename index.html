@@ -108,6 +108,55 @@ button{
 width:100%;
 }
 
+/* Officer Carousel Mobile Support */
+
+.officer-single{
+
+touch-action: pan-y;
+
+user-select: none;
+
+}
+
+/* Better Mobile Layout */
+
+@media(max-width:768px){
+
+body{
+padding:12px;
+}
+
+.logo-img{
+width:90px;
+}
+
+.summary-grid{
+grid-template-columns:1fr 1fr;
+}
+
+.card-grid{
+grid-template-columns:1fr;
+}
+
+.kpis{
+grid-template-columns:1fr;
+}
+
+.filters{
+grid-template-columns:1fr;
+}
+
+.actions{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px;
+width:100%;
+}
+
+button{
+width:100%;
+}
+
 .officer-single{
 width:100%;
 padding:16px;
@@ -119,18 +168,20 @@ height:45px;
 font-size:18px;
 }
 
-table{
-font-size:11px;
-min-width:900px;
-}
-
 .panel{
 overflow-x:auto;
+}
+
+table{
+min-width:900px;
 }
 
 .schedule{
 min-width:1200px;
 }
+
+}
+
 
 .chart{
 height:220px;
@@ -181,6 +232,30 @@ height:220px;
   
 <div class="panel">
 <h2>Attendance Dashboard</h2>
+<div class="summary-grid">
+
+<div class="summary-card">
+
+<span>Total Meetings</span>
+
+<strong id="meetingCount">
+0
+</strong>
+
+</div>
+
+<div class="summary-card">
+
+<span>Average Attendance</span>
+
+<strong id="attendanceAvg">
+0%
+</strong>
+
+</div>
+
+</div>
+  
 <div class="chart" id="attendanceChart"></div><br>
 <table>
 
@@ -830,6 +905,29 @@ if(endX-startX>50)prevOfficer();
 });
 
 function renderAttendance(){
+
+meetingCount.innerText =
+meetings.length;
+
+let avgAttendance =
+attendance
+.map(a => attendancePercent(a))
+.filter(x => x !== "N/A");
+
+attendanceAvg.innerText =
+avgAttendance.length
+?
+Math.round(
+
+avgAttendance.reduce(
+(a,b)=>a+b,
+0
+)
+/avgAttendance.length
+
+) + "%"
+:
+"0%";
 
 renderAttendanceHeader();
 
