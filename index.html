@@ -1483,6 +1483,25 @@ Math.round(
 function option(list,current){return list.map(x=>`<option ${x===current?"selected":""}>${x}</option>`).join("")}
 function clean(x){return String(x).replaceAll(" ","")}
 
+function syncAgendaMeetings(){
+
+tasks.forEach(task=>{
+
+if(task.agenda==="First Board Meeting")
+task.agenda="Board #1";
+
+if(task.agenda==="Second Board Meeting")
+task.agenda="Board #2";
+
+if(task.agenda==="Third Board Meeting")
+task.agenda="Board #3";
+
+});
+
+agendas=[...meetings];
+
+}
+
 function initFilters(){
 
 normalizeMeetingLists();
@@ -1508,28 +1527,21 @@ option(Object.keys(officerInfo),"Agrani Sinha");
 
 function renderAll(){
 
+normalizeMeetingLists();
 syncAgendaMeetings();
 
+save();
+
 renderStats();
-
 renderOfficers();
-
 renderAttendance();
-
 renderTasks();
-
 renderPodcasts();
-
 renderEvents();
-
 renderMarketing();
-
 renderMarketingMetrics();
-
 renderHIMSS();
-
 renderAnalytics();
-
 renderSchedule();
 
 }
@@ -1685,22 +1697,33 @@ if(!meetingName) return;
 const cleanName =
 meetingName.trim();
 
-normalizeMeetingLists();
-
 if(meetings.includes(cleanName)){
-alert("Meeting already exists.");
+alert("Meeting already exists");
 return;
 }
 
 meetings.push(cleanName);
-agendas = [...meetings];
 
 attendance.forEach(person=>{
-person[cleanName] = "N/A";
+
+person[cleanName]="N/A";
+
 });
 
+tasks.forEach(task=>{
+
+if(!meetings.includes(task.agenda)){
+task.agenda=meetings[0];
+}
+
+});
+
+agendas=[...meetings];
+
 save();
+
 initFilters();
+
 renderAll();
 
 }
