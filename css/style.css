@@ -1,7 +1,7 @@
-/* ======================================
-   HIAC DASHBOARD 2.0
-   DESKTOP STYLES
-====================================== */
+/* ==========================================
+HIAC EXECUTIVE DASHBOARD
+DESKTOP STYLES
+========================================== */
 
 :root{
 
@@ -11,56 +11,32 @@
 --lime:#dfff00;
 
 --green:#16a34a;
-
 --orange:#f59e0b;
-
 --red:#dc2626;
-
 --blue:#2563eb;
-
 --purple:#7c3aed;
 
---white:#ffffff;
-
---bg:#f4f7fb;
-
---text:#111827;
-
---muted:#64748b;
-
+--card:#ffffff;
 --border:#e5e7eb;
 
---shadow:
-0 12px 30px rgba(0,0,0,.12);
+--text:#111827;
+--muted:#64748b;
 
 }
 
-/* ======================================
-   RESET
-====================================== */
+/* ==========================================
+RESET
+========================================== */
 
 *{
-
 margin:0;
-
 padding:0;
-
 box-sizing:border-box;
-
-font-family:
-Inter,
-Segoe UI,
-Arial,
-sans-serif;
-
+font-family:'Inter',sans-serif;
 }
 
 html{
-
-width:100%;
-
-overflow-x:hidden;
-
+scroll-behavior:smooth;
 }
 
 body{
@@ -72,31 +48,31 @@ var(--navy),
 var(--navy2)
 );
 
+padding:24px;
+
 color:white;
 
-overflow-x:hidden;
+min-height:100vh;
 
 }
 
-/* ======================================
-   APP CONTAINER
-====================================== */
+/* ==========================================
+LAYOUT
+========================================== */
 
 .app-container{
 
-max-width:1500px;
+max-width:1700px;
 
 margin:auto;
 
-padding:24px;
-
 }
 
-/* ======================================
-   HEADER
-====================================== */
+/* ==========================================
+HEADER
+========================================== */
 
-.app-header{
+.header{
 
 display:flex;
 
@@ -108,17 +84,17 @@ gap:20px;
 
 padding:24px;
 
-border-radius:26px;
+margin-bottom:20px;
+
+border-radius:28px;
 
 background:
 rgba(255,255,255,.12);
 
-backdrop-filter:
-blur(14px);
+backdrop-filter:blur(16px);
 
-margin-bottom:20px;
-
-box-shadow:var(--shadow);
+box-shadow:
+0 15px 40px rgba(0,0,0,.2);
 
 }
 
@@ -136,39 +112,37 @@ gap:18px;
 
 width:140px;
 
-height:auto;
-
 background:white;
 
 padding:10px;
 
-border-radius:18px;
+border-radius:20px;
 
 }
 
-.app-header h1{
+.brand h1{
 
-font-size:32px;
+font-size:34px;
 
 font-weight:800;
-
-line-height:1.1;
 
 }
 
 .subtitle{
 
-margin-top:6px;
-
-font-size:13px;
-
-font-weight:600;
-
 color:#cbd5e1;
+
+margin-top:4px;
+
+font-size:14px;
 
 }
 
-.header-actions{
+/* ==========================================
+HEADER ACTIONS
+========================================== */
+
+.actions{
 
 display:flex;
 
@@ -178,27 +152,23 @@ flex-wrap:wrap;
 
 }
 
-/* ======================================
-   BUTTONS
-====================================== */
-
 button{
 
 border:none;
 
-border-radius:12px;
-
-padding:10px 14px;
-
-font-weight:800;
-
 cursor:pointer;
+
+font-weight:700;
+
+padding:12px 16px;
+
+border-radius:14px;
+
+transition:.25s;
 
 background:var(--lime);
 
 color:#111827;
-
-transition:.2s;
 
 }
 
@@ -208,20 +178,34 @@ transform:translateY(-2px);
 
 }
 
-/* ======================================
-   KPI SUMMARY
-====================================== */
+button.gray{
+
+background:#e2e8f0;
+
+}
+
+button.red{
+
+background:#fee2e2;
+
+color:#991b1b;
+
+}
+
+/* ==========================================
+SUMMARY GRID
+========================================== */
 
 .summary-grid{
 
 display:grid;
 
 grid-template-columns:
-repeat(4,1fr);
+repeat(auto-fit,minmax(220px,1fr));
 
-gap:14px;
+gap:16px;
 
-margin-bottom:20px;
+margin-bottom:24px;
 
 }
 
@@ -230,11 +214,11 @@ margin-bottom:20px;
 background:
 rgba(255,255,255,.15);
 
-border-radius:20px;
+border-radius:22px;
 
-padding:18px;
+padding:20px;
 
-box-shadow:var(--shadow);
+backdrop-filter:blur(10px);
 
 }
 
@@ -242,13 +226,11 @@ box-shadow:var(--shadow);
 
 display:block;
 
-font-size:12px;
+font-size:13px;
 
-font-weight:700;
+font-weight:600;
 
 color:#cbd5e1;
-
-text-transform:uppercase;
 
 }
 
@@ -256,17 +238,17 @@ text-transform:uppercase;
 
 display:block;
 
-font-size:30px;
-
-font-weight:900;
+font-size:34px;
 
 margin-top:8px;
 
+font-weight:800;
+
 }
 
-/* ======================================
-   PANELS
-====================================== */
+/* ==========================================
+PANELS
+========================================== */
 
 .panel{
 
@@ -274,295 +256,39 @@ background:white;
 
 color:var(--text);
 
-border-radius:24px;
+padding:24px;
 
-padding:20px;
+border-radius:24px;
 
 margin-bottom:20px;
 
-box-shadow:var(--shadow);
+box-shadow:
+0 12px 30px rgba(0,0,0,.12);
 
 }
 
 .panel h2{
 
-font-size:24px;
+font-size:28px;
 
-font-weight:800;
-
-margin-bottom:16px;
+margin-bottom:14px;
 
 }
 
-/* ======================================
-   OFFICER GRID
-====================================== */
-
-.officer-grid{
-
-display:grid;
-
-grid-template-columns:
-repeat(
-auto-fit,
-minmax(320px,1fr)
-);
-
-gap:16px;
-
-}
-
-.officer-card{
-
-background:#f8fafc;
-
-border:1px solid var(--border);
-
-border-radius:20px;
-
-padding:18px;
-
-}
-
-.officer-header{
-
-display:flex;
-
-justify-content:space-between;
-
-align-items:flex-start;
-
-margin-bottom:12px;
-
-}
-
-.officer-name{
+.panel h3{
 
 font-size:18px;
 
-font-weight:800;
+margin-bottom:10px;
 
 }
 
-.officer-role{
-
-font-size:13px;
+.sub{
 
 color:var(--muted);
 
 margin-top:4px;
 
-}
-
-.officer-stats{
-
-display:grid;
-
-grid-template-columns:
-repeat(3,1fr);
-
-gap:8px;
-
-margin-top:12px;
-
-}
-
-.officer-stat{
-
-background:white;
-
-border:1px solid var(--border);
-
-border-radius:12px;
-
-padding:10px;
-
-text-align:center;
-
-}
-
-.officer-stat small{
-
-display:block;
-
-font-size:11px;
-
-font-weight:700;
-
-color:var(--muted);
-
-}
-
-.officer-stat strong{
-
-font-size:18px;
-
-font-weight:800;
-
-}
-
-/* ======================================
-   CARD GRID
-====================================== */
-
-.card-grid{
-
-display:grid;
-
-grid-template-columns:
-repeat(
-auto-fit,
-minmax(280px,1fr)
-);
-
-gap:14px;
-
-}
-
-.card{
-
-background:#f8fafc;
-
-border:1px solid var(--border);
-
-border-radius:18px;
-
-padding:16px;
-
-}
-
-.row{
-
-display:flex;
-
-justify-content:space-between;
-
-align-items:flex-start;
-
-gap:10px;
-
-}
-
-/* ======================================
-   BADGES
-====================================== */
-
-.badge{
-
-display:inline-block;
-
-padding:5px 8px;
-
-border-radius:999px;
-
-font-size:11px;
-
-font-weight:800;
-
-}
-
-.Completed{
-background:#dcfce7;
-color:#166534;
-}
-
-.InProgress{
-background:#fef3c7;
-color:#92400e;
-}
-
-.Planned{
-background:#dbeafe;
-color:#1e40af;
-}
-
-.Cancelled{
-background:#fee2e2;
-color:#991b1b;
-}
-
-/* ======================================
-   PROGRESS
-====================================== */
-
-.progress{
-
-height:10px;
-
-background:#e5e7eb;
-
-border-radius:999px;
-
-overflow:hidden;
-
-margin-top:10px;
-
-}
-
-.fill{
-
-height:100%;
-
-background:
-linear-gradient(
-90deg,
-#2563eb,
-#22c55e
-);
-
-}
-
-/* ======================================
-   MOBILE TOGGLE
-====================================== */
-
-#mobileDashboard{
-
-display:none;
-
-}
-
-/* ======================================
-   TABLET
-====================================== */
-
-@media (max-width:1024px){
-
-.summary-grid{
-
-grid-template-columns:
-repeat(2,1fr);
-
-}
-
-.app-header{
-
-flex-direction:column;
-
-align-items:flex-start;
-
-}
-
-}
-
-/* ======================================
-   PRINT
-====================================== */
-
-@media print{
-
-button{
-display:none;
-}
-
-body{
-background:white;
-color:black;
-}
-
-.panel,
-.summary-card{
-box-shadow:none;
-}
+margin-bottom:14px;
 
 }
