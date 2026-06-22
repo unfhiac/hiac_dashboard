@@ -465,6 +465,33 @@ border-radius:14px;
 cursor:pointer;
 }
 
+.attendance-kpi-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:16px;
+margin-bottom:20px;
+}
+
+.attendance-kpi{
+background:#f8fafc;
+border:1px solid #e5e7eb;
+border-radius:20px;
+padding:20px;
+text-align:center;
+}
+
+.attendance-kpi span{
+display:block;
+font-weight:700;
+color:#64748b;
+margin-bottom:8px;
+}
+
+.attendance-kpi strong{
+font-size:36px;
+color:#2563eb;
+display:block;
+}
 .quick-attendance-card{
 background:#f8fafc;
 border:1px solid #e5e7eb;
@@ -549,7 +576,7 @@ grid-template-columns:
 1fr;
 }
 
-.attendance-toolbar{
+{
 grid-template-columns:1fr;
 }
 
@@ -578,7 +605,7 @@ font-size:22px;
 grid-template-columns:1fr;
 }
 
-.attendance-toolbar{
+{
 grid-template-columns:1fr;
 }
 
@@ -1062,28 +1089,21 @@ overflow:visible;
 
 
 
+<div class="panel">
+
 <div class="attendance-header">
-
 <div>
-
 <h2>Attendance Dashboard</h2>
-
-<p class="sub">
-Smart attendance KPI tracker for HIAC board meetings
-</p>
-
+<p class="sub">Smart attendance KPI tracker for HIAC board meetings</p>
 </div>
 
-<button
-class="meeting-btn"
-onclick="addMeeting()"
->
+<button class="meeting-btn" onclick="addMeeting()">
 + Add Board Meeting
 </button>
-
 </div>
 
 <div class="attendance-kpi-grid">
+
 <div class="attendance-kpi">
 <span>Total Meetings</span>
 <strong id="meetingCount">0</strong>
@@ -1094,14 +1114,14 @@ onclick="addMeeting()"
 <strong id="attendanceAvg">0%</strong>
 </div>
 
-
 <div class="attendance-kpi">
 <span>At Risk</span>
-<strong id="riskCount">0</strong>
-</div>
+<strong id="atRiskCount">0</strong>
 </div>
 
-<div class="quick-attendance">
+</div>
+
+<div class="quick-attendance-card">
 <h3>Quick Attendance Update</h3>
 
 <div class="quick-attendance-row">
@@ -1115,17 +1135,15 @@ onclick="addMeeting()"
 <option>Advisor Meeting</option>
 <option>N/A</option>
 </select>
+
 <button onclick="quickUpdateAttendance()">Update</button>
 </div>
 </div>
 
-
-<div class="card">
+<div class="attendance-analytics">
 <h3>Attendance Analytics</h3>
 <div id="attendanceChart"></div>
 </div>
-
-
 
 </div>
 
