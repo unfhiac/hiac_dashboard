@@ -399,6 +399,7 @@ background:#fee2e2;
 color:#991b1b;
 }
 
+
 /* =========================
    TABLETS
    ========================= */
@@ -413,8 +414,17 @@ grid-template-columns:repeat(2,1fr);
 grid-template-columns:1fr;
 }
 
+.analytics-grid{
+grid-template-columns:1fr;
+}
+
 .officer-single{
 width:95%;
+max-width:95%;
+}
+
+.chart{
+height:250px;
 }
 
 }
@@ -429,84 +439,140 @@ body{
 padding:12px;
 }
 
+/* Header */
+
 .header{
 flex-direction:column;
 align-items:flex-start;
 padding:16px;
+gap:12px;
+}
+
+.brand{
+flex-direction:column;
+align-items:flex-start;
+gap:10px;
 }
 
 .logo-img{
 width:80px;
+height:auto;
 }
 
 h1{
 font-size:22px;
+margin:0;
 }
 
+/* Buttons */
+
 .actions{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:8px;
+display:flex;
+flex-direction:column;
 width:100%;
+gap:8px;
 }
 
 button{
 width:100%;
 }
 
-.summary-grid{
-grid-template-columns:1fr 1fr;
-gap:10px;
+/* EVERYTHING STACKED */
+
+.summary-grid,
+.card-grid,
+.kpis,
+.analytics-grid{
+grid-template-columns:1fr !important;
+}
+
+/* Cards */
+
+.summary-card,
+.card,
+.kpi{
+width:100%;
 }
 
 .summary-card{
-padding:14px;
+padding:16px;
 }
 
 .summary-card strong{
-font-size:22px;
+font-size:24px;
 }
 
-.card-grid{
-grid-template-columns:1fr;
-}
+/* Officer Carousel */
 
-.kpis{
-grid-template-columns:1fr 1fr;
+.carousel-wrap{
+width:100%;
+gap:6px;
 }
 
 .officer-single{
-width:92%;
-max-width:92%;
+width:100%;
+max-width:100%;
 padding:16px;
 margin:auto;
+border-radius:18px;
 }
 
 .nav-btn{
-width:40px;
-height:40px;
+width:42px;
+height:42px;
 font-size:18px;
 }
+
+/* Panels */
 
 .panel{
 padding:14px;
 overflow-x:auto;
 }
 
+/* Filters */
+
 .filters{
 grid-template-columns:1fr;
 }
 
+/* Tables */
+
 table{
-min-width:900px;
+display:block;
+width:100%;
+overflow-x:auto;
+min-width:950px;
+white-space:nowrap;
 }
+
+/* Charts */
 
 .chart{
-height:220px;
+height:240px;
+overflow-x:auto;
 }
 
+.barcol{
+min-width:55px;
+}
+
+/* HIMSS */
+
+.progress{
+height:14px;
+}
+
+/* Availability Calendar */
+
 .schedule{
-min-width:1200px;
+min-width:1300px;
+}
+
+/* KPI Text */
+
+.kpi strong{
+font-size:18px;
 }
 
 }
@@ -529,25 +595,24 @@ h1{
 font-size:20px;
 }
 
-.summary-grid{
-grid-template-columns:1fr 1fr;
-}
-
-.kpis{
-grid-template-columns:1fr 1fr;
+.summary-card{
+padding:14px;
 }
 
 .summary-card strong{
-font-size:20px;
+font-size:22px;
+}
+
+.card{
+padding:12px;
+}
+
+.officer-single{
+padding:14px;
 }
 
 .kpi strong{
 font-size:16px;
-}
-
-.officer-single{
-width:95%;
-padding:14px;
 }
 
 .nav-btn{
@@ -555,6 +620,11 @@ width:36px;
 height:36px;
 font-size:16px;
 }
+
+.chart{
+height:220px;
+}
+
 
 }
 
