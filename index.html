@@ -444,6 +444,134 @@ color:#991b1b;
 }
 
 /* =========================
+   SMART ATTENDANCE TRACKER
+========================= */
+
+.attendance-toolbar{
+display:grid;
+grid-template-columns:1fr 220px;
+gap:12px;
+margin-bottom:16px;
+}
+
+.attendance-cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(350px,1fr));
+gap:16px;
+margin-top:20px;
+}
+
+.att-card{
+background:#f8fafc;
+border:1px solid #e5e7eb;
+border-radius:20px;
+padding:18px;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.att-header{
+display:flex;
+justify-content:space-between;
+align-items:flex-start;
+gap:10px;
+margin-bottom:14px;
+}
+
+.att-name{
+font-size:18px;
+font-weight:800;
+color:#0f172a;
+}
+
+.att-role{
+font-size:13px;
+color:#64748b;
+margin-top:4px;
+}
+
+.att-score{
+padding:8px 12px;
+border-radius:999px;
+font-weight:800;
+color:white;
+font-size:13px;
+}
+
+.score-green{
+background:#16a34a;
+}
+
+.score-yellow{
+background:#ca8a04;
+}
+
+.score-orange{
+background:#ea580c;
+}
+
+.score-red{
+background:#dc2626;
+}
+
+.att-stats{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:8px;
+margin-bottom:14px;
+}
+
+.att-stat{
+background:white;
+border:1px solid #e5e7eb;
+border-radius:12px;
+padding:10px;
+text-align:center;
+}
+
+.att-stat strong{
+display:block;
+font-size:18px;
+}
+
+.att-row{
+display:grid;
+grid-template-columns:1fr 150px;
+gap:10px;
+align-items:center;
+margin-bottom:10px;
+}
+
+.alert-missed{
+background:#fee2e2;
+color:#991b1b;
+padding:10px;
+border-radius:12px;
+font-weight:700;
+margin-bottom:12px;
+}
+
+@media(max-width:768px){
+
+.attendance-toolbar{
+grid-template-columns:1fr;
+}
+
+.attendance-cards{
+grid-template-columns:1fr;
+}
+
+.att-row{
+grid-template-columns:1fr;
+}
+
+.att-stats{
+grid-template-columns:1fr 1fr;
+}
+
+}
+
+   
+ /* =========================
    TABLET VERSION
 ========================= */
 
