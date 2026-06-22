@@ -534,11 +534,11 @@ grid-template-columns:1fr 1fr;
 
 }
 
-/* =========================
-   MOBILE
-   DESKTOP STYLE KEPT FOR ALL
-   ONLY AGENDA BECOMES PLANNER
-========================= */
+/* ==========================================
+   MOBILE VERSION
+   ONLY AGENDA CHANGES
+   DESKTOP REMAINS UNTOUCHED
+========================================== */
 
 .mobile-planner{
 display:none;
@@ -549,6 +549,11 @@ display:block;
 }
 
 @media screen and (max-width:768px){
+
+/* ==========================================
+   DESKTOP TABLE HIDDEN
+========================================== */
+
 .desktop-agenda{
 display:none;
 }
@@ -559,85 +564,181 @@ display:none;
 
 .mobile-planner{
 display:block;
-margin-top:10px;
 }
 
-/* HEADER */
+/* ==========================================
+   MOBILE GENERAL
+========================================== */
+
+body{
+padding:10px;
+}
+
+.header{
+flex-direction:column;
+align-items:flex-start;
+padding:16px;
+gap:12px;
+}
+
+.brand{
+flex-direction:column;
+align-items:flex-start;
+}
+
+.logo-img{
+width:85px;
+}
+
+h1{
+font-size:22px;
+}
+
+.summary-grid{
+grid-template-columns:1fr;
+}
+
+.actions{
+width:100%;
+display:grid;
+grid-template-columns:1fr;
+gap:8px;
+}
+
+.actions button{
+width:100%;
+}
+
+.attendance-kpi-grid{
+grid-template-columns:1fr;
+}
+
+.quick-attendance-row{
+grid-template-columns:1fr;
+}
+
+.card-grid{
+grid-template-columns:1fr;
+}
+
+/* ==========================================
+   HIAC CALENDAR PLANNER
+========================================== */
 
 .agenda-panel{
 
 padding:0;
+
 overflow:hidden;
 
-background:white;
+border-radius:28px;
+
+background:#ffffff;
 
 }
 
-/* TOP CALENDAR */
+/* Calendar Header */
 
 .mobile-planner::before{
 
-content:"HIAC Planner";
+content:"HIAC Executive Planner";
 
 display:block;
+
+padding:26px;
+
+font-size:22px;
+
+font-weight:900;
+
+text-align:center;
+
+color:white;
 
 background:
 linear-gradient(
 135deg,
 #06122a,
-#102a43
+#102a43,
+#2563eb
 );
 
-color:white;
+}
 
-font-size:22px;
+/* Month Area */
 
-font-weight:800;
+.mobile-planner::after{
+
+content:
+"JULY 2026\A\A S  M  T  W  T  F  S\A\A  1  2  3  4  5  6  7\A  8  9 10 11 12 13 14\A15 16 17 18 19 20 21\A22 23 24 25 26 27 28\A29 30 31";
+
+white-space:pre;
+
+display:block;
 
 padding:22px;
 
-text-align:center;
+font-size:15px;
 
-}
-
-/* EVENTS */
-
-.planner-event{
-
-display:grid;
-
-grid-template-columns:
-85px
-1fr;
-
-gap:12px;
-
-padding:14px;
-
-border-bottom:
-1px solid #e5e7eb;
-
-align-items:center;
-
-}
-
-/* TIME */
-
-.planner-time{
-
-font-size:12px;
+line-height:2;
 
 font-weight:700;
 
+color:white;
+
+background:
+linear-gradient(
+135deg,
+#06122a,
+#102a43,
+#2563eb
+);
+
+}
+
+/* Timeline */
+
+.planner-event{
+
+display:flex;
+
+align-items:flex-start;
+
+gap:14px;
+
+padding:14px 18px;
+
+position:relative;
+
+background:white;
+
+}
+
+/* Time */
+
+.planner-time{
+
+width:75px;
+
+font-size:12px;
+
+font-weight:800;
+
 color:#64748b;
+
+padding-top:12px;
+
+flex-shrink:0;
 
 text-align:center;
 
 }
 
-/* EVENT CARD */
+/* Event Card */
 
 .planner-card{
+
+flex:1;
 
 background:
 linear-gradient(
@@ -652,13 +753,35 @@ padding:14px;
 
 color:white;
 
+position:relative;
+
 box-shadow:
-0 10px 25px
+0 8px 20px
 rgba(0,0,0,.15);
 
 }
 
-/* AGENDA */
+/* Timeline Connector */
+
+.planner-card::before{
+
+content:"";
+
+position:absolute;
+
+left:-14px;
+
+top:50%;
+
+width:14px;
+
+height:2px;
+
+background:#cbd5e1;
+
+}
+
+/* Agenda */
 
 .planner-agenda{
 
@@ -666,25 +789,27 @@ font-size:11px;
 
 font-weight:800;
 
-opacity:.8;
+opacity:.85;
 
-margin-bottom:6px;
+margin-bottom:5px;
+
+text-transform:uppercase;
 
 }
 
-/* TASK */
+/* Title */
 
 .planner-title{
 
 font-size:16px;
 
-font-weight:800;
+font-weight:900;
 
 margin-bottom:8px;
 
 }
 
-/* OWNER */
+/* Owner */
 
 .planner-owner{
 
@@ -692,11 +817,11 @@ font-size:12px;
 
 opacity:.9;
 
-margin-bottom:6px;
+margin-bottom:8px;
 
 }
 
-/* STATUS */
+/* Status */
 
 .planner-status{
 
@@ -712,578 +837,66 @@ color:#111827;
 
 font-size:11px;
 
-font-weight:700;
-
-}
-
-body{
-padding:10px;
-}
-
-.header{
-flex-direction:column;
-align-items:flex-start;
-padding:16px;
-gap:12px;
-border-radius:20px;
-}
-
-.brand{
-width:100%;
-flex-direction:column;
-align-items:flex-start;
-gap:10px;
-}
-
-.logo-img{
-width:80px;
-height:auto;
-border-radius:14px;
-padding:8px;
-}
-
-h1{
-font-size:22px;
-line-height:1.2;
-}
-
-.actions{
-width:100%;
-display:grid;
-grid-template-columns:1fr;
-gap:8px;
-}
-
-.actions button,
-button{
-width:100%;
-min-height:42px;
-}
-
-.summary-grid{
-grid-template-columns:1fr;
-gap:10px;
-}
-
-.summary-card{
-padding:14px;
-border-radius:16px;
-}
-
-.summary-card strong{
-font-size:24px;
-}
-
-.panel{
-padding:14px;
-border-radius:16px;
-overflow-x:auto;
-overflow-y:hidden;
-}
-
-.filters{
-grid-template-columns:1fr;
-gap:8px;
-}
-
-.row{
-flex-direction:column;
-align-items:flex-start;
-width:100%;
-}
-
-.carousel-wrap{
-gap:6px;
-width:100%;
-}
-
-.officer-single{
-width:100%;
-max-width:100%;
-padding:14px;
-border-radius:18px;
-}
-
-.nav-btn{
-width:40px;
-height:40px;
-font-size:16px;
-padding:0;
-flex-shrink:0;
-}
-
-.card-grid{
-grid-template-columns:1fr;
-gap:10px;
-}
-
-.card{
-width:100%;
-padding:12px;
-border-radius:16px;
-}
-
-.kpis{
-grid-template-columns:1fr 1fr;
-gap:8px;
-}
-
-.kpi{
-padding:10px;
-}
-
-.kpi strong{
-font-size:18px;
-}
-
-input,
-select,
-textarea{
-font-size:16px;
-}
-
-/* Attendance stays dashboard-style */
-
-.attendance-header{
-flex-direction:column;
-align-items:stretch;
-gap:12px;
-}
-
-.meeting-btn{
-width:100%;
-}
-
-.attendance-kpi-grid{
-grid-template-columns:1fr;
-gap:10px;
-}
-
-.attendance-kpi{
-padding:14px;
-}
-
-.attendance-kpi strong{
-font-size:24px;
-}
-
-.quick-attendance-row{
-grid-template-columns:1fr;
-}
-
-#attendanceChart{
-height:260px;
-min-height:260px;
-padding:14px;
-gap:12px;
-overflow-x:auto;
-}
-
-#attendanceChart .barcol{
-min-width:70px;
-font-size:12px;
-}
-
-/* =========================
-   AGENDA MOBILE CALENDAR PLANNER
-========================= */
-
-.panel:has(#taskTable){
-background:linear-gradient(180deg,#7c3aed 0%,#8b5cf6 34%,#ffffff 34%,#ffffff 100%);
-padding:0;
-overflow:hidden;
-border-radius:28px;
-}
-
-.panel:has(#taskTable) h2{
-color:white;
-padding:22px 18px 0;
-margin-bottom:8px;
-}
-
-.panel:has(#taskTable) .filters{
-padding:0 18px 16px;
-}
-
-.panel:has(#taskTable) .filters input,
-.panel:has(#taskTable) .filters select{
-background:rgba(255,255,255,.95);
-border:none;
-box-shadow:0 6px 14px rgba(0,0,0,.12);
-}
-
-.panel:has(#taskTable)::before{
-content:"JAN 2026";
-display:block;
-color:white;
-font-size:14px;
 font-weight:800;
-letter-spacing:1px;
-padding:18px 18px 4px;
+
 }
 
-.panel:has(#taskTable)::after{
-content:"S   M   T   W   T   F   S\A 1   2   3   4   5   6   7\A 8   9  10  11  12  13  14\A15  16  17  18  19  20  21";
-white-space:pre;
-display:block;
-font-size:14px;
-line-height:2.1;
-font-weight:700;
-color:white;
-letter-spacing:6px;
-padding:0 18px 22px;
-}
-
-.panel:has(#taskTable) table{
-display:block;
-width:100%;
-padding:18px;
-background:white;
-}
-
-.panel:has(#taskTable) thead{
-display:none;
-}
-
-#taskTable{
-display:grid;
-grid-template-columns:1fr;
-gap:14px;
-width:100%;
-}
-
-#taskTable tr{
-display:grid;
-grid-template-columns:72px 1fr;
-gap:10px;
-background:#ffffff;
-border:1px solid #e5e7eb;
-border-radius:18px;
-padding:14px;
-box-shadow:0 8px 24px rgba(0,0,0,.08);
-position:relative;
-overflow:hidden;
-}
-
-#taskTable tr::before{
-content:"";
-position:absolute;
-left:0;
-top:0;
-bottom:0;
-width:5px;
-background:#7c3aed;
-}
-
-#taskTable td{
-display:block;
-border:none;
-padding:0;
-white-space:normal;
-}
-
-#taskTable td:nth-child(6){
-grid-row:1 / span 4;
-grid-column:1;
-background:#f3e8ff;
-border-radius:16px;
-padding:12px 6px;
-text-align:center;
-font-weight:900;
-color:#6d28d9;
-font-size:13px;
-align-self:stretch;
-}
-
-#taskTable td:nth-child(6)::before{
-content:"Due";
-display:block;
-font-size:11px;
-color:#7c3aed;
-margin-bottom:6px;
-}
-
-#taskTable td:nth-child(1){
-grid-column:2;
-font-size:12px;
-font-weight:900;
-color:#7c3aed;
-text-transform:uppercase;
-}
-
-#taskTable td:nth-child(2){
-grid-column:2;
-font-size:18px;
-font-weight:900;
-color:#0f172a;
-}
-
-#taskTable td:nth-child(3){
-grid-column:2;
-font-size:13px;
-font-weight:700;
-color:#64748b;
-}
-
-#taskTable td:nth-child(4),
-#taskTable td:nth-child(5){
-grid-column:2;
-}
-
-#taskTable td:nth-child(7),
-#taskTable td:nth-child(8),
-#taskTable td:nth-child(9){
-grid-column:1 / span 2;
-}
-
-#taskTable td:nth-child(8){
-background:#f8fafc;
-border-radius:12px;
-padding:10px;
-}
-
-#taskTable td:nth-child(9){
-padding-top:4px;
-}
-
-#taskTable select,
-#taskTable input,
-#taskTable textarea,
-#taskTable button{
-width:100%;
-font-size:14px;
-}
-
-#taskTable textarea{
-min-height:60px;
-}
-
-/* Keep all other sections desktop-style on mobile */
-
-#himssBody,
-#podcastTable,
-#eventTable,
-#marketingTable{
-display:table-row-group !important;
-}
-
-#himssBody tr,
-#podcastTable tr,
-#eventTable tr,
-#marketingTable tr{
-display:table-row !important;
-}
-
-#himssBody td,
-#podcastTable td,
-#eventTable td,
-#marketingTable td{
-display:table-cell !important;
-border-bottom:1px solid #e5e7eb;
-padding:9px;
-}
-
-#himssBody td::before,
-#podcastTable td::before,
-#eventTable td::before,
-#marketingTable td::before{
-content:none !important;
-}
-
-#eventCards{
-grid-template-columns:1fr;
-}
-
-/* Availability remains desktop style */
+/* ==========================================
+   KEEP OTHER DASHBOARDS DESKTOP STYLE
+========================================== */
 
 .schedule{
 display:grid !important;
 grid-template-columns:105px repeat(7,1fr) !important;
-gap:6px;
-width:max-content;
 min-width:850px;
 }
 
-.day,
-.time{
-display:block !important;
-}
-
-.slot{
-display:block;
-min-height:auto;
-}
-
-/* Analytics stays desktop chart with horizontal scroll */
-
 #statusChart,
 #workloadChart,
-#eventChart{
-height:240px;
+#eventChart,
+#attendanceChart{
 overflow-x:auto;
-overflow-y:hidden;
-}
-
-#statusChart .barcol,
-#workloadChart .barcol,
-#eventChart .barcol{
-min-width:85px;
 }
 
 }
 
-/* =========================
+/* ==========================================
    SMALL PHONES
-========================= */
+========================================== */
 
 @media screen and (max-width:480px){
 
-body{
-padding:8px;
-}
-
-.header{
-padding:12px;
-border-radius:18px;
-}
-
 .logo-img{
-width:65px;
+width:70px;
 }
 
 h1{
-font-size:19px;
+font-size:18px;
 }
 
-.summary-card{
-padding:12px;
+.mobile-planner::before{
+font-size:18px;
+padding:20px;
 }
 
-.summary-card strong{
-font-size:21px;
-}
-
-.panel{
-padding:12px;
-border-radius:15px;
-}
-
-.card{
-padding:10px;
-}
-
-.officer-single{
-padding:12px;
-}
-
-.kpis{
-grid-template-columns:1fr 1fr;
-}
-
-.kpi strong{
-font-size:16px;
-}
-
-.nav-btn{
-width:34px;
-height:34px;
-font-size:14px;
-}
-
-button{
-font-size:14px;
-padding:9px 12px;
-}
-
-th,
-td{
+.mobile-planner::after{
 font-size:12px;
-padding:8px;
 }
 
-.attendance-kpi strong{
-font-size:20px;
+.planner-event{
+padding:12px;
 }
 
-#attendanceChart{
-height:220px;
-min-height:220px;
-}
-
-#attendanceChart .barcol{
-min-width:60px;
+.planner-time{
+width:60px;
 font-size:11px;
 }
 
-.panel:has(#taskTable)::after{
-font-size:12px;
-letter-spacing:4px;
-}
-
-#taskTable tr{
-grid-template-columns:64px 1fr;
-padding:12px;
-}
-
-#taskTable td:nth-child(2){
-font-size:16px;
-}
-
-#statusChart .barcol,
-#workloadChart .barcol,
-#eventChart .barcol{
-min-width:70px;
+.planner-title{
+font-size:14px;
 }
 
 }
-
-/* =========================
-   PRINT
-========================= */
-
-@media print{
-
-.actions,
-button{
-display:none !important;
-}
-
-body{
-background:white !important;
-color:black !important;
-padding:0;
-}
-
-.header{
-background:white !important;
-color:black !important;
-box-shadow:none;
-}
-
-.panel{
-break-inside:avoid;
-overflow:visible;
-}
-
-table{
-display:table;
-white-space:normal;
-overflow:visible;
-}
-
-thead{
-display:table-header-group !important;
-}
-
-tr{
-display:table-row !important;
-}
-
-td,
-th{
-display:table-cell !important;
-}
-
 }
 </style>
 
