@@ -564,6 +564,14 @@ grid-template-columns:1fr 1fr;
 
 @media screen and (max-width:768px){
 
+.agenda-task-card{
+background:#050505;
+color:white;
+border-left:6px solid #dfff00;
+border-radius:22px;
+padding:16px;
+}
+
 body{
 padding:10px;
 }
@@ -864,15 +872,16 @@ box-shadow:0 4px 12px rgba(0,0,0,.25);
 
 .agenda-task-card h4{
 margin:0 0 8px;
-font-size:15px;
-color:#111827;
+font-size:16px;
+font-weight:800;
+color:#dfff00;
 }
 
 .agenda-task-meta{
-font-size:12px;
-color:#64748b;
-line-height:1.5;
-margin-bottom:8px;
+font-size:13px;
+color:#cbd5e1;
+line-height:1.6;
+margin-bottom:10px;
 }
 
 .agenda-task-status{
@@ -885,23 +894,54 @@ font-size:11px;
 font-weight:900;
 }
 
+.agenda-task-card{
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
 .agenda-task-edit{
-display:grid;
-grid-template-columns:1fr 1fr;
+display:flex;
+flex-direction:column;
 gap:8px;
-margin-top:10px;
+margin-top:12px;
+}
+
+.agenda-task-edit label{
+font-size:12px;
+font-weight:800;
+color:#dfff00;
+text-transform:uppercase;
+letter-spacing:.5px;
 }
 
 .agenda-task-edit input,
 .agenda-task-edit select,
 .agenda-task-edit textarea{
-font-size:13px;
-padding:8px;
+width:100%;
+background:#ffffff;
+color:#111827;
+border-radius:12px;
+padding:10px;
+border:none;
+font-size:14px;
 }
 
 .agenda-task-edit textarea{
-grid-column:1 / span 2;
-min-height:52px;
+min-height:70px;
+resize:vertical;
+}
+
+.progress-value{
+text-align:center;
+font-weight:800;
+color:#dfff00;
+font-size:14px;
+}
+
+.agenda-task-edit input[type="range"]{
+padding:0;
+background:transparent;
 }
 
 .agenda-task-actions{
