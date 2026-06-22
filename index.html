@@ -739,12 +739,13 @@ background:#f8fafc;
 }
 
 .calendar-header{
-background:linear-gradient(135deg,#06122a,#102a43,#2563eb);
-color:white;
+background:#0a0a0a;
+color:#dfff00;
 padding:20px;
 border-radius:24px;
 margin-bottom:14px;
-box-shadow:0 10px 25px rgba(0,0,0,.16);
+border:2px solid #dfff00;
+box-shadow:0 0 20px rgba(223,255,0,.25);
 }
 
 .calendar-month{
@@ -781,7 +782,8 @@ margin-top:12px;
 
 .calendar-day{
 aspect-ratio:1;
-background:white;
+background:#111111;
+border:1px solid #2a2a2a;
 border-radius:14px;
 display:flex;
 flex-direction:column;
@@ -789,10 +791,15 @@ align-items:center;
 justify-content:center;
 font-size:12px;
 font-weight:800;
-color:#111827;
-box-shadow:0 2px 6px rgba(0,0,0,.08);
+color:#ffffff;
 position:relative;
 cursor:pointer;
+transition:.2s;
+}
+
+.calendar-day:hover{
+border-color:#dfff00;
+transform:translateY(-2px);
 }
 
 .calendar-day:hover{
@@ -800,25 +807,26 @@ transform:translateY(-1px);
 }
 
 .calendar-day.has-task{
-background:#dbeafe;
-border:2px solid #2563eb;
+background:#161616;
+border:2px solid #dfff00;
+box-shadow:0 0 10px rgba(223,255,0,.25);
 }
-
 .calendar-day.today{
 background:#dfff00;
-color:#111827;
+color:#000000;
+font-weight:900;
 }
-
 .calendar-day small{
 position:absolute;
-right:5px;
+right:4px;
 bottom:4px;
-min-width:16px;
-height:16px;
+min-width:18px;
+height:18px;
 border-radius:999px;
-background:#2563eb;
-color:white;
+background:#dfff00;
+color:#000;
 font-size:10px;
+font-weight:900;
 display:flex;
 align-items:center;
 justify-content:center;
@@ -838,11 +846,12 @@ color:#111827;
 }
 
 .agenda-task-card{
-background:white;
+background:#111111;
+color:white;
 border-radius:18px;
 padding:14px;
-box-shadow:0 4px 12px rgba(0,0,0,.08);
-border-left:6px solid #2563eb;
+border-left:6px solid #dfff00;
+box-shadow:0 4px 12px rgba(0,0,0,.25);
 }
 
 .agenda-task-card h4{
@@ -862,10 +871,10 @@ margin-bottom:8px;
 display:inline-block;
 padding:5px 10px;
 border-radius:999px;
-background:#dbeafe;
-color:#1e40af;
+background:#dfff00;
+color:#000;
 font-size:11px;
-font-weight:800;
+font-weight:900;
 }
 
 .agenda-task-edit{
@@ -920,18 +929,17 @@ overflow-x:auto;
 position:fixed;
 bottom:85px;
 right:20px;
-width:60px;
-height:60px;
+width:62px;
+height:62px;
 border-radius:50%;
-background:#2563eb;
-color:white;
-font-size:32px;
+background:#dfff00;
+color:#000;
+font-size:34px;
 font-weight:900;
 border:none;
-box-shadow:0 10px 25px rgba(0,0,0,.25);
+box-shadow:0 0 20px rgba(223,255,0,.35);
 z-index:999;
 }
-
 .planner-fab:hover{
 transform:scale(1.05);
 }
@@ -944,15 +952,17 @@ margin-bottom:15px;
 }
 
 .month-btn{
-width:40px;
-height:40px;
+width:42px;
+height:42px;
 border-radius:50%;
-background:rgba(255,255,255,.15);
-color:white;
+background:#dfff00;
+color:#000;
 font-size:18px;
-font-weight:800;
-padding:0;
+font-weight:900;
+border:none;
 }
+
+
 /* =========================
    SMALL PHONES
 ========================= */
