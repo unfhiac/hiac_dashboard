@@ -534,271 +534,135 @@ grid-template-columns:1fr 1fr;
 
 }
 
-/* ==========================================
-   MOBILE VERSION
-   ONLY AGENDA CHANGES
-   DESKTOP REMAINS UNTOUCHED
-========================================== */
+/* =====================================
+   GOOGLE CALENDAR STYLE MOBILE AGENDA
+===================================== */
 
-.mobile-planner{
-display:none;
-}
+@media (max-width:768px){
 
-.desktop-agenda{
-display:block;
-}
-
-@media screen and (max-width:768px){
-
-/* ==========================================
-   DESKTOP TABLE HIDDEN
-========================================== */
-
-.desktop-agenda{
-display:none;
-}
-
+.desktop-agenda,
 .desktop-filters{
 display:none;
 }
 
 .mobile-planner{
 display:block;
+padding:12px;
+background:#f8fafc;
 }
 
-/* ==========================================
-   MOBILE GENERAL
-========================================== */
+/* Month Header */
 
-body{
-padding:10px;
+.calendar-header{
+background:linear-gradient(
+135deg,
+#06122a,
+#102a43,
+#2563eb
+);
+color:white;
+padding:20px;
+border-radius:24px;
+margin-bottom:14px;
 }
 
-.header{
+.calendar-month{
+font-size:22px;
+font-weight:900;
+}
+
+.calendar-year{
+font-size:14px;
+opacity:.8;
+}
+
+/* Week Days */
+
+.calendar-week{
+display:grid;
+grid-template-columns:repeat(7,1fr);
+margin-top:14px;
+gap:4px;
+}
+
+.calendar-week div{
+text-align:center;
+font-weight:700;
+font-size:12px;
+}
+
+/* Date Grid */
+
+.calendar-grid{
+display:grid;
+grid-template-columns:repeat(7,1fr);
+gap:6px;
+margin-top:10px;
+}
+
+.calendar-day{
+aspect-ratio:1;
+background:white;
+border-radius:14px;
+display:flex;
 flex-direction:column;
-align-items:flex-start;
-padding:16px;
+align-items:center;
+justify-content:center;
+font-size:12px;
+font-weight:700;
+box-shadow:0 2px 6px rgba(0,0,0,.08);
+position:relative;
+}
+
+.calendar-day.has-task{
+background:#dbeafe;
+border:2px solid #2563eb;
+}
+
+.calendar-day.today{
+background:#dfff00;
+color:#111827;
+}
+
+/* Task Agenda Section */
+
+.agenda-task-list{
+margin-top:18px;
+display:flex;
+flex-direction:column;
 gap:12px;
 }
 
-.brand{
-flex-direction:column;
-align-items:flex-start;
-}
-
-.logo-img{
-width:85px;
-}
-
-h1{
-font-size:22px;
-}
-
-.summary-grid{
-grid-template-columns:1fr;
-}
-
-.actions{
-width:100%;
-display:grid;
-grid-template-columns:1fr;
-gap:8px;
-}
-
-.actions button{
-width:100%;
-}
-
-.attendance-kpi-grid{
-grid-template-columns:1fr;
-}
-
-.quick-attendance-row{
-grid-template-columns:1fr;
-}
-
-.card-grid{
-grid-template-columns:1fr;
-}
-
-/* ==========================================
-   HIAC CALENDAR PLANNER
-========================================== */
-
-.agenda-panel{
-
-padding:0;
-
-overflow:hidden;
-
-border-radius:28px;
-
-background:#ffffff;
-
-}
-
-/* Calendar Header */
-
-.mobile-planner::before{
-content:
-"HIAC Executive Planner\A\A JULY 2026\A\A S  M  T  W  T  F  S\A\A  1  2  3  4  5  6  7\A  8  9 10 11 12 13 14\A15 16 17 18 19 20 21\A22 23 24 25 26 27 28\A29 30 31";
-white-space:pre;
-display:block;
-padding:26px;
-font-size:15px;
-line-height:2;
-font-weight:800;
-text-align:center;
-color:white;
-background:linear-gradient(135deg,#06122a,#102a43,#2563eb);
-}
-
-
-/* Timeline */
-
-.planner-event{
-
-display:flex;
-
-align-items:flex-start;
-
-gap:14px;
-
-padding:14px 18px;
-
-position:relative;
-
+.agenda-task-card{
 background:white;
-
-}
-
-/* Time */
-
-.planner-time{
-
-width:75px;
-
-font-size:12px;
-
-font-weight:800;
-
-color:#64748b;
-
-padding-top:12px;
-
-flex-shrink:0;
-
-text-align:center;
-
-}
-
-/* Event Card */
-
-.planner-card{
-
-flex:1;
-
-background:
-linear-gradient(
-135deg,
-#06122a,
-#2563eb
-);
-
 border-radius:18px;
-
 padding:14px;
-
-color:white;
-
-position:relative;
-
-box-shadow:
-0 8px 20px
-rgba(0,0,0,.15);
-
+box-shadow:0 4px 12px rgba(0,0,0,.08);
+border-left:6px solid #2563eb;
 }
 
-/* Timeline Connector */
-
-.planner-card::before{
-
-content:"";
-
-position:absolute;
-
-left:-14px;
-
-top:50%;
-
-width:14px;
-
-height:2px;
-
-background:#cbd5e1;
-
+.agenda-task-card h4{
+margin:0 0 8px;
+font-size:15px;
 }
 
-/* Agenda */
-
-.planner-agenda{
-
-font-size:11px;
-
-font-weight:800;
-
-opacity:.85;
-
-margin-bottom:5px;
-
-text-transform:uppercase;
-
-}
-
-/* Title */
-
-.planner-title{
-
-font-size:16px;
-
-font-weight:900;
-
-margin-bottom:8px;
-
-}
-
-/* Owner */
-
-.planner-owner{
-
+.agenda-task-meta{
 font-size:12px;
-
-opacity:.9;
-
+color:#64748b;
 margin-bottom:8px;
-
 }
 
-/* Status */
-
-.planner-status{
-
+.agenda-task-status{
 display:inline-block;
-
-padding:4px 10px;
-
+padding:5px 10px;
 border-radius:999px;
-
-background:white;
-
-color:#111827;
-
+background:#dbeafe;
+color:#1e40af;
 font-size:11px;
-
-font-weight:800;
-
+font-weight:700;
 }
 
+}
 /* ==========================================
    KEEP OTHER DASHBOARDS DESKTOP STYLE
 ========================================== */
@@ -1878,47 +1742,135 @@ document.getElementById(
 
 if(!planner) return;
 
-planner.innerHTML="";
+let today =
+new Date();
 
-tasks.forEach(task=>{
+let year =
+today.getFullYear();
 
-planner.innerHTML += `
+let month =
+today.getMonth();
 
-<div class="planner-event">
+let firstDay =
+new Date(year,month,1).getDay();
 
-<div class="planner-time">
+let totalDays =
+new Date(year,month+1,0).getDate();
 
-${task.due || "--"}
+planner.innerHTML=`
+
+<div class="calendar-header">
+
+<div class="calendar-month">
+${today.toLocaleString(
+'default',
+{month:'long'}
+)}
+</div>
+
+<div class="calendar-year">
+${year}
+</div>
+
+<div class="calendar-week">
+
+<div>S</div>
+<div>M</div>
+<div>T</div>
+<div>W</div>
+<div>T</div>
+<div>F</div>
+<div>S</div>
 
 </div>
 
-<div class="planner-card">
-
-<div class="planner-agenda">
-
-${task.agenda}
+<div class="calendar-grid"
+id="calendarGrid">
+</div>
 
 </div>
 
-<div class="planner-title">
+<div class="agenda-task-list"
+id="agendaTaskList">
+</div>
 
+`;
+
+const grid =
+document.getElementById(
+"calendarGrid"
+);
+
+for(let i=0;i<firstDay;i++){
+
+grid.innerHTML +=
+'<div></div>';
+
+}
+
+for(let d=1;d<=totalDays;d++){
+
+let dateString =
+`${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+
+let hasTask =
+tasks.some(
+t=>t.due===dateString
+);
+
+grid.innerHTML += `
+
+<div class="
+calendar-day
+${hasTask?'has-task':''}
+${d===today.getDate()?'today':''}
+">
+
+${d}
+
+</div>
+
+`;
+
+}
+
+const taskList =
+document.getElementById(
+"agendaTaskList"
+);
+
+tasks
+.sort((a,b)=>
+(a.due||"").localeCompare(
+b.due||""
+))
+.forEach(task=>{
+
+taskList.innerHTML += `
+
+<div class="agenda-task-card">
+
+<h4>
 ${task.task}
+</h4>
+
+<div class="agenda-task-meta">
+
+📅 ${task.due}
+<br>
+
+👤 ${task.owner}
+<br>
+
+📂 ${task.agenda}
 
 </div>
 
-<div class="planner-owner">
-
-${task.owner}
-
-</div>
-
-<div class="planner-status">
+<span class="agenda-task-status">
 
 ${task.status}
 
-</div>
-
-</div>
+</span>
 
 </div>
 
