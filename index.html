@@ -651,6 +651,68 @@ width:100%;
 }
 
 }
+@media(max-width:768px){
+
+/* Agenda Management Mobile Cards */
+
+#taskTable{
+display:block;
+width:100%;
+}
+
+#taskTable tr{
+display:block;
+background:#ffffff;
+border:1px solid #e5e7eb;
+border-radius:18px;
+padding:14px;
+margin-bottom:14px;
+box-shadow:0 6px 18px rgba(0,0,0,.06);
+}
+
+#taskTable td{
+display:block;
+width:100%;
+border:none;
+padding:8px 0;
+white-space:normal;
+}
+
+#taskTable td::before{
+display:block;
+font-size:12px;
+font-weight:800;
+color:#64748b;
+margin-bottom:5px;
+}
+
+#taskTable td:nth-child(1)::before{content:"Agenda";}
+#taskTable td:nth-child(2)::before{content:"Task";}
+#taskTable td:nth-child(3)::before{content:"Owner";}
+#taskTable td:nth-child(4)::before{content:"Priority";}
+#taskTable td:nth-child(5)::before{content:"Status";}
+#taskTable td:nth-child(6)::before{content:"Due Date";}
+#taskTable td:nth-child(7)::before{content:"Progress";}
+#taskTable td:nth-child(8)::before{content:"Notes";}
+#taskTable td:nth-child(9)::before{content:"Action";}
+
+#taskTable select,
+#taskTable input,
+#taskTable textarea{
+width:100%;
+font-size:16px;
+}
+
+#taskTable button{
+width:100%;
+margin-top:6px;
+}
+
+.panel:has(#taskTable) table thead{
+display:none;
+}
+
+}
 /* ======================================
    SMALL PHONES
 ====================================== */
