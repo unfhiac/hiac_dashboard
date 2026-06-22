@@ -956,7 +956,10 @@ min-height:80px;
 }
 
 #taskTable + thead,
-.panel table thead{
+#podcastTable + thead,
+#eventTable + thead,
+#marketingTable + thead,
+#himssBody + thead{
 display:none;
 }
 
@@ -1370,6 +1373,25 @@ const officerInfo={
 "Emmanuelle Vinson":["Marketing Assistant","Spring"],
 "Kay Thiemann":["Faculty Advisor","Advisor"]
 };
+
+let currentOfficerIndex = 0;
+
+const priorities = [
+"Low",
+"Medium",
+"High",
+"Critical"
+];
+
+const taskStatuses = [
+"Not Started",
+"In Progress",
+"Completed",
+"On Hold",
+"Declined",
+"Blocked"
+];
+
 let meetings =
 JSON.parse(localStorage.getItem("hiac_meetings_v1")) || [
 "Board #1",
