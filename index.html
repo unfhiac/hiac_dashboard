@@ -6,7 +6,7 @@
 <title>HIAC Final Executive Dashboard</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
+
 
 :root{
 --navy:#06122a;
@@ -24,16 +24,22 @@ box-sizing:border-box;
 font-family:Segoe UI,Arial,sans-serif;
 }
 
+html{
+width:100%;
+overflow-x:hidden;
+}
+
 body{
 margin:0;
 padding:24px;
 background:linear-gradient(135deg,var(--navy),var(--navy2));
 color:white;
+overflow-x:hidden;
 }
 
 /* =========================
    HEADER
-   ========================= */
+========================= */
 
 .header{
 display:flex;
@@ -60,6 +66,12 @@ height:auto;
 background:white;
 border-radius:18px;
 padding:10px;
+}
+
+h1{
+margin:0;
+font-size:32px;
+line-height:1.2;
 }
 
 .actions{
@@ -89,7 +101,7 @@ color:#991b1b;
 
 /* =========================
    SUMMARY CARDS
-   ========================= */
+========================= */
 
 .summary-grid{
 display:grid;
@@ -119,7 +131,7 @@ margin-top:6px;
 
 /* =========================
    PANELS
-   ========================= */
+========================= */
 
 .panel{
 background:white;
@@ -127,7 +139,8 @@ color:#111827;
 border-radius:22px;
 padding:20px;
 margin-bottom:20px;
-overflow:auto;
+overflow-x:auto;
+overflow-y:hidden;
 }
 
 .sub{
@@ -137,13 +150,14 @@ margin-bottom:14px;
 
 /* =========================
    OFFICER CAROUSEL
-   ========================= */
+========================= */
 
 .carousel-wrap{
 display:flex;
 align-items:center;
 justify-content:center;
 gap:18px;
+width:100%;
 }
 
 .nav-btn{
@@ -151,11 +165,12 @@ width:55px;
 height:55px;
 border-radius:50%;
 font-size:24px;
+flex-shrink:0;
 }
 
 .officer-single{
-width:680px;
-max-width:90vw;
+width:100%;
+max-width:680px;
 background:#f8fafc;
 border:1px solid #e5e7eb;
 border-radius:24px;
@@ -167,7 +182,7 @@ user-select:none;
 
 /* =========================
    CARDS
-   ========================= */
+========================= */
 
 .card-grid{
 display:grid;
@@ -191,7 +206,7 @@ align-items:flex-start;
 
 /* =========================
    KPI
-   ========================= */
+========================= */
 
 .kpis{
 display:grid;
@@ -219,7 +234,7 @@ font-size:20px;
 
 /* =========================
    TABLES
-   ========================= */
+========================= */
 
 table{
 width:100%;
@@ -252,11 +267,12 @@ border-radius:10px;
 
 textarea{
 min-height:44px;
+resize:vertical;
 }
 
 /* =========================
    STATUS BADGES
-   ========================= */
+========================= */
 
 .badge{
 display:inline-block;
@@ -266,34 +282,58 @@ font-size:11px;
 font-weight:800;
 }
 
-.Completed,.Published,.Approved{
+.Completed,
+.Published,
+.Approved{
 background:#dcfce7;
 color:#166534;
 }
 
-.InProgress,.Recorded,.ReadyToPublish,.Editing,.Budgeting,.Fundraising,.Marketing,.Reviewing{
+.InProgress,
+.Recorded,
+.ReadyToPublish,
+.Editing,
+.Budgeting,
+.Fundraising,
+.Marketing,
+.Reviewing,
+.Drafting,
+.RegistrationOpen{
 background:#fef3c7;
 color:#92400e;
 }
 
-.NotStarted,.Upcoming,.Planning,.Planned,.Proposed,.Discussion,.Prospect,.Scheduled,.OutreachSent,.Confirmed{
+.NotStarted,
+.Upcoming,
+.Planning,
+.Planned,
+.Proposed,
+.Discussion,
+.Prospect,
+.Scheduled,
+.OutreachSent,
+.Confirmed{
 background:#dbeafe;
 color:#1e40af;
 }
 
-.Declined,.Blocked,.Cancelled{
+.Declined,
+.Blocked,
+.Cancelled{
 background:#fee2e2;
 color:#991b1b;
 }
 
-.OnHold,.AdvisorMeeting,.Virtual{
+.OnHold,
+.AdvisorMeeting,
+.Virtual{
 background:#ede9fe;
 color:#5b21b6;
 }
 
 /* =========================
    PROGRESS BAR
-   ========================= */
+========================= */
 
 .progress{
 height:12px;
@@ -310,7 +350,7 @@ background:linear-gradient(90deg,#22c55e,#84cc16);
 
 /* =========================
    CHARTS
-   ========================= */
+========================= */
 
 .chart{
 height:280px;
@@ -319,6 +359,8 @@ align-items:flex-end;
 gap:10px;
 border-bottom:1px solid #cbd5e1;
 padding-top:20px;
+overflow-x:auto;
+overflow-y:hidden;
 }
 
 .barcol{
@@ -338,7 +380,7 @@ min-height:14px;
 
 /* =========================
    FILTERS
-   ========================= */
+========================= */
 
 .filters{
 display:grid;
@@ -349,12 +391,13 @@ margin-bottom:14px;
 
 /* =========================
    AVAILABILITY
-   ========================= */
+========================= */
 
 .schedule{
 display:grid;
 grid-template-columns:105px repeat(7,1fr);
 gap:6px;
+width:max-content;
 min-width:850px;
 }
 
@@ -399,15 +442,18 @@ background:#fee2e2;
 color:#991b1b;
 }
 
-
-/* ==========================================
-   TABLET RESPONSIVE
-========================================== */
+/* =========================
+   TABLET VERSION
+========================= */
 
 @media screen and (max-width:1024px){
 
 body{
 padding:16px;
+}
+
+.header{
+padding:20px;
 }
 
 .summary-grid{
@@ -428,35 +474,33 @@ max-width:100%;
 }
 
 .chart{
-height:260px;
+height:250px;
 }
 
 }
 
-
-/* ==========================================
-   MOBILE RESPONSIVE
-========================================== */
+/* =========================
+   MOBILE VERSION
+========================= */
 
 @media screen and (max-width:768px){
 
 body{
 padding:10px;
-overflow-x:hidden;
 }
 
-/* HEADER */
+/* Header */
 
 .header{
 flex-direction:column;
 align-items:flex-start;
 padding:16px;
 gap:12px;
+border-radius:20px;
 }
 
 .brand{
 width:100%;
-display:flex;
 flex-direction:column;
 align-items:flex-start;
 gap:10px;
@@ -465,15 +509,16 @@ gap:10px;
 .logo-img{
 width:80px;
 height:auto;
+border-radius:14px;
+padding:8px;
 }
 
 h1{
 font-size:22px;
-margin:0;
 line-height:1.2;
 }
 
-/* ACTION BUTTONS */
+/* Buttons */
 
 .actions{
 width:100%;
@@ -482,11 +527,13 @@ grid-template-columns:1fr;
 gap:8px;
 }
 
-.actions button{
+.actions button,
+button{
 width:100%;
+min-height:42px;
 }
 
-/* SUMMARY CARDS */
+/* Summary Cards */
 
 .summary-grid{
 grid-template-columns:1fr;
@@ -495,42 +542,42 @@ gap:10px;
 
 .summary-card{
 padding:14px;
+border-radius:16px;
 }
 
 .summary-card strong{
 font-size:24px;
 }
 
-/* PANELS */
+/* Panels */
 
 .panel{
 padding:14px;
 border-radius:16px;
-overflow:hidden;
+overflow-x:auto;
+overflow-y:hidden;
 }
 
-/* FILTERS */
+/* Filters */
 
 .filters{
 grid-template-columns:1fr;
 gap:8px;
 }
 
-/* ROWS */
+/* Rows */
 
 .row{
 flex-direction:column;
 align-items:flex-start;
+width:100%;
 }
 
-/* OFFICER CAROUSEL */
+/* Officer Carousel */
 
 .carousel-wrap{
-width:100%;
-display:flex;
-justify-content:center;
-align-items:center;
 gap:6px;
+width:100%;
 }
 
 .officer-single{
@@ -538,17 +585,17 @@ width:100%;
 max-width:100%;
 padding:14px;
 border-radius:18px;
-margin:auto;
 }
 
 .nav-btn{
 width:40px;
 height:40px;
 font-size:16px;
+padding:0;
 flex-shrink:0;
 }
 
-/* CARDS */
+/* Cards */
 
 .card-grid{
 grid-template-columns:1fr;
@@ -558,6 +605,7 @@ gap:10px;
 .card{
 width:100%;
 padding:12px;
+border-radius:16px;
 }
 
 /* KPI */
@@ -575,21 +623,27 @@ padding:10px;
 font-size:18px;
 }
 
-/* TABLES */
+/* Tables */
 
 table{
 display:block;
 width:100%;
 overflow-x:auto;
 white-space:nowrap;
-border-collapse:collapse;
 }
 
-/* CHARTS */
+thead,
+tbody,
+tr{
+width:100%;
+}
+
+/* Charts */
 
 .chart{
 height:220px;
 overflow-x:auto;
+overflow-y:hidden;
 padding-bottom:8px;
 }
 
@@ -597,14 +651,13 @@ padding-bottom:8px;
 min-width:55px;
 }
 
-/* AVAILABILITY */
+/* Availability */
 
 .schedule{
-width:max-content;
 min-width:900px;
 }
 
-/* INPUTS */
+/* Inputs */
 
 input,
 select,
@@ -612,33 +665,40 @@ textarea{
 font-size:16px;
 }
 
-/* PROGRESS */
+/* Progress */
 
 .progress{
 height:12px;
 }
 
-/* ATTENDANCE */
+/* Marketing panel fix */
+
+.panel .card-grid{
+width:100%;
+}
+
+/* Attendance chart */
 
 #attendanceChart{
 overflow-x:auto;
 }
 
-/* PODCASTS */
+/* Table font */
 
 #podcastTable,
 #eventTable,
 #taskTable,
-#marketingTable{
+#marketingTable,
+#attendanceTable,
+#himssBody{
 font-size:13px;
 }
 
 }
 
-
-/* ==========================================
-   SMALL PHONE RESPONSIVE
-========================================== */
+/* =========================
+   SMALL PHONE VERSION
+========================= */
 
 @media screen and (max-width:480px){
 
@@ -646,53 +706,39 @@ body{
 padding:8px;
 }
 
-/* LOGO */
+.header{
+padding:12px;
+border-radius:18px;
+}
 
 .logo-img{
 width:65px;
 }
 
-/* TITLE */
-
 h1{
-font-size:18px;
+font-size:19px;
 }
-
-/* SUMMARY */
 
 .summary-card{
 padding:12px;
 }
 
 .summary-card strong{
-font-size:20px;
+font-size:21px;
 }
-
-/* PANELS */
 
 .panel{
 padding:12px;
+border-radius:15px;
 }
-
-/* CARDS */
 
 .card{
 padding:10px;
 }
 
-/* OFFICER */
-
 .officer-single{
 padding:12px;
 }
-
-.nav-btn{
-width:34px;
-height:34px;
-font-size:14px;
-}
-
-/* KPI */
 
 .kpis{
 grid-template-columns:1fr;
@@ -702,7 +748,11 @@ grid-template-columns:1fr;
 font-size:16px;
 }
 
-/* CHARTS */
+.nav-btn{
+width:34px;
+height:34px;
+font-size:14px;
+}
 
 .chart{
 height:200px;
@@ -712,36 +762,22 @@ height:200px;
 min-width:50px;
 }
 
+button{
+font-size:14px;
+padding:9px 12px;
 }
 
-
-/* ==========================================
-   DESKTOP OVERRIDES
-========================================== */
-
-@media screen and (min-width:769px){
-
-.officer-single{
-width:680px;
-max-width:680px;
-}
-
-.summary-grid{
-grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
-}
-
-.kpis{
-grid-template-columns:repeat(2,1fr);
-}
-
-.schedule{
-min-width:850px;
+th,
+td{
+font-size:12px;
+padding:8px;
 }
 
 }
+
 /* =========================
    PRINT / PDF
-   ========================= */
+========================= */
 
 @media print{
 
@@ -753,15 +789,29 @@ display:none !important;
 body{
 background:white !important;
 color:black !important;
+padding:0;
+}
+
+.header{
+background:white !important;
+color:black !important;
+box-shadow:none;
 }
 
 .panel{
 break-inside:avoid;
+overflow:visible;
+}
+
+table{
+display:table;
+white-space:normal;
+overflow:visible;
 }
 
 }
 
-</style>
+
 </head>
 
 <body>
