@@ -1855,6 +1855,10 @@ taskTable.innerHTML+=`
 }
 function renderAgendaPlanner(){
 
+if(window.innerWidth > 768){
+return;
+}
+
 const planner =
 document.getElementById(
 "agendaPlanner"
@@ -1864,47 +1868,31 @@ if(!planner) return;
 
 const now = new Date();
 
-const month =
-now.getMonth();
-
-const year =
-now.getFullYear();
+const month = now.getMonth();
+const year = now.getFullYear();
 
 const firstDay =
-new Date(
-year,
-month,
-1
-).getDay();
+new Date(year,month,1).getDay();
 
 const daysInMonth =
-new Date(
-year,
-month+1,
-0
-).getDate();
+new Date(year,month+1,0).getDate();
 
 planner.innerHTML = `
 
 <div class="calendar-header">
 
 <div class="calendar-month">
-
 ${now.toLocaleString(
 'default',
 {month:'long'}
 )}
-
 </div>
 
 <div class="calendar-year">
-
 ${year}
-
 </div>
 
 <div class="calendar-week">
-
 <div>S</div>
 <div>M</div>
 <div>T</div>
@@ -1912,7 +1900,6 @@ ${year}
 <div>T</div>
 <div>F</div>
 <div>S</div>
-
 </div>
 
 <div
@@ -1934,40 +1921,46 @@ document.getElementById(
 "calendarGrid"
 );
 
-for(
-let i=0;
-i<firstDay;
-i++
-){
+for(let i=0;i<firstDay;i++){
 
 grid.innerHTML +=
-"<div></div>";
+'<div></div>';
 
 }
 
-for(
-let d=1;
-d<=daysInMonth;
-d++
-){
+for(let d=1;d<=daysInMonth;d++){
 
 let dateStr =
 `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
 
-let hasTask =
-tasks.some(
+let count =
+tasks.filter(
 t=>t.due===dateStr
-);
+).length;
 
 grid.innerHTML += `
 
-<div class="
+<div
+class="
 calendar-day
-${hasTask ? 'has-task' : ''}
-${d===now.getDate() ? 'today' : ''}
-">
+${count?'has-task':''}
+${d===now.getDate()?'today':''}
+"
+onclick="
+showPlannerTasks(
+'${dateStr}'
+)
+"
+>
 
 ${d}
+
+${count
+?
+`<small>${count}</small>`
+:
+''
+}
 
 </div>
 
@@ -1975,47 +1968,68 @@ ${d}
 
 }
 
+showPlannerTasks(
+new Date()
+.toISOString()
+.slice(0,10)
+);
+
+}
+
+function showPlannerTasks(date){
+
 const taskList =
 document.getElementById(
 "agendaTaskList"
 );
 
-tasks
-.sort(
-(a,b)=>
-(a.due||"")
-.localeCompare(
-b.due||""
-)
-)
-.forEach(task=>{
+if(!taskList) return;
+
+const dayTasks =
+tasks.filter(
+t=>t.due===date
+);
+
+taskList.innerHTML =
+
+`<h3>${date}</h3>`;
+
+if(dayTasks.length===0){
+
+taskList.innerHTML += `
+<div class="agenda-task-card">
+No tasks scheduled
+</div>
+`;
+
+return;
+
+}
+
+dayTasks.forEach(task=>{
 
 taskList.innerHTML += `
 
 <div class="agenda-task-card">
 
 <h4>
-
 ${task.task}
-
 </h4>
 
 <div class="agenda-task-meta">
 
-📅 ${task.due}
+📂 ${task.agenda}
 <br>
 
 👤 ${task.owner}
 <br>
 
-📂 ${task.agenda}
+📅 ${task.due}
 
 </div>
 
 <div class="agenda-task-status">
-
 ${task.status}
-
 </div>
 
 </div>
