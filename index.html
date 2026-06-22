@@ -916,7 +916,43 @@ overflow-x:auto;
 }
 
 }
+.planner-fab{
+position:fixed;
+bottom:85px;
+right:20px;
+width:60px;
+height:60px;
+border-radius:50%;
+background:#2563eb;
+color:white;
+font-size:32px;
+font-weight:900;
+border:none;
+box-shadow:0 10px 25px rgba(0,0,0,.25);
+z-index:999;
+}
 
+.planner-fab:hover{
+transform:scale(1.05);
+}
+
+.calendar-nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px;
+}
+
+.month-btn{
+width:40px;
+height:40px;
+border-radius:50%;
+background:rgba(255,255,255,.15);
+color:white;
+font-size:18px;
+font-weight:800;
+padding:0;
+}
 /* =========================
    SMALL PHONES
 ========================= */
@@ -2078,8 +2114,19 @@ if(!planner) return;
 
 const now = new Date();
 
-const month = now.getMonth();
-const year = now.getFullYear();
+const month = plannerMonth;
+const year = plannerYear;
+
+const monthName =
+new Date(
+plannerYear,
+plannerMonth
+).toLocaleString(
+'default',
+{
+month:'long'
+}
+);
 
 const firstDay =
 new Date(year,month,1).getDay();
@@ -2261,6 +2308,10 @@ plannerYear++;
 
 renderAgendaPlanner();
 
+showPlannerTasks(
+`${plannerYear}-${String(plannerMonth+1).padStart(2,'0')}-01`
+);
+
 }
 
 function moveTask(date){
@@ -2339,12 +2390,13 @@ box.innerHTML = `
 if(dayTasks.length===0){
 
 box.innerHTML += `
-<div
-class="agenda-task-card"
-draggable="true"
-ondragstart="
-dragTask=${i}
-">
+
+<div class="agenda-task-card">
+
+No tasks scheduled.
+
+</div>
+
 `;
 
 return;
@@ -2358,7 +2410,12 @@ tasks.indexOf(task);
 
 box.innerHTML += `
 
-<div class="agenda-task-card">
+<div
+class="agenda-task-card"
+draggable="true"
+ondragstart="
+dragTask=${i}
+">
 
 <h4>${task.task}</h4>
 
