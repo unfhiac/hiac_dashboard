@@ -537,7 +537,14 @@ grid-template-columns:1fr 1fr;
 /* =====================================
    GOOGLE CALENDAR STYLE MOBILE AGENDA
 ===================================== */
+.mobile-planner{
+display:none;
+}
 
+.desktop-agenda{
+display:block;
+}
+   
 @media (max-width:768px){
 
 .desktop-agenda,
@@ -662,6 +669,35 @@ font-size:11px;
 font-weight:700;
 }
 
+.panel{
+padding:14px;
+}
+
+.card-grid{
+grid-template-columns:1fr;
+}
+
+.row{
+flex-direction:column;
+align-items:stretch;
+}
+
+.quick-attendance-row{
+grid-template-columns:1fr;
+}
+
+.attendance-kpi-grid{
+grid-template-columns:1fr;
+}
+
+.actions{
+display:grid;
+grid-template-columns:1fr;
+}
+
+.actions button{
+width:100%;
+}
 }
 /* ==========================================
    KEEP OTHER DASHBOARDS DESKTOP STYLE
@@ -680,7 +716,6 @@ min-width:850px;
 overflow-x:auto;
 }
 
-}
 
 /* ==========================================
    SMALL PHONES
