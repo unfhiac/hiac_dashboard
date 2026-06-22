@@ -1801,57 +1801,56 @@ save();
 renderAll();
 
 }
+   
 function renderAttendance(){
 
-attendanceChart.innerHTML = "";
+meetingCount.innerText =
+meetings.length;
 
-renderQuickAttendance();
-
-meetingCount.innerText = meetings.length;
-
-let percentages =
+let avg =
 attendance
 .map(a=>attendancePercent(a))
 .filter(x=>x!=="N/A");
 
 attendanceAvg.innerText =
-percentages.length
+avg.length
 ?
-Math.round(percentages.reduce((a,b)=>a+b,0)/percentages.length)+"%"
+Math.round(
+avg.reduce((a,b)=>a+b,0)
+/avg.length
+)+"%"
 :
 "0%";
 
-let best =
-[...attendance]
-.filter(a=>attendancePercent(a)!=="N/A")
-.sort((a,b)=>attendancePercent(b)-attendancePercent(a))[0];
-
-bestOfficer.innerText =
-best ? best.name.split(" ")[0] : "-";
-
-riskCount.innerText =
+let atRisk =
 attendance.filter(a=>{
-let pct = attendancePercent(a);
-return pct !== "N/A" && pct < 80;
+
+let pct =
+attendancePercent(a);
+
+return pct!=="N/A" && pct<75;
+
 }).length;
 
-let officersList = [...attendance];
+atRiskCount.innerText =
+atRisk;
 
+attendanceChart.innerHTML="";
 
+attendance.forEach(a=>{
 
-officersList.sort(
-(a,b)=>
-attendancePercent(b)-attendancePercent(a)
+let pct =
+attendancePercent(a);
+
+let h =
+pct==="N/A"
+?
+25
+:
+Math.max(
+25,
+pct*2.4
 );
-
-officersList.forEach(a=>{
-
-let pct = attendancePercent(a);
-
-let height =
-pct === "N/A"
-? 25
-: Math.max(25,pct*2);
 
 attendanceChart.innerHTML += `
 
@@ -1859,7 +1858,9 @@ attendanceChart.innerHTML += `
 
 <div
 class="bar"
-style="height:${height}px">
+style="
+height:${h}px
+">
 </div>
 
 <div>
@@ -1867,7 +1868,7 @@ ${a.name.split(" ")[0]}
 </div>
 
 <b>
-${pct}${pct==="N/A"?"":"%"}
+${pct==="N/A"?"N/A":pct+"%"}
 </b>
 
 </div>
@@ -1875,6 +1876,16 @@ ${pct}${pct==="N/A"?"":"%"}
 `;
 
 });
+
+quickMeeting.innerHTML =
+meetings.map(m=>
+`<option>${m}</option>`
+).join("");
+
+quickOfficer.innerHTML =
+attendance.map(a=>
+`<option>${a.name}</option>`
+).join("");
 
 }
 function renderTasks(){
