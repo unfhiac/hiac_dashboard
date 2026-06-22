@@ -354,31 +354,31 @@ background:linear-gradient(90deg,#22c55e,#84cc16);
 ========================= */
 
 .chart{
-height:280px;
+height:220px;
 display:flex;
 align-items:flex-end;
-gap:10px;
-border-bottom:1px solid #cbd5e1;
-padding-top:20px;
+gap:12px;
+padding:20px;
+background:#f8fafc;
+border-radius:18px;
 overflow-x:auto;
-overflow-y:hidden;
-}
-
-.barcol{
-flex:1;
-text-align:center;
-font-size:11px;
-color:#475569;
-min-width:50px;
 }
 
 .bar{
-width:100%;
-background:linear-gradient(180deg,#2563eb,#22c55e);
-border-radius:10px 10px 0 0;
-min-height:14px;
+background:
+linear-gradient(
+180deg,
+#2563eb,
+#22c55e
+);
+
+border-radius:12px 12px 0 0;
 }
 
+.barcol{
+min-width:70px;
+font-weight:700;
+}
 /* =========================
    FILTERS
 ========================= */
@@ -1116,7 +1116,7 @@ overflow:visible;
 
 <div class="chart" id="attendanceChart"></div>
 
-<div id="attendanceCards" class="attendance-cards"></div>
+
 
 </div>
 
@@ -1838,7 +1838,9 @@ let status =
 quickStatus.value;
 
 let person =
-attendance.find(a=>a.name===officer);
+attendance.find(
+a=>a.name===officer
+);
 
 if(!person) return;
 
@@ -1846,14 +1848,17 @@ person[meeting] = status;
 
 save();
 
-renderAll();
+renderAttendance();
+
+renderStats();
+
+renderAnalytics();
 
 }
-
+   
 function renderAttendance(){
 
 attendanceChart.innerHTML = "";
-attendanceCards.innerHTML = "";
 
 renderQuickAttendance();
 
@@ -1882,6 +1887,35 @@ percentages.reduce((a,b)=>a+b,0) / percentages.length
 )+"%"
 :
 "0%";
+let best =
+[...attendance]
+.filter(a=>attendancePercent(a)!=="N/A")
+.sort(
+(a,b)=>
+attendancePercent(b)
+-
+attendancePercent(a)
+)[0];
+
+bestOfficer.innerText =
+best
+?
+best.name.split(" ")[0]
+:
+"-";
+
+riskCount.innerText =
+attendance.filter(a=>{
+
+let pct =
+attendancePercent(a);
+
+return (
+pct!=="N/A" &&
+pct < 80
+);
+
+}).length;
 
 let best =
 [...attendance]
@@ -1939,118 +1973,7 @@ attendance.findIndex(x=>x.name===a.name);
 let pct =
 attendancePercent(a);
 
-let grade =
-attendanceGrade(
-pct==="N/A" ? 0 : pct
-);
 
-let chartHeight =
-pct==="N/A"
-?
-25
-:
-Math.max(25,pct*2.4);
-
-attendanceChart.innerHTML += `
-
-<div class="barcol">
-<div class="bar" style="height:${chartHeight}px"></div>
-<div>${a.name.split(" ")[0]}</div>
-<b>${pct}${pct==="N/A"?"":"%"}</b>
-</div>
-
-`;
-
-let presentCount =
-meetings.filter(m=>
-a[m]==="Present" ||
-a[m]==="Virtual" ||
-a[m]==="Advisor Meeting"
-).length;
-
-let absentCount =
-meetings.filter(m=>a[m]==="Absent").length;
-
-let naCount =
-meetings.filter(m=>a[m]==="N/A").length;
-
-let streak =
-getMissedStreak(a);
-
-attendanceCards.innerHTML += `
-
-<div class="att-card ${grade.card}">
-
-<div class="att-header">
-
-<div>
-<div class="att-name">${a.name}</div>
-<div class="att-role">${a.role}</div>
-</div>
-
-<div class="att-score ${grade.class}">
-${pct==="N/A"?"N/A":pct+"%"}<br>
-${grade.label}
-</div>
-
-</div>
-
-${streak>=2
-?
-`
-<div class="alert-missed">
-⚠ Missed last ${streak} meetings
-</div>
-`
-:
-""
-}
-
-<div class="att-mini-grid">
-
-<div class="att-mini">
-<strong>${presentCount}</strong>
-Present
-</div>
-
-<div class="att-mini">
-<strong>${absentCount}</strong>
-Absent
-</div>
-
-<div class="att-mini">
-<strong>${naCount}</strong>
-N/A
-</div>
-
-</div>
-
-${meetings.map(meeting=>`
-
-<div class="att-meeting-row">
-
-<div>
-<b>${meeting}</b>
-</div>
-
-<select
-onchange="
-attendance[${index}]['${meeting}']=this.value;
-save();
-renderAll();
-">
-
-${option(vals,a[meeting] || "N/A")}
-
-</select>
-
-</div>
-
-`).join("")}
-
-</div>
-
-`;
 
 });
 
