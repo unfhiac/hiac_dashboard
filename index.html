@@ -2333,36 +2333,20 @@ dragTask = null;
    
 function plannerAddTask(){
 
-const today =
-new Date()
-.toISOString()
-.split("T")[0];
-
 tasks.unshift({
-
 agenda:"Strategic Planning",
-
 task:"New Task",
-
 owner:"Agrani Sinha",
-
 priority:"Medium",
-
 status:"Not Started",
-
-due:today,
-
+due:selectedPlannerDate,
 progress:0,
-
 notes:""
-
 });
 
 save();
-
 renderAll();
-
-showPlannerTasks(today);
+showPlannerTasks(selectedPlannerDate);
 
 }
    
