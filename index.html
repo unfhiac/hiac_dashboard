@@ -1600,43 +1600,7 @@ if(startX-endX>50)nextOfficer();
 if(endX-startX>50)prevOfficer();
 });
 
-function attendanceGrade(pct){
 
-pct = Number(pct);
-
-if(pct >= 95){
-
-return {
-label:"Excellent",
-class:"score-green"
-};
-
-}
-
-if(pct >= 80){
-
-return {
-label:"Good",
-class:"score-yellow"
-};
-
-}
-
-if(pct >= 60){
-
-return {
-label:"Warning",
-class:"score-orange"
-};
-
-}
-
-return {
-label:"Critical",
-class:"score-red"
-};
-
-}
 
 function getMissedStreak(person){
 
