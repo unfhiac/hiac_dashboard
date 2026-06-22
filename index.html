@@ -781,7 +781,8 @@ margin-top:12px;
 }
 
 .calendar-day{
-aspect-ratio:1;
+min-height:72px;
+aspect-ratio:auto;
 background:#111111;
 border:1px solid #2a2a2a;
 border-radius:14px;
@@ -796,7 +797,12 @@ position:relative;
 cursor:pointer;
 transition:.2s;
 }
-
+.calendar-day{
+align-items:flex-start;
+justify-content:flex-start;
+padding:8px;
+}
+   
 .calendar-day:hover{
 border-color:#dfff00;
 transform:translateY(-2px);
@@ -2384,7 +2390,7 @@ if(!box) return;
 
 const meetingTasks =
 tasks.filter(
-t=>t.agenda===meeting
+t=>t.due===meeting
 );
 
 box.innerHTML = `
