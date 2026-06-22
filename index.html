@@ -640,61 +640,19 @@ background:#ffffff;
 /* Calendar Header */
 
 .mobile-planner::before{
-
-content:"HIAC Executive Planner";
-
-display:block;
-
-padding:26px;
-
-font-size:22px;
-
-font-weight:900;
-
-text-align:center;
-
-color:white;
-
-background:
-linear-gradient(
-135deg,
-#06122a,
-#102a43,
-#2563eb
-);
-
-}
-
-/* Month Area */
-
-.mobile-planner::after{
-
 content:
-"JULY 2026\A\A S  M  T  W  T  F  S\A\A  1  2  3  4  5  6  7\A  8  9 10 11 12 13 14\A15 16 17 18 19 20 21\A22 23 24 25 26 27 28\A29 30 31";
-
+"HIAC Executive Planner\A\A JULY 2026\A\A S  M  T  W  T  F  S\A\A  1  2  3  4  5  6  7\A  8  9 10 11 12 13 14\A15 16 17 18 19 20 21\A22 23 24 25 26 27 28\A29 30 31";
 white-space:pre;
-
 display:block;
-
-padding:22px;
-
+padding:26px;
 font-size:15px;
-
 line-height:2;
-
-font-weight:700;
-
+font-weight:800;
+text-align:center;
 color:white;
-
-background:
-linear-gradient(
-135deg,
-#06122a,
-#102a43,
-#2563eb
-);
-
+background:linear-gradient(135deg,#06122a,#102a43,#2563eb);
 }
+
 
 /* Timeline */
 
@@ -896,7 +854,6 @@ font-size:11px;
 font-size:14px;
 }
 
-}
 }
 </style>
 
@@ -1561,8 +1518,6 @@ function renderAll(){
 
 normalizeMeetingLists();
 syncAgendaMeetings();
-
-save();
 
 renderStats();
 renderOfficers();
@@ -2253,8 +2208,10 @@ a.download="HIAC_Final_Dashboard.csv";
 a.click();
 }
 
+window.onload = () => {
 initFilters();
 renderAll();
+};
 </script>
 </body>
 </html>
