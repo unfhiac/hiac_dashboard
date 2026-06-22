@@ -1664,38 +1664,80 @@ if(startX-endX>50)nextOfficer();
 if(endX-startX>50)prevOfficer();
 });
 
+function attendanceGrade(pct){
+
+pct = Number(pct);
+
+if(pct >= 95){
+
+return {
+label:"Excellent",
+class:"score-green"
+};
+
+}
+
+if(pct >= 80){
+
+return {
+label:"Good",
+class:"score-yellow"
+};
+
+}
+
+if(pct >= 60){
+
+return {
+label:"Warning",
+class:"score-orange"
+};
+
+}
+
+return {
+label:"Critical",
+class:"score-red"
+};
+
+}
+
+function getMissedStreak(person){
+
+let streak = 0;
+
+for(
+let i = meetings.length - 1;
+i >= 0;
+i--
+){
+
+if(
+person[meetings[i]]
+=== "Absent"
+){
+
+streak++;
+
+}else{
+
+break;
+
+}
+
+}
+
+return streak;
+
+}
+   
 function renderAttendance(){
 
-meetingCount.innerText =
-meetings.length;
+attendanceChart.innerHTML = "";
 
-let avgAttendance =
-attendance
-.map(a => attendancePercent(a))
-.filter(x => x !== "N/A");
+attendanceCards.innerHTML = "";
 
-attendanceAvg.innerText =
-avgAttendance.length
-?
-Math.round(
-
-avgAttendance.reduce(
-(a,b)=>a+b,
-0
-)
-/avgAttendance.length
-
-) + "%"
-:
-"0%";
-
-renderAttendanceHeader();
-
-attendanceTable.innerHTML="";
-
-attendanceChart.innerHTML="";
-
-let vals=[
+let vals = [
 
 "Present",
 "Absent",
@@ -1711,57 +1753,204 @@ meetings.length;
 
 let avg =
 attendance
-.map(
-a=>attendancePercent(a)
-)
-.filter(
-x=>x!=="N/A"
-);
+.map(a=>attendancePercent(a))
+.filter(x=>x!=="N/A");
 
 attendanceAvg.innerText =
 avg.length
 ?
 Math.round(
-avg.reduce(
-(a,b)=>a+b,
-0
-)
+avg.reduce((a,b)=>a+b,0)
 /avg.length
-)
-+"%"
+)+"%"
 :
 "0%";
 
-attendance.forEach((a,i)=>{
+let officersList = [...attendance];
+
+const searchText =
+(
+document.getElementById(
+"attendanceSearch"
+)?.value || ""
+).toLowerCase();
+
+officersList =
+officersList.filter(a =>
+a.name
+.toLowerCase()
+.includes(searchText)
+);
+
+const sortType =
+document.getElementById(
+"attendanceSort"
+)?.value || "high";
+
+if(sortType==="high"){
+
+officersList.sort(
+(a,b)=>
+attendancePercent(b)
+-
+attendancePercent(a)
+);
+
+}
+
+if(sortType==="low"){
+
+officersList.sort(
+(a,b)=>
+attendancePercent(a)
+-
+attendancePercent(b)
+);
+
+}
+
+if(sortType==="name"){
+
+officersList.sort(
+(a,b)=>
+a.name.localeCompare(b.name)
+);
+
+}
+
+officersList.forEach((a)=>{
+
+let index =
+attendance.findIndex(
+x=>x.name===a.name
+);
 
 let pct =
 attendancePercent(a);
 
-let h =
+let chartHeight =
 pct==="N/A"
 ?
-20
+25
 :
 Math.max(
 25,
-pct*2.4
+pct * 2.4
 );
 
-attendanceTable.innerHTML += `
+attendanceChart.innerHTML += `
 
-<tr>
+<div class="barcol">
 
-<td>${a.name}</td>
+<div
+class="bar"
+style="
+height:${chartHeight}px
+">
+</div>
 
-<td>${a.role}</td>
+<div>
+${a.name.split(" ")[0]}
+</div>
+
+<b>
+${pct}
+${pct==="N/A"?"":"%"}
+</b>
+
+</div>
+
+`;
+
+let grade =
+attendanceGrade(
+pct==="N/A" ? 0 : pct
+);
+
+let presentCount =
+meetings.filter(
+m =>
+a[m]==="Present" ||
+a[m]==="Virtual" ||
+a[m]==="Advisor Meeting"
+).length;
+
+let absentCount =
+meetings.filter(
+m =>
+a[m]==="Absent"
+).length;
+
+let streak =
+getMissedStreak(a);
+
+attendanceCards.innerHTML += `
+
+<div class="att-card">
+
+<div class="att-header">
+
+<div>
+
+<div class="att-name">
+${a.name}
+</div>
+
+<div class="att-role">
+${a.role}
+</div>
+
+</div>
+
+<div class="att-score ${grade.class}">
+${pct==="N/A"?"N/A":pct+"%"}
+<br>
+${grade.label}
+</div>
+
+</div>
+
+${streak>=2
+?
+`
+<div class="alert-missed">
+⚠ Missed last ${streak} meetings
+</div>
+`
+:
+""
+}
+
+<div class="att-stats">
+
+<div class="att-stat">
+<strong>${presentCount}</strong>
+Present
+</div>
+
+<div class="att-stat">
+<strong>${absentCount}</strong>
+Absent
+</div>
+
+<div class="att-stat">
+<strong>${meetings.length}</strong>
+Meetings
+</div>
+
+</div>
 
 ${meetings.map(meeting=>`
 
-<td>
+<div class="att-row">
+
+<div>
+<b>${meeting}</b>
+</div>
 
 <select
 onchange="
-attendance[${i}]['${meeting}']=this.value;
+attendance[${index}]['${meeting}']=this.value;
 save();
 renderAll();
 ">
@@ -1773,60 +1962,9 @@ a[meeting] || "N/A"
 
 </select>
 
-</td>
+</div>
 
 `).join("")}
-
-<td>
-
-<b>
-
-${pct}
-
-${pct==="N/A"
-?
-""
-:
-"%"
-}
-
-</b>
-
-</td>
-
-</tr>
-
-`;
-
-attendanceChart.innerHTML += `
-
-<div class="barcol">
-
-<div
-class="bar"
-style="
-height:${h}px
-">
-</div>
-
-<div>
-
-${a.name.split(" ")[0]}
-
-</div>
-
-<b>
-
-${pct}
-
-${pct==="N/A"
-?
-""
-:
-"%"
-}
-
-</b>
 
 </div>
 
@@ -1835,7 +1973,6 @@ ${pct==="N/A"
 });
 
 }
-
 function renderTasks(){
 taskTable.innerHTML="";
 let s=search.value.toLowerCase(),af=agendaFilter.value,of=ownerFilter.value,sf=statusFilter.value;
