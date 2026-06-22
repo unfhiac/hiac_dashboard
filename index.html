@@ -1308,7 +1308,19 @@ const officerInfo={
 "Emmanuelle Vinson":["Marketing Assistant","Spring"],
 "Kay Thiemann":["Faculty Advisor","Advisor"]
 };
-const agendas=["First Board Meeting","Second Board Meeting","Third Board Meeting","Strategic Planning"];
+let agendas =
+JSON.parse(
+localStorage.getItem(
+"hiac_agendas_v1"
+)
+) || [
+
+"Board #1",
+"Board #2",
+"Board #3",
+"Strategic Planning"
+
+];
 const priorities=["Critical","High","Medium","Low"];
 const taskStatuses=["Not Started","In Progress","Completed","On Hold","Blocked","Declined"];
 let currentOfficerIndex=0;
@@ -1528,7 +1540,10 @@ localStorage.setItem(
 "hiac_events_v3",
 JSON.stringify(events)
 );
-
+localStorage.setItem(
+"hiac_agendas_v1",
+JSON.stringify(agendas)
+);
 localStorage.setItem(
 "hiac_marketing_v3",
 JSON.stringify(marketing)
@@ -1590,7 +1605,11 @@ function option(list,current){return list.map(x=>`<option ${x===current?"selecte
 function clean(x){return String(x).replaceAll(" ","")}
 
 function initFilters(){
-agendaFilter.innerHTML='<option>All Agendas</option>'+option(agendas,"");
+agendaFilter.innerHTML=
+'<option>All Agendas</option>' +
+agendas.map(a=>
+`<option>${a}</option>`
+).join("");
 ownerFilter.innerHTML='<option>All Owners</option>'+option(officers,"");
 statusFilter.innerHTML='<option>All Statuses</option>'+option(taskStatuses,"");
 availabilityPerson.innerHTML=option(Object.keys(officerInfo),"Agrani Sinha");
@@ -1765,17 +1784,38 @@ return streak;
    
 function addMeeting(){
 
-const name = prompt("Enter Meeting Name");
+const name =
+prompt(
+"Enter Meeting Name"
+);
 
 if(!name) return;
 
+if(
+meetings.includes(name)
+){
+alert(
+"Meeting already exists."
+);
+return;
+}
+
 meetings.push(name);
+
+if(
+!agendas.includes(name)
+){
+agendas.push(name);
+}
 
 attendance.forEach(a=>{
 a[name]="N/A";
 });
 
 save();
+
+initFilters();
+
 renderAll();
 
 }
