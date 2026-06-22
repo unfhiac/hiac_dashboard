@@ -2102,6 +2102,11 @@ taskTable.innerHTML+=`
 </tr>`;
 });
 }
+let selectedPlannerDate =
+new Date()
+.toISOString()
+.split("T")[0];
+
 function renderAgendaPlanner(){
 
 const planner =
@@ -2111,30 +2116,41 @@ document.getElementById(
 
 if(!planner) return;
 
-const now = new Date();
+const month =
+plannerMonth;
 
-const month = plannerMonth;
-const year = plannerYear;
+const year =
+plannerYear;
 
 const monthName =
 new Date(
-plannerYear,
-plannerMonth
+year,
+month
 ).toLocaleString(
-'default',
+"default",
 {
-month:'long'
+month:"long"
 }
 );
 
 const firstDay =
-new Date(year,month,1).getDay();
+new Date(
+year,
+month,
+1
+).getDay();
 
 const daysInMonth =
-new Date(year,month+1,0).getDate();
+new Date(
+year,
+month+1,
+0
+).getDate();
 
 const todayString =
-now.toISOString().split("T")[0];
+new Date()
+.toISOString()
+.split("T")[0];
 
 planner.innerHTML = `
 
@@ -2145,23 +2161,17 @@ planner.innerHTML = `
 <button
 class="month-btn"
 onclick="changeMonth(-1)">
-
 ◀
-
 </button>
 
 <div>
 
 <div class="calendar-month">
-
 ${monthName}
-
 </div>
 
 <div class="calendar-year">
-
 ${year}
-
 </div>
 
 </div>
@@ -2169,18 +2179,13 @@ ${year}
 <button
 class="month-btn"
 onclick="changeMonth(1)">
-
 ▶
-
 </button>
 
 </div>
 
-<div class="calendar-year">
-${year}
-</div>
-
 <div class="calendar-week">
+
 <div>S</div>
 <div>M</div>
 <div>T</div>
@@ -2188,6 +2193,7 @@ ${year}
 <div>T</div>
 <div>F</div>
 <div>S</div>
+
 </div>
 
 <div
@@ -2205,9 +2211,7 @@ id="agendaTaskList">
 <button
 class="planner-fab"
 onclick="plannerAddTask()">
-
 +
-
 </button>
 
 `;
@@ -2222,8 +2226,10 @@ let i=0;
 i<firstDay;
 i++
 ){
+
 grid.innerHTML +=
 "<div></div>";
+
 }
 
 for(
@@ -2249,9 +2255,8 @@ ${dateString===todayString?'today':''}
 ${taskCount?'has-task':''}
 "
 onclick="
-showPlannerTasks(
-'${dateString}'
-)
+selectedPlannerDate='${dateString}';
+showPlannerTasks('${dateString}')
 "
 
 ondragover="
@@ -2259,17 +2264,17 @@ event.preventDefault()
 "
 
 ondrop="
-moveTask(
-'${dateString}'
-)
+moveTask('${dateString}')
 "
 >
 
 ${day}
 
 ${taskCount
-? `<small>${taskCount}</small>`
-: ""
+?
+`<small>${taskCount}</small>`
+:
+""
 }
 
 </div>
@@ -2278,12 +2283,20 @@ ${taskCount
 
 }
 
-showPlannerTasks(
-todayString
-);
+if(
+!selectedPlannerDate
+){
+
+selectedPlannerDate =
+todayString;
 
 }
 
+showPlannerTasks(
+selectedPlannerDate
+);
+
+}
 
 function changeMonth(direction){
 
