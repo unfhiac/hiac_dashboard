@@ -1747,12 +1747,10 @@ officersList.forEach(a=>{
 
 let pct = attendancePercent(a);
 
-let chartHeight =
-pct==="N/A"
-?
-25
-:
-Math.max(25,pct*2.1);
+let height =
+pct === "N/A"
+? 25
+: Math.max(25,pct*2);
 
 attendanceChart.innerHTML += `
 
@@ -1760,7 +1758,7 @@ attendanceChart.innerHTML += `
 
 <div
 class="bar"
-style="height:${chartHeight}px">
+style="height:${height}px">
 </div>
 
 <div>
