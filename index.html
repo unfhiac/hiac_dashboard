@@ -1112,15 +1112,6 @@ overflow:visible;
 </div>
 </div>
 
-<div class="attendance-toolbar">
-<input id="attendanceSearch" placeholder="Search officer..." onkeyup="renderAttendance()">
-
-<select id="attendanceSort" onchange="renderAttendance()">
-<option value="high">Highest Attendance</option>
-<option value="low">Lowest Attendance</option>
-<option value="name">Name A-Z</option>
-</select>
-</div>
 
 <div class="card">
 <h3>Attendance Analytics</h3>
@@ -1780,24 +1771,29 @@ ${a.name}
 
 function quickUpdateAttendance(){
 
-let meeting = quickMeeting.value;
-let officer = quickOfficer.value;
-let status = quickStatus.value;
+let meeting =
+quickMeeting.value;
+
+let officer =
+quickOfficer.value;
+
+let status =
+quickStatus.value;
 
 let person =
-attendance.find(a=>a.name===officer);
+attendance.find(
+a=>a.name===officer
+);
 
 if(!person) return;
 
 person[meeting] = status;
 
 save();
-renderAttendance();
-renderOfficers();
-renderAnalytics();
+
+renderAll();
 
 }
-
 function renderAttendance(){
 
 attendanceChart.innerHTML = "";
@@ -1834,30 +1830,12 @@ return pct !== "N/A" && pct < 80;
 
 let officersList = [...attendance];
 
-let searchText =
-(document.getElementById("attendanceSearch")?.value || "")
-.toLowerCase();
 
-officersList =
-officersList.filter(a =>
-a.name.toLowerCase().includes(searchText) ||
-a.role.toLowerCase().includes(searchText)
+
+officersList.sort(
+(a,b)=>
+attendancePercent(b)-attendancePercent(a)
 );
-
-let sortType =
-document.getElementById("attendanceSort")?.value || "high";
-
-if(sortType==="high"){
-officersList.sort((a,b)=>attendancePercent(b)-attendancePercent(a));
-}
-
-if(sortType==="low"){
-officersList.sort((a,b)=>attendancePercent(a)-attendancePercent(b));
-}
-
-if(sortType==="name"){
-officersList.sort((a,b)=>a.name.localeCompare(b.name));
-}
 
 officersList.forEach(a=>{
 
