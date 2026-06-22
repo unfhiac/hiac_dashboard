@@ -3,10 +3,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>HIAC Executive Dashboard</title>
+<title>HIAC Final Executive Dashboard</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link rel="stylesheet" href="css/mobile.css">
+
 <style>
 
 :root{
@@ -25,17 +26,17 @@ box-sizing:border-box;
 font-family:Segoe UI,Arial,sans-serif;
 }
 
-html,
-body{
+html{
 width:100%;
 overflow-x:hidden;
-margin:0;
 }
 
 body{
+margin:0;
 padding:24px;
 background:linear-gradient(135deg,var(--navy),var(--navy2));
 color:white;
+overflow-x:hidden;
 }
 
 /* =========================
@@ -101,7 +102,7 @@ color:#991b1b;
 }
 
 /* =========================
-   SUMMARY
+   SUMMARY CARDS
 ========================= */
 
 .summary-grid{
@@ -150,7 +151,7 @@ margin-bottom:14px;
 }
 
 /* =========================
-   OFFICER
+   OFFICER CAROUSEL
 ========================= */
 
 .carousel-wrap{
@@ -272,7 +273,7 @@ resize:vertical;
 }
 
 /* =========================
-   BADGES
+   STATUS BADGES
 ========================= */
 
 .badge{
@@ -283,7 +284,9 @@ font-size:11px;
 font-weight:800;
 }
 
-.Completed,.Published,.Approved{
+.Completed,
+.Published,
+.Approved{
 background:#dcfce7;
 color:#166534;
 }
@@ -331,7 +334,7 @@ color:#5b21b6;
 }
 
 /* =========================
-   PROGRESS
+   PROGRESS BAR
 ========================= */
 
 .progress{
@@ -442,13 +445,17 @@ color:#991b1b;
 }
 
 /* =========================
-   TABLET
+   TABLET VERSION
 ========================= */
 
-@media (max-width:1024px){
+@media screen and (max-width:1024px){
 
 body{
 padding:16px;
+}
+
+.header{
+padding:20px;
 }
 
 .summary-grid{
@@ -464,16 +471,314 @@ grid-template-columns:1fr 1fr;
 }
 
 .officer-single{
+width:100%;
 max-width:100%;
 }
 
+.chart{
+height:250px;
 }
 
-
-
+}
 
 /* =========================
-   PRINT
+   MOBILE VERSION
+========================= */
+
+@media screen and (max-width:768px){
+
+body{
+padding:10px;
+}
+
+/* Header */
+
+.header{
+flex-direction:column;
+align-items:flex-start;
+padding:16px;
+gap:12px;
+border-radius:20px;
+}
+
+.brand{
+width:100%;
+flex-direction:column;
+align-items:flex-start;
+gap:10px;
+}
+
+.logo-img{
+width:80px;
+height:auto;
+border-radius:14px;
+padding:8px;
+}
+
+h1{
+font-size:22px;
+line-height:1.2;
+}
+
+/* Buttons */
+
+.actions{
+width:100%;
+display:grid;
+grid-template-columns:1fr;
+gap:8px;
+}
+
+.actions button,
+button{
+width:100%;
+min-height:42px;
+}
+
+/* Summary Cards */
+
+.summary-grid{
+grid-template-columns:1fr;
+gap:10px;
+}
+
+.summary-card{
+padding:14px;
+border-radius:16px;
+}
+
+.summary-card strong{
+font-size:24px;
+}
+
+/* Panels */
+
+.panel{
+padding:14px;
+border-radius:16px;
+overflow-x:auto;
+overflow-y:hidden;
+}
+
+/* Filters */
+
+.filters{
+grid-template-columns:1fr;
+gap:8px;
+}
+
+/* Rows */
+
+.row{
+flex-direction:column;
+align-items:flex-start;
+width:100%;
+}
+
+/* Officer Carousel */
+
+.carousel-wrap{
+gap:6px;
+width:100%;
+}
+
+.officer-single{
+width:100%;
+max-width:100%;
+padding:14px;
+border-radius:18px;
+}
+
+.nav-btn{
+width:40px;
+height:40px;
+font-size:16px;
+padding:0;
+flex-shrink:0;
+}
+
+/* Cards */
+
+.card-grid{
+grid-template-columns:1fr;
+gap:10px;
+}
+
+.card{
+width:100%;
+padding:12px;
+border-radius:16px;
+}
+
+/* KPI */
+
+.kpis{
+grid-template-columns:1fr 1fr;
+gap:8px;
+}
+
+.kpi{
+padding:10px;
+}
+
+.kpi strong{
+font-size:18px;
+}
+
+/* Tables */
+
+table{
+display:block;
+width:100%;
+overflow-x:auto;
+white-space:nowrap;
+}
+
+thead,
+tbody,
+tr{
+width:100%;
+}
+
+/* Charts */
+
+.chart{
+height:220px;
+overflow-x:auto;
+overflow-y:hidden;
+padding-bottom:8px;
+}
+
+.barcol{
+min-width:55px;
+}
+
+/* Availability */
+
+.schedule{
+min-width:900px;
+}
+
+/* Inputs */
+
+input,
+select,
+textarea{
+font-size:16px;
+}
+
+/* Progress */
+
+.progress{
+height:12px;
+}
+
+/* Marketing panel fix */
+
+.panel .card-grid{
+width:100%;
+}
+
+/* Attendance chart */
+
+#attendanceChart{
+overflow-x:auto;
+}
+
+/* Table font */
+
+#podcastTable,
+#eventTable,
+#taskTable,
+#marketingTable,
+#attendanceTable,
+#himssBody{
+font-size:13px;
+}
+
+}
+
+/* =========================
+   SMALL PHONE VERSION
+========================= */
+
+@media screen and (max-width:480px){
+
+body{
+padding:8px;
+}
+
+.header{
+padding:12px;
+border-radius:18px;
+}
+
+.logo-img{
+width:65px;
+}
+
+h1{
+font-size:19px;
+}
+
+.summary-card{
+padding:12px;
+}
+
+.summary-card strong{
+font-size:21px;
+}
+
+.panel{
+padding:12px;
+border-radius:15px;
+}
+
+.card{
+padding:10px;
+}
+
+.officer-single{
+padding:12px;
+}
+
+.kpis{
+grid-template-columns:1fr;
+}
+
+.kpi strong{
+font-size:16px;
+}
+
+.nav-btn{
+width:34px;
+height:34px;
+font-size:14px;
+}
+
+.chart{
+height:200px;
+}
+
+.barcol{
+min-width:50px;
+}
+
+button{
+font-size:14px;
+padding:9px 12px;
+}
+
+th,
+td{
+font-size:12px;
+padding:8px;
+}
+
+}
+
+/* =========================
+   PRINT / PDF
 ========================= */
 
 @media print{
@@ -502,13 +807,10 @@ overflow:visible;
 
 table{
 display:table;
-overflow:visible;
 white-space:normal;
+overflow:visible;
 }
-
 }
-}
-
 </style>
 
 </head>
@@ -548,7 +850,9 @@ white-space:normal;
 </div>
 </div>
 
-
+<button onclick="addMeeting()">
++ Add Board Meeting
+</button>
   
 <div class="panel">
 <h2>Attendance Dashboard</h2>
@@ -561,10 +865,6 @@ white-space:normal;
 <strong id="meetingCount">
 0
 </strong>
-
-<button onclick="addMeeting()">
-+ Add Board Meeting
-</button>
 
 </div>
 
@@ -740,24 +1040,6 @@ Cynthia • Selena • Emmanuelle
 <div class="card"><h3>Officer Workload</h3><div class="chart" id="workloadChart"></div></div>
 <div class="card"><h3>Event Progress</h3><div class="chart" id="eventChart"></div></div>
 </div>
-</div>
-
-<!-- MOBILE DASHBOARD -->
-
-<div id="mobileDashboard">
-
-  <div id="mobileAttendance"></div>
-
-  <div id="mobileTasks"></div>
-
-  <div id="mobileEvents"></div>
-
-  <div id="mobilePodcasts"></div>
-
-  <div id="mobileMarketing"></div>
-
-  <div id="mobileBudget"></div>
-
 </div>
 
 <script>
@@ -1129,16 +1411,6 @@ renderAnalytics();
 
 renderSchedule();
 
-if(window.innerWidth <= 768){
-
-renderMobileAttendance();
-renderMobileTasks();
-renderMobileEvents();
-renderMobilePodcasts();
-renderMobileMarketing();
-renderMobileBudget();
-
-}
 }
 
 function renderStats(){
@@ -1723,140 +1995,7 @@ a.href=URL.createObjectURL(blob);
 a.download="HIAC_Final_Dashboard.csv";
 a.click();
 }
-   
-function renderMobileAttendance(){
 
-const el=document.getElementById("mobileAttendance");
-if(!el) return;
-
-el.innerHTML=`
-<div class="mobile-section">
-<h2 class="mobile-title">Attendance</h2>
-${attendance.map(a=>`
-<div class="mobile-card">
-<h3>${a.name}</h3>
-<div class="mobile-row"><span class="mobile-label">Role</span><span class="mobile-value">${a.role}</span></div>
-<div class="mobile-row"><span class="mobile-label">Attendance</span><span class="mobile-value">${attendancePercent(a)}%</span></div>
-</div>
-`).join("")}
-</div>
-`;
-
-}
-
-function renderMobileTasks(){
-
-const el=document.getElementById("mobileTasks");
-if(!el) return;
-
-el.innerHTML=`
-<div class="mobile-section">
-<h2 class="mobile-title">Agenda Tasks</h2>
-${tasks.map(t=>`
-<div class="mobile-card">
-<h3>${t.task}</h3>
-<div class="mobile-row"><span class="mobile-label">Agenda</span><span class="mobile-value">${t.agenda}</span></div>
-<div class="mobile-row"><span class="mobile-label">Owner</span><span class="mobile-value">${t.owner}</span></div>
-<div class="mobile-row"><span class="mobile-label">Status</span><span class="badge ${clean(t.status)}">${t.status}</span></div>
-<div class="mobile-row"><span class="mobile-label">Due</span><span class="mobile-value">${t.due}</span></div>
-<div class="progress"><div class="fill" style="width:${t.progress}%"></div></div>
-</div>
-`).join("")}
-</div>
-`;
-
-}
-
-function renderMobileEvents(){
-
-const el=document.getElementById("mobileEvents");
-if(!el) return;
-
-el.innerHTML=`
-<div class="mobile-section">
-<h2 class="mobile-title">Events</h2>
-${events.map(e=>`
-<div class="mobile-card">
-<h3>${e.event}</h3>
-<div class="mobile-row"><span class="mobile-label">Lead</span><span class="mobile-value">${e.lead}</span></div>
-<div class="mobile-row"><span class="mobile-label">Status</span><span class="badge ${clean(e.status)}">${e.status}</span></div>
-<div class="mobile-row"><span class="mobile-label">Target</span><span class="mobile-value">${e.target}</span></div>
-<div class="progress"><div class="fill" style="width:${e.progress}%"></div></div>
-</div>
-`).join("")}
-</div>
-`;
-
-}
-
-function renderMobilePodcasts(){
-
-const el=document.getElementById("mobilePodcasts");
-if(!el) return;
-
-el.innerHTML=`
-<div class="mobile-section">
-<h2 class="mobile-title">Podcasts</h2>
-${podcasts.map(p=>`
-<div class="mobile-card">
-<h3>${p.guest}</h3>
-<div class="mobile-row"><span class="mobile-label">Owner</span><span class="mobile-value">${p.owner}</span></div>
-<div class="mobile-row"><span class="mobile-label">Status</span><span class="badge ${clean(p.status)}">${p.status}</span></div>
-<div class="mobile-row"><span class="mobile-label">Target</span><span class="mobile-value">${p.target}</span></div>
-<p>${p.notes}</p>
-</div>
-`).join("")}
-</div>
-`;
-
-}
-
-function renderMobileMarketing(){
-
-const el=document.getElementById("mobileMarketing");
-if(!el) return;
-
-el.innerHTML=`
-<div class="mobile-section">
-<h2 class="mobile-title">Marketing</h2>
-${marketing.map(m=>`
-<div class="mobile-card">
-<h3>${m.task}</h3>
-<div class="mobile-row"><span class="mobile-label">Owner</span><span class="mobile-value">${m.owner}</span></div>
-<div class="mobile-row"><span class="mobile-label">Status</span><span class="badge ${clean(m.status)}">${m.status}</span></div>
-<div class="mobile-row"><span class="mobile-label">Due</span><span class="mobile-value">${m.target}</span></div>
-<p>${m.notes}</p>
-</div>
-`).join("")}
-</div>
-`;
-
-}
-
-function renderMobileBudget(){
-
-const el=document.getElementById("mobileBudget");
-if(!el) return;
-
-el.innerHTML=`
-<div class="mobile-section">
-<h2 class="mobile-title">HIMSS Budget</h2>
-${himss.map(h=>{
-const total=(Number(h.perStudent)||0)*(Number(h.students)||0);
-return `
-<div class="mobile-card">
-<h3>${h.category}</h3>
-<div class="mobile-row"><span class="mobile-label">Per Student</span><span class="mobile-value">$${Number(h.perStudent||0).toLocaleString()}</span></div>
-<div class="mobile-row"><span class="mobile-label">Students</span><span class="mobile-value">${h.students}</span></div>
-<div class="mobile-row"><span class="mobile-label">Total</span><span class="mobile-value">$${total.toLocaleString()}</span></div>
-<div class="mobile-row"><span class="mobile-label">Status</span><span class="badge ${clean(h.status)}">${h.status}</span></div>
-</div>
-`;
-}).join("")}
-</div>
-`;
-
-}
 initFilters();
 renderAll();
 </script>
