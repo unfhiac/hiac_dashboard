@@ -980,57 +980,65 @@ overflow:visible;
 <button onclick="addMeeting()">
 + Add Board Meeting
 </button>
-  
+
 <div class="panel">
 <h2>Attendance Dashboard</h2>
-<div class="summary-grid">
+<p class="sub">Smart attendance KPI tracker for HIAC board meetings</p>
 
-<div class="summary-card">
-
+<div class="attendance-kpi-grid">
+<div class="attendance-kpi">
 <span>Total Meetings</span>
-
-<strong id="meetingCount">
-0
-</strong>
-
+<strong id="meetingCount">0</strong>
 </div>
 
-<div class="summary-card">
-
+<div class="attendance-kpi">
 <span>Average Attendance</span>
-
-<strong id="attendanceAvg">
-0%
-</strong>
-
+<strong id="attendanceAvg">0%</strong>
 </div>
 
+<div class="attendance-kpi">
+<span>Best Attendance</span>
+<strong id="bestOfficer">-</strong>
 </div>
-  
+
+<div class="attendance-kpi">
+<span>At Risk</span>
+<strong id="riskCount">0</strong>
+</div>
+</div>
+
+<div class="quick-attendance">
+<h3>Quick Attendance Update</h3>
+
+<div class="quick-attendance-row">
+<select id="quickMeeting"></select>
+<select id="quickOfficer"></select>
+<select id="quickStatus">
+<option>Present</option>
+<option>Absent</option>
+<option>Excused</option>
+<option>Virtual</option>
+<option>Advisor Meeting</option>
+<option>N/A</option>
+</select>
+<button onclick="quickUpdateAttendance()">Update</button>
+</div>
+</div>
+
 <div class="attendance-toolbar">
+<input id="attendanceSearch" placeholder="Search officer..." onkeyup="renderAttendance()">
 
-<input
-id="attendanceSearch"
-placeholder="Search Officer..."
-onkeyup="renderAttendance()"
->
-
-<select
-id="attendanceSort"
-onchange="renderAttendance()"
->
+<select id="attendanceSort" onchange="renderAttendance()">
 <option value="high">Highest Attendance</option>
 <option value="low">Lowest Attendance</option>
 <option value="name">Name A-Z</option>
 </select>
-
 </div>
 
 <div class="chart" id="attendanceChart"></div>
 
-<div
-id="attendanceCards"
-class="attendance-cards">
+<div id="attendanceCards" class="attendance-cards"></div>
+
 </div>
 
 <div class="panel">
