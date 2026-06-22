@@ -3,7 +3,85 @@
 // UI.JS
 // DESKTOP RENDERERS
 // ======================================
+// ======================================
+// HELPERS
+// ======================================
 
+function clean(value){
+
+return String(value)
+.replaceAll(" ","");
+
+}
+
+function option(list,current){
+
+return list.map(x=>`
+
+<option
+${x===current?"selected":""}
+>
+
+${x}
+
+</option>
+
+`).join("");
+
+}
+
+// ======================================
+// KPI SUMMARY
+// ======================================
+
+function renderSummary(){
+
+const totalTasks =
+tasks.length;
+
+const completed =
+tasks.filter(
+t=>t.status==="Completed"
+).length;
+
+const eventCount =
+events.length;
+
+const attendanceRate =
+Math.round(
+
+attendance
+.map(a=>attendancePercent(a))
+.filter(x=>x!=="N/A")
+.reduce((a,b)=>a+b,0)
+
+/
+
+attendance.length
+
+);
+
+document.getElementById(
+"totalTasks"
+).innerText =
+totalTasks;
+
+document.getElementById(
+"completedTasks"
+).innerText =
+completed;
+
+document.getElementById(
+"eventCount"
+).innerText =
+eventCount;
+
+document.getElementById(
+"attendanceRate"
+).innerText =
+attendanceRate+"%";
+
+}
 function clean(value){
 
 return String(value)
