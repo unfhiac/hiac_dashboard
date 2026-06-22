@@ -1,538 +1,497 @@
 /* ==========================================
-HIAC MOBILE APP UI
+   HIAC DASHBOARD MOBILE VERSION
+   mobile.css
 ========================================== */
 
-#mobileDashboard{
-display:none;
+/* ==========================================
+   TABLET
+========================================== */
+
+@media screen and (max-width:1024px){
+
+body{
+padding:16px;
+}
+
+.header{
+padding:20px;
+flex-wrap:wrap;
+}
+
+.summary-grid{
+grid-template-columns:repeat(2,1fr);
+}
+
+.card-grid{
+grid-template-columns:1fr;
+}
+
+.filters{
+grid-template-columns:1fr 1fr;
+}
+
+.officer-single{
+max-width:100%;
+width:100%;
+}
+
+.chart{
+height:250px;
+overflow-x:auto;
+}
+
+.panel{
+padding:16px;
+}
+
 }
 
 /* ==========================================
-MOBILE VERSION
+   MOBILE
 ========================================== */
 
 @media screen and (max-width:768px){
 
-/* Hide Desktop */
-
-#desktopDashboard{
-display:none !important;
-}
-
-#mobileDashboard{
-display:block;
-padding:12px;
-padding-bottom:80px;
-}
-
-/* ==========================================
-BODY
-========================================== */
-
 html,
 body{
-
-margin:0;
-padding:0;
-
-background:#f3f6fb;
-
+width:100%;
 overflow-x:hidden;
-
 }
+
+/* BODY */
 
 body{
-
-font-family:'Inter',sans-serif;
-
+padding:10px;
 }
 
-/* ==========================================
-HEADER
-========================================== */
+/* HEADER */
 
 .header{
-
-position:sticky;
-
-top:0;
-
-z-index:999;
-
-background:#06122a;
-
-padding:14px;
-
-border-radius:0;
-
-margin:0;
-
 display:flex;
-
 flex-direction:column;
-
 align-items:flex-start;
-
 gap:12px;
-
-box-shadow:
-0 4px 18px rgba(0,0,0,.15);
-
+padding:16px;
+border-radius:18px;
 }
 
 .brand{
-
-display:flex;
-
-align-items:center;
-
-gap:12px;
-
 width:100%;
-
+display:flex;
+flex-direction:column;
+align-items:flex-start;
+gap:10px;
 }
 
 .logo-img{
-
-width:55px;
-
-background:white;
-
-padding:4px;
-
-border-radius:12px;
-
+width:80px;
+height:auto;
 }
 
-.brand h1{
-
-font-size:18px;
-
-margin:0;
-
-color:white;
-
-font-weight:800;
-
+h1{
+font-size:22px;
+line-height:1.2;
 }
 
-.subtitle{
-
-color:#cbd5e1;
-
-font-size:12px;
-
-margin-top:3px;
-
-}
-
-/* ==========================================
-HEADER ACTIONS
-========================================== */
+/* ACTION BUTTONS */
 
 .actions{
-
 display:grid;
-
-grid-template-columns:
-1fr 1fr;
-
+grid-template-columns:1fr;
+width:100%;
 gap:8px;
-
-width:100%;
-
 }
 
-.actions button{
-
+.actions button,
+button{
 width:100%;
-
-font-size:13px;
-
-padding:11px;
-
-border-radius:12px;
-
+min-height:44px;
 }
 
-/* ==========================================
-SUMMARY
-========================================== */
+/* SUMMARY */
 
 .summary-grid{
-
-display:grid;
-
-grid-template-columns:
-1fr 1fr;
-
+grid-template-columns:1fr;
 gap:10px;
-
-padding:12px;
-
-margin:0;
-
 }
 
 .summary-card{
-
-background:white;
-
-color:#111827;
-
 padding:14px;
-
-border-radius:18px;
-
-box-shadow:
-0 4px 15px rgba(0,0,0,.08);
-
-}
-
-.summary-card span{
-
-display:block;
-
-font-size:11px;
-
-font-weight:600;
-
-color:#64748b;
-
+border-radius:16px;
 }
 
 .summary-card strong{
-
-display:block;
-
-font-size:22px;
-
-margin-top:6px;
-
-font-weight:800;
-
+font-size:24px;
 }
 
-/* ==========================================
-SECTION
-========================================== */
+/* PANELS */
 
-.mobile-section{
-
-margin-bottom:20px;
-
+.panel{
+padding:14px;
+border-radius:16px;
+overflow-x:auto;
+overflow-y:hidden;
 }
 
-.mobile-title{
+/* FILTERS */
 
-font-size:20px;
-
-font-weight:800;
-
-color:#111827;
-
-margin-bottom:12px;
-
-padding-left:4px;
-
+.filters{
+grid-template-columns:1fr;
+gap:8px;
 }
 
-/* ==========================================
-CARD
-========================================== */
+/* ROWS */
 
-.mobile-card{
-
-background:white;
-
-padding:16px;
-
-border-radius:20px;
-
-margin-bottom:12px;
-
-box-shadow:
-0 4px 15px rgba(0,0,0,.08);
-
+.row{
+flex-direction:column;
+align-items:flex-start;
+gap:8px;
 }
 
-.mobile-card h3{
+/* OFFICER */
 
+.carousel-wrap{
+gap:6px;
+}
+
+.officer-single{
+width:100%;
+max-width:100%;
+padding:14px;
+border-radius:18px;
+}
+
+.nav-btn{
+width:40px;
+height:40px;
 font-size:16px;
-
-font-weight:700;
-
-margin-bottom:12px;
-
-color:#111827;
-
+padding:0;
 }
 
-.mobile-card p{
+/* CARDS */
 
-font-size:13px;
-
-color:#64748b;
-
-margin-top:6px;
-
-line-height:1.5;
-
-}
-
-/* ==========================================
-ROWS
-========================================== */
-
-.mobile-row{
-
-display:flex;
-
-justify-content:space-between;
-
-align-items:center;
-
+.card-grid{
+display:grid;
+grid-template-columns:1fr;
 gap:10px;
-
-margin-bottom:10px;
-
 }
 
-.mobile-label{
-
-font-size:12px;
-
-font-weight:600;
-
-color:#64748b;
-
+.card{
+width:100%;
+padding:12px;
+border-radius:16px;
 }
 
-.mobile-value{
+/* KPI */
 
-font-size:13px;
-
-font-weight:700;
-
-color:#111827;
-
+.kpis{
+grid-template-columns:1fr 1fr;
+gap:8px;
 }
 
-/* ==========================================
-BADGES
-========================================== */
-
-.badge{
-
-display:inline-flex;
-
-align-items:center;
-
-justify-content:center;
-
-padding:6px 10px;
-
-font-size:11px;
-
-font-weight:800;
-
-border-radius:999px;
-
+.kpi{
+padding:10px;
 }
 
-/* Green */
-
-.Completed,
-.Approved,
-.Published{
-
-background:#dcfce7;
-color:#166534;
-
+.kpi strong{
+font-size:18px;
 }
 
-/* Yellow */
+/* FORMS */
 
-.InProgress,
-.Recorded,
-.Editing,
-.Fundraising,
-.Marketing,
-.Reviewing,
-.Drafting,
-.ReadyToPublish,
-.Budgeting{
-
-background:#fef3c7;
-color:#92400e;
-
+input,
+select,
+textarea{
+font-size:16px;
+width:100%;
 }
 
-/* Blue */
+/* TABLES */
 
-.NotStarted,
-.Planning,
-.Planned,
-.Proposed,
-.Scheduled,
-.Upcoming,
-.Prospect,
-.OutreachSent,
-.Confirmed{
-
-background:#dbeafe;
-color:#1d4ed8;
-
+table{
+display:block;
+width:100%;
+overflow-x:auto;
+white-space:nowrap;
 }
 
-/* Purple */
-
-.Virtual,
-.AdvisorMeeting,
-.OnHold{
-
-background:#ede9fe;
-color:#6d28d9;
-
+thead,
+tbody,
+tr{
+width:100%;
 }
 
-/* Red */
+/* CHARTS */
 
-.Declined,
-.Blocked,
-.Cancelled{
-
-background:#fee2e2;
-color:#991b1b;
-
+.chart{
+height:220px;
+overflow-x:auto;
+overflow-y:hidden;
+padding-bottom:8px;
 }
 
-/* ==========================================
-PROGRESS BAR
-========================================== */
-
-.progress{
-
-height:10px;
-
-background:#e5e7eb;
-
-border-radius:999px;
-
-overflow:hidden;
-
-margin-top:8px;
-
+.barcol{
+min-width:60px;
 }
 
-.fill{
+/* AVAILABILITY */
 
-height:100%;
-
-background:
-linear-gradient(
-90deg,
-#22c55e,
-#84cc16
-);
-
+.schedule{
+min-width:900px;
 }
 
-/* ==========================================
-BUTTONS
-========================================== */
+/* BUTTONS */
 
 button{
-
-min-height:44px;
-
 font-size:14px;
+}
 
-font-weight:700;
+/* PROGRESS */
+
+.progress{
+height:12px;
+}
+
+/* OFFICER KPI STACK */
+
+.officer-single .kpis{
+grid-template-columns:1fr 1fr;
+}
+
+/* PODCAST */
+
+#podcastTable{
+font-size:13px;
+}
+
+/* EVENTS */
+
+#eventTable{
+font-size:13px;
+}
+
+/* TASKS */
+
+#taskTable{
+font-size:13px;
+}
+
+/* MARKETING */
+
+#marketingTable{
+font-size:13px;
+}
+
+/* ATTENDANCE */
+
+#attendanceTable{
+font-size:13px;
+}
+
+/* HIMSS */
+
+#himssBody{
+font-size:13px;
+}
 
 }
 
 /* ==========================================
-MOBILE FOOTER SPACE
-========================================== */
-
-.mobile-section:last-child{
-
-margin-bottom:120px;
-
-}
-
-}
-
-/* ==========================================
-SMALL PHONES
+   SMALL PHONE
 ========================================== */
 
 @media screen and (max-width:480px){
 
-.summary-grid{
-
-grid-template-columns:1fr;
-
+body{
+padding:8px;
 }
 
-.actions{
+/* HEADER */
 
-grid-template-columns:1fr;
-
-}
-
-.brand h1{
-
-font-size:16px;
-
+.header{
+padding:12px;
+border-radius:16px;
 }
 
 .logo-img{
+width:65px;
+}
 
-width:48px;
+h1{
+font-size:18px;
+}
 
+/* SUMMARY */
+
+.summary-card{
+padding:12px;
 }
 
 .summary-card strong{
-
-font-size:20px;
-
+font-size:21px;
 }
 
-.mobile-card{
+/* PANEL */
 
-padding:14px;
-
+.panel{
+padding:12px;
 }
 
-.mobile-title{
+/* CARDS */
 
-font-size:18px;
-
+.card{
+padding:10px;
 }
 
-.mobile-card h3{
+.officer-single{
+padding:12px;
+}
 
-font-size:15px;
+/* KPI */
 
+.kpis{
+grid-template-columns:1fr;
+}
+
+.kpi strong{
+font-size:16px;
+}
+
+/* NAV */
+
+.nav-btn{
+width:34px;
+height:34px;
+font-size:14px;
+}
+
+/* CHARTS */
+
+.chart{
+height:200px;
+}
+
+.barcol{
+min-width:50px;
+}
+
+/* BUTTON */
+
+button{
+font-size:13px;
+padding:10px;
+}
+
+/* TABLE */
+
+th,
+td{
+font-size:12px;
+padding:8px;
 }
 
 }
 
 /* ==========================================
-IPHONE SAFE AREA
+   TRUE MOBILE TABLE TO CARD CONVERSION
 ========================================== */
 
-@supports (padding:max(0px)){
+@media screen and (max-width:600px){
 
-#mobileDashboard{
+table,
+thead,
+tbody,
+th,
+td,
+tr{
+display:block;
+width:100%;
+}
 
-padding-bottom:
-max(
-80px,
-env(safe-area-inset-bottom)
-);
+thead{
+display:none;
+}
 
+tr{
+background:white;
+border:1px solid #e5e7eb;
+border-radius:16px;
+margin-bottom:12px;
+padding:12px;
+}
+
+td{
+border:none;
+padding:6px 0;
+white-space:normal;
+word-break:break-word;
+}
+
+/* Delete buttons */
+
+td button{
+width:100%;
+margin-top:8px;
+}
+
+/* Textareas */
+
+td textarea{
+width:100%;
+}
+
+/* Inputs */
+
+td input,
+td select{
+width:100%;
+}
+
+}
+
+/* ==========================================
+   EXTRA MOBILE POLISH
+========================================== */
+
+@media screen and (max-width:768px){
+
+/* Officer KPI full width */
+
+.officer-single .kpi{
+width:100%;
+}
+
+/* Event cards */
+
+#eventCards .card{
+width:100%;
+}
+
+/* Marketing cards */
+
+.panel .card-grid{
+width:100%;
+}
+
+/* Prevent overflow */
+
+*{
+max-width:100%;
+}
+
+/* Images */
+
+img{
+max-width:100%;
+height:auto;
+}
+
+/* Scroll areas */
+
+.panel,
+.chart,
+table{
+-webkit-overflow-scrolling:touch;
 }
 
 }
