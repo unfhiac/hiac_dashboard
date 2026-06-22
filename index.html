@@ -632,18 +632,59 @@ completionRate.innerText=total?Math.round(completed/total*100)+"%":"0%";
 }
 
 function attendancePercent(a){
+
 let vals = meetings.map(
 m=>a[m]
 );
-let eligible=0,present=0;
+
+let eligible=0;
+
+let present=0;
+
 vals.forEach(v=>{
-if(["Present","Absent","Excused","Virtual"].includes(v)){
+
+if(
+
+["Present",
+"Absent",
+"Excused",
+"Virtual"]
+
+.includes(v)
+
+){
+
 eligible++;
-if(v==="Present"||v==="Virtual")present++;
-if(v==="Excused")present+=.5;
+
+if(
+v==="Present" ||
+v==="Virtual"
+){
+
+present++;
+
 }
+
+if(
+v==="Excused"
+){
+
+present+=0.5;
+
+}
+
+}
+
 });
-return eligible?Math.round(present/eligible*100):"N/A";
+
+return eligible
+?
+Math.round(
+present/eligible*100
+)
+:
+"N/A";
+
 }
 
 function renderOfficers(){
