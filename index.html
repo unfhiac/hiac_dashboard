@@ -2363,7 +2363,7 @@ showPlannerTasks(selectedPlannerDate);
 
 }
    
-function showPlannerTasks(date){
+function showPlannerTasks(meeting){
 
 const box =
 document.getElementById(
@@ -2372,24 +2372,26 @@ document.getElementById(
 
 if(!box) return;
 
-const dayTasks =
+const meetingTasks =
 tasks.filter(
-t=>t.due===date
+t=>t.agenda===meeting
 );
 
 box.innerHTML = `
+
 <h3>
-📅 ${date}
+📋 ${meeting}
 </h3>
+
 `;
 
-if(dayTasks.length===0){
+if(meetingTasks.length===0){
 
 box.innerHTML += `
 
 <div class="agenda-task-card">
 
-No tasks scheduled.
+No agenda items.
 
 </div>
 
@@ -2399,7 +2401,7 @@ return;
 
 }
 
-dayTasks.forEach(task=>{
+meetingTasks.forEach(task=>{
 
 const i =
 tasks.indexOf(task);
@@ -2413,15 +2415,40 @@ ondragstart="
 dragTask=${i}
 ">
 
-<h4>${task.task}</h4>
+<div class="row">
+
+<h4>
+${task.task}
+</h4>
+
+<button
+class="red"
+onclick="
+tasks.splice(${i},1);
+save();
+renderAll();
+">
+
+Delete
+
+</button>
+
+</div>
 
 <div class="agenda-task-meta">
+
 👤 ${task.owner}<br>
-📂 ${task.agenda}
+
+📌 ${task.priority}<br>
+
+📅 ${task.due}
+
 </div>
 
 <div class="agenda-task-status">
+
 ${task.status}
+
 </div>
 
 <div class="agenda-task-edit">
