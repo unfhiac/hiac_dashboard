@@ -1,6 +1,6 @@
 /* ======================================
-HIAC DASHBOARD
-PART 2 - FOUNDATION CSS
+   HIAC DASHBOARD 2.0
+   DESKTOP STYLES
 ====================================== */
 
 :root{
@@ -10,7 +10,19 @@ PART 2 - FOUNDATION CSS
 
 --lime:#dfff00;
 
+--green:#16a34a;
+
+--orange:#f59e0b;
+
+--red:#dc2626;
+
+--blue:#2563eb;
+
+--purple:#7c3aed;
+
 --white:#ffffff;
+
+--bg:#f4f7fb;
 
 --text:#111827;
 
@@ -18,35 +30,40 @@ PART 2 - FOUNDATION CSS
 
 --border:#e5e7eb;
 
---bg:#f4f7fb;
-
 --shadow:
-0 10px 30px rgba(0,0,0,.12);
+0 12px 30px rgba(0,0,0,.12);
 
 }
 
 /* ======================================
-RESET
+   RESET
 ====================================== */
 
 *{
+
 margin:0;
+
 padding:0;
+
 box-sizing:border-box;
-}
-
-html{
-width:100%;
-overflow-x:hidden;
-}
-
-body{
 
 font-family:
 Inter,
 Segoe UI,
 Arial,
 sans-serif;
+
+}
+
+html{
+
+width:100%;
+
+overflow-x:hidden;
+
+}
+
+body{
 
 background:
 linear-gradient(
@@ -62,7 +79,7 @@ overflow-x:hidden;
 }
 
 /* ======================================
-APP CONTAINER
+   APP CONTAINER
 ====================================== */
 
 .app-container{
@@ -76,7 +93,7 @@ padding:24px;
 }
 
 /* ======================================
-HEADER
+   HEADER
 ====================================== */
 
 .app-header{
@@ -89,7 +106,7 @@ align-items:center;
 
 gap:20px;
 
-padding:22px;
+padding:24px;
 
 border-radius:26px;
 
@@ -99,7 +116,7 @@ rgba(255,255,255,.12);
 backdrop-filter:
 blur(14px);
 
-margin-bottom:18px;
+margin-bottom:20px;
 
 box-shadow:var(--shadow);
 
@@ -111,7 +128,7 @@ display:flex;
 
 align-items:center;
 
-gap:16px;
+gap:18px;
 
 }
 
@@ -129,7 +146,7 @@ border-radius:18px;
 
 }
 
-.brand h1{
+.app-header h1{
 
 font-size:32px;
 
@@ -145,9 +162,9 @@ margin-top:6px;
 
 font-size:13px;
 
-color:#cbd5e1;
-
 font-weight:600;
+
+color:#cbd5e1;
 
 }
 
@@ -162,20 +179,20 @@ flex-wrap:wrap;
 }
 
 /* ======================================
-BUTTONS
+   BUTTONS
 ====================================== */
 
 button{
 
 border:none;
 
-cursor:pointer;
+border-radius:12px;
 
 padding:10px 14px;
 
-border-radius:12px;
-
 font-weight:800;
+
+cursor:pointer;
 
 background:var(--lime);
 
@@ -192,7 +209,7 @@ transform:translateY(-2px);
 }
 
 /* ======================================
-SUMMARY
+   KPI SUMMARY
 ====================================== */
 
 .summary-grid{
@@ -213,9 +230,9 @@ margin-bottom:20px;
 background:
 rgba(255,255,255,.15);
 
-padding:18px;
-
 border-radius:20px;
+
+padding:18px;
 
 box-shadow:var(--shadow);
 
@@ -239,28 +256,16 @@ text-transform:uppercase;
 
 display:block;
 
-margin-top:8px;
-
 font-size:30px;
 
 font-weight:900;
 
+margin-top:8px;
+
 }
 
 /* ======================================
-DASHBOARD CONTAINERS
-====================================== */
-
-#desktopDashboard{
-display:block;
-}
-
-#mobileDashboard{
-display:none;
-}
-
-/* ======================================
-PANEL
+   PANELS
 ====================================== */
 
 .panel{
@@ -281,36 +286,123 @@ box-shadow:var(--shadow);
 
 .panel h2{
 
-font-size:22px;
+font-size:24px;
 
 font-weight:800;
 
-margin-bottom:14px;
+margin-bottom:16px;
 
 }
 
-.panel h3{
+/* ======================================
+   OFFICER GRID
+====================================== */
 
-font-size:16px;
+.officer-grid{
 
-font-weight:700;
+display:grid;
 
-margin-bottom:10px;
+grid-template-columns:
+repeat(
+auto-fit,
+minmax(320px,1fr)
+);
+
+gap:16px;
 
 }
 
-.sub{
+.officer-card{
+
+background:#f8fafc;
+
+border:1px solid var(--border);
+
+border-radius:20px;
+
+padding:18px;
+
+}
+
+.officer-header{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:flex-start;
+
+margin-bottom:12px;
+
+}
+
+.officer-name{
+
+font-size:18px;
+
+font-weight:800;
+
+}
+
+.officer-role{
 
 font-size:13px;
 
 color:var(--muted);
 
-margin-bottom:14px;
+margin-top:4px;
+
+}
+
+.officer-stats{
+
+display:grid;
+
+grid-template-columns:
+repeat(3,1fr);
+
+gap:8px;
+
+margin-top:12px;
+
+}
+
+.officer-stat{
+
+background:white;
+
+border:1px solid var(--border);
+
+border-radius:12px;
+
+padding:10px;
+
+text-align:center;
+
+}
+
+.officer-stat small{
+
+display:block;
+
+font-size:11px;
+
+font-weight:700;
+
+color:var(--muted);
+
+}
+
+.officer-stat strong{
+
+font-size:18px;
+
+font-weight:800;
 
 }
 
 /* ======================================
-CARD GRID
+   CARD GRID
 ====================================== */
 
 .card-grid{
@@ -331,18 +423,13 @@ gap:14px;
 
 background:#f8fafc;
 
-border:1px solid
-var(--border);
+border:1px solid var(--border);
 
 border-radius:18px;
 
 padding:16px;
 
 }
-
-/* ======================================
-ROWS
-====================================== */
 
 .row{
 
@@ -357,77 +444,7 @@ gap:10px;
 }
 
 /* ======================================
-TABLES
-====================================== */
-
-.table-wrap{
-
-overflow-x:auto;
-
-}
-
-table{
-
-width:100%;
-
-border-collapse:collapse;
-
-}
-
-th{
-
-background:#0f172a;
-
-color:white;
-
-padding:12px;
-
-text-align:left;
-
-font-size:13px;
-
-}
-
-td{
-
-padding:10px;
-
-border-bottom:
-1px solid var(--border);
-
-font-size:13px;
-
-}
-
-/* ======================================
-FORM ELEMENTS
-====================================== */
-
-input,
-select,
-textarea{
-
-width:100%;
-
-padding:10px;
-
-border:
-1px solid #cbd5e1;
-
-border-radius:10px;
-
-font-family:inherit;
-
-}
-
-textarea{
-
-resize:vertical;
-
-}
-
-/* ======================================
-STATUS BADGES
+   BADGES
 ====================================== */
 
 .badge{
@@ -454,7 +471,7 @@ background:#fef3c7;
 color:#92400e;
 }
 
-.Planning{
+.Planned{
 background:#dbeafe;
 color:#1e40af;
 }
@@ -465,7 +482,7 @@ color:#991b1b;
 }
 
 /* ======================================
-PROGRESS BAR
+   PROGRESS
 ====================================== */
 
 .progress{
@@ -478,7 +495,7 @@ border-radius:999px;
 
 overflow:hidden;
 
-margin-top:8px;
+margin-top:10px;
 
 }
 
@@ -496,7 +513,17 @@ linear-gradient(
 }
 
 /* ======================================
-DESKTOP TABLET
+   MOBILE TOGGLE
+====================================== */
+
+#mobileDashboard{
+
+display:none;
+
+}
+
+/* ======================================
+   TABLET
 ====================================== */
 
 @media (max-width:1024px){
@@ -519,7 +546,7 @@ align-items:flex-start;
 }
 
 /* ======================================
-PRINT
+   PRINT
 ====================================== */
 
 @media print{
@@ -536,75 +563,6 @@ color:black;
 .panel,
 .summary-card{
 box-shadow:none;
-}
-
-/* =====================================
-   OFFICER DASHBOARD
-===================================== */
-
-.officer-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-gap:16px;
-}
-
-.officer-card{
-background:#f8fafc;
-border:1px solid #e5e7eb;
-border-radius:22px;
-padding:18px;
-box-shadow:0 8px 20px rgba(0,0,0,.08);
-}
-
-.officer-header{
-display:flex;
-justify-content:space-between;
-align-items:flex-start;
-margin-bottom:12px;
-}
-
-.officer-name{
-font-size:18px;
-font-weight:800;
-color:#111827;
-}
-
-.officer-role{
-font-size:13px;
-color:#64748b;
-margin-top:4px;
-}
-
-.officer-stats{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:8px;
-margin-top:14px;
-}
-
-.officer-stat{
-background:white;
-border:1px solid #e5e7eb;
-border-radius:12px;
-padding:10px;
-text-align:center;
-}
-
-.officer-stat small{
-display:block;
-font-size:11px;
-font-weight:700;
-color:#64748b;
-}
-
-.officer-stat strong{
-font-size:18px;
-font-weight:800;
-}
-
-.officer-progress{
-margin-top:12px;
-margin-bottom:12px;
 }
 
 }
