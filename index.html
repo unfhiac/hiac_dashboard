@@ -725,13 +725,47 @@ if(endX-startX>50)prevOfficer();
 });
 
 function renderAttendance(){
-attendanceTable.innerHTML="";attendanceChart.innerHTML="";
-let vals=["Present","Absent","Excused","Virtual","Advisor Meeting","N/A"];
+
+renderAttendanceHeader();
+
+attendanceTable.innerHTML="";
+
+attendanceChart.innerHTML="";
+
+let vals=[
+
+"Present",
+"Absent",
+"Excused",
+"Virtual",
+"Advisor Meeting",
+"N/A"
+
+];
+
 attendance.forEach((a,i)=>{
-let pct=attendancePercent(a);
-let h=pct==="N/A"?18:Math.max(25,pct*2.4);
-attendanceTable.innerHTML+=`
-<tr><td>${a.name}</td><td>${a.role}</td>
+
+let pct =
+attendancePercent(a);
+
+let h =
+pct==="N/A"
+?
+20
+:
+Math.max(
+25,
+pct*2.4
+);
+
+attendanceTable.innerHTML += `
+
+<tr>
+
+<td>${a.name}</td>
+
+<td>${a.role}</td>
+
 ${meetings.map(meeting=>`
 
 <td>
@@ -743,17 +777,74 @@ save();
 renderAll();
 ">
 
-${option(vals,a[meeting])}
+${option(
+vals,
+a[meeting] || "N/A"
+)}
 
 </select>
 
 </td>
 
-`)
-.join("").map(k=>`<td><select onchange="attendance[${i}].${k}=this.value;save();renderAll()">${option(vals,a[k])}</select></td>`).join("")}
-<td><b>${pct}${pct==="N/A"?"":"%"}</b></td></tr>`;
-attendanceChart.innerHTML+=`<div class="barcol"><div class="bar" style="height:${h}px"></div><div>${a.name.split(" ")[0]}</div><b>${pct}${pct==="N/A"?"":"%"}</b></div>`;
+`).join("")}
+
+<td>
+
+<b>
+
+${pct}
+
+${pct==="N/A"
+?
+""
+:
+"%"
+}
+
+</b>
+
+</td>
+
+</tr>
+
+`;
+
+attendanceChart.innerHTML += `
+
+<div class="barcol">
+
+<div
+class="bar"
+style="
+height:${h}px
+">
+</div>
+
+<div>
+
+${a.name.split(" ")[0]}
+
+</div>
+
+<b>
+
+${pct}
+
+${pct==="N/A"
+?
+""
+:
+"%"
+}
+
+</b>
+
+</div>
+
+`;
+
 });
+
 }
 
 function renderTasks(){
