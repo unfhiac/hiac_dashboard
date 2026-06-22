@@ -1626,20 +1626,14 @@ let agendas = [...meetings];
 
 function normalizeMeetingLists(){
 
-const savedMeetings =
-JSON.parse(localStorage.getItem("hiac_meetings_v1")) || [];
-
-const savedAgendas =
-JSON.parse(localStorage.getItem("hiac_agendas_v1")) || [];
-
-const allItems =
-[...savedMeetings,...savedAgendas,...meetings];
-
 meetings =
-[...new Set(allItems)]
-.filter(x => x && String(x).trim() !== "");
+JSON.parse(
+localStorage.getItem(
+"hiac_meetings_v1"
+)
+) || meetings;
 
-agendas = [...meetings];
+agendas=[...meetings];
 
 }
 
