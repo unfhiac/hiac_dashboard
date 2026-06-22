@@ -675,6 +675,232 @@ overflow:visible;
 white-space:normal;
 }
 
+   /* ==========================================
+   FULL MOBILE OPTIMIZATION
+========================================== */
+
+@media (max-width:768px){
+
+/* GLOBAL */
+
+body{
+padding:8px;
+}
+
+.panel{
+padding:12px;
+margin-bottom:14px;
+}
+
+/* SUMMARY */
+
+.summary-grid{
+grid-template-columns:1fr;
+}
+
+/* KPI */
+
+.kpis{
+grid-template-columns:1fr;
+}
+
+/* ALL CARD GRIDS */
+
+.card-grid{
+grid-template-columns:1fr;
+}
+
+/* ROWS */
+
+.row{
+flex-direction:column;
+align-items:flex-start;
+gap:10px;
+}
+
+/* OFFICER */
+
+.officer-single{
+max-width:100%;
+width:100%;
+padding:12px;
+}
+
+/* BUTTONS */
+
+.actions{
+display:flex;
+flex-direction:column;
+}
+
+.actions button{
+width:100%;
+}
+
+button{
+min-height:44px;
+}
+
+/* FILTERS */
+
+.filters{
+grid-template-columns:1fr !important;
+}
+
+/* CHARTS */
+
+.chart{
+height:220px;
+overflow-x:auto;
+}
+
+/* ATTENDANCE CHART */
+
+#attendanceChart{
+overflow-x:auto;
+}
+
+/* MOBILE TABLE TO CARDS */
+
+table,
+thead,
+tbody,
+th,
+td,
+tr{
+display:block;
+width:100%;
+}
+
+thead{
+display:none;
+}
+
+tr{
+background:white;
+margin-bottom:12px;
+border:1px solid #e5e7eb;
+border-radius:12px;
+padding:12px;
+}
+
+td{
+border:none;
+padding:8px 0;
+white-space:normal;
+}
+
+td:before{
+display:block;
+font-size:11px;
+font-weight:700;
+color:#64748b;
+margin-bottom:3px;
+}
+
+/* AGENDA TABLE */
+
+#taskTable td:nth-child(1):before{content:"Agenda";}
+#taskTable td:nth-child(2):before{content:"Task";}
+#taskTable td:nth-child(3):before{content:"Owner";}
+#taskTable td:nth-child(4):before{content:"Priority";}
+#taskTable td:nth-child(5):before{content:"Status";}
+#taskTable td:nth-child(6):before{content:"Due";}
+#taskTable td:nth-child(7):before{content:"Progress";}
+#taskTable td:nth-child(8):before{content:"Notes";}
+
+/* PODCAST */
+
+#podcastTable td:nth-child(1):before{content:"Guest";}
+#podcastTable td:nth-child(2):before{content:"Owner";}
+#podcastTable td:nth-child(3):before{content:"Status";}
+#podcastTable td:nth-child(4):before{content:"Date";}
+#podcastTable td:nth-child(5):before{content:"Notes";}
+
+/* EVENTS */
+
+#eventTable td:nth-child(1):before{content:"Event";}
+#eventTable td:nth-child(2):before{content:"Lead";}
+#eventTable td:nth-child(3):before{content:"Status";}
+#eventTable td:nth-child(4):before{content:"Date";}
+#eventTable td:nth-child(5):before{content:"Progress";}
+
+/* MARKETING */
+
+#marketingTable td:nth-child(1):before{content:"Task";}
+#marketingTable td:nth-child(2):before{content:"Owner";}
+#marketingTable td:nth-child(3):before{content:"Status";}
+#marketingTable td:nth-child(4):before{content:"Due";}
+#marketingTable td:nth-child(5):before{content:"Notes";}
+
+/* HIMSS */
+
+#himssBody td:nth-child(1):before{content:"Category";}
+#himssBody td:nth-child(2):before{content:"Per Student";}
+#himssBody td:nth-child(3):before{content:"Students";}
+#himssBody td:nth-child(4):before{content:"Total";}
+#himssBody td:nth-child(5):before{content:"Status";}
+
+/* ATTENDANCE */
+
+#attendanceTable td:nth-child(1):before{content:"Name";}
+#attendanceTable td:nth-child(2):before{content:"Role";}
+
+/* AVAILABILITY */
+
+.schedule{
+overflow-x:auto;
+min-width:850px;
+}
+
+/* INPUTS */
+
+input,
+select,
+textarea{
+font-size:16px;
+}
+
+/* OFFICER CAROUSEL */
+
+.carousel-wrap{
+gap:5px;
+}
+
+.nav-btn{
+width:38px;
+height:38px;
+font-size:14px;
+}
+
+}
+
+/* EXTRA SMALL DEVICES */
+
+@media (max-width:480px){
+
+h1{
+font-size:18px;
+}
+
+.logo-img{
+width:60px;
+}
+
+.summary-card strong{
+font-size:20px;
+}
+
+.chart{
+height:180px;
+}
+
+.kpi strong{
+font-size:16px;
+}
+
+}
+
 }
 
 </style>
