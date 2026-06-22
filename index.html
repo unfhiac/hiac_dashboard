@@ -900,78 +900,118 @@ min-width:70px;
 
 
 
-/* AGENDA MANAGEMENT MOBILE CARDS */
+/* ===========================
+   AGENDA MANAGEMENT MOBILE
+=========================== */
+
+@media screen and (max-width:768px){
 
 #taskTable{
-display:block;
+display:grid;
+grid-template-columns:1fr;
+gap:14px;
 width:100%;
 }
 
 #taskTable tr{
-display:flex;
-flex-direction:column;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
 background:#ffffff;
 border:1px solid #e5e7eb;
 border-radius:18px;
 padding:14px;
-margin-bottom:14px;
 box-shadow:0 6px 18px rgba(0,0,0,.06);
 }
 
 #taskTable td{
-display:block;
-width:100%;
+display:flex;
+flex-direction:column;
 border:none;
-padding:8px 0;
-white-space:normal;
+padding:0;
+width:100%;
 }
 
 #taskTable td::before{
-display:block;
-font-size:12px;
+font-size:11px;
 font-weight:800;
 color:#64748b;
-margin-bottom:5px;
+margin-bottom:4px;
+text-transform:uppercase;
 }
 
-#taskTable td:nth-child(1)::before{content:"Agenda";}
-#taskTable td:nth-child(2)::before{content:"Task";}
-#taskTable td:nth-child(3)::before{content:"Owner";}
-#taskTable td:nth-child(4)::before{content:"Priority";}
-#taskTable td:nth-child(5)::before{content:"Status";}
-#taskTable td:nth-child(6)::before{content:"Due Date";}
-#taskTable td:nth-child(7)::before{content:"Progress";}
-#taskTable td:nth-child(8)::before{content:"Notes";}
-#taskTable td:nth-child(9)::before{content:"Action";}
+#taskTable td:nth-child(1)::before{
+content:"Agenda";
+}
+
+#taskTable td:nth-child(2)::before{
+content:"Task";
+}
+
+#taskTable td:nth-child(3)::before{
+content:"Owner";
+}
+
+#taskTable td:nth-child(4)::before{
+content:"Priority";
+}
+
+#taskTable td:nth-child(5)::before{
+content:"Status";
+}
+
+#taskTable td:nth-child(6)::before{
+content:"Due";
+}
+
+#taskTable td:nth-child(7)::before{
+content:"Progress";
+}
+
+#taskTable td:nth-child(8)::before{
+content:"Notes";
+}
+
+#taskTable td:nth-child(9)::before{
+content:"Action";
+}
+
+/* Task Name Full Width */
+
+#taskTable td:nth-child(2){
+grid-column:1 / span 2;
+}
+
+/* Notes Full Width */
+
+#taskTable td:nth-child(8){
+grid-column:1 / span 2;
+}
+
+/* Action Full Width */
+
+#taskTable td:nth-child(9){
+grid-column:1 / span 2;
+}
+
+/* Inputs */
 
 #taskTable select,
 #taskTable input,
-#taskTable textarea,
+#taskTable textarea{
+width:100%;
+font-size:14px;
+}
+
+#taskTable textarea{
+min-height:70px;
+}
+
 #taskTable button{
 width:100%;
 }
 
-#taskTable textarea{
-min-height:80px;
 }
-
-#taskTable + thead,
-#podcastTable + thead,
-#eventTable + thead,
-#marketingTable + thead,
-#himssBody + thead{
-display:none;
-}
-
-#podcastTable,
-#eventTable,
-#marketingTable,
-#himssBody{
-font-size:13px;
-}
-
-}
-
 /* SMALL PHONES */
 
 @media screen and (max-width:480px){
