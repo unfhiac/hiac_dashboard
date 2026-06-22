@@ -175,11 +175,33 @@ height:220px;
 </div>
 </div>
 
+<button onclick="addMeeting()">
++ Add Board Meeting
+</button>
+  
 <div class="panel">
 <h2>Attendance Dashboard</h2>
 <div class="chart" id="attendanceChart"></div><br>
 <table>
-<thead><tr><th>Name</th><th>Role</th><th>Board #1</th><th>Board #2</th><th>Board #3</th><th>Strategic</th><th>Future</th><th>%</th></tr></thead>
+let header = `
+<tr>
+<th>Name</th>
+<th>Role</th>
+`;
+
+meetings.forEach(m=>{
+
+header += `<th>${m}</th>`;
+
+});
+
+header += `
+<th>Attendance %</th>
+</tr>
+`;
+
+attendanceHead.innerHTML =
+header;
 <tbody id="attendanceTable"></tbody>
 </table>
 </div>
@@ -470,6 +492,32 @@ let himss=JSON.parse(localStorage.getItem("hiac_himss_v3"))||[
 
 let schedule=JSON.parse(localStorage.getItem("hiac_schedule_v3"))||{};
 
+function addMeeting(){
+
+const name =
+prompt(
+"Enter Meeting Name"
+);
+
+if(!name) return;
+
+meetings.push(name);
+
+attendance.forEach(a=>{
+
+a[name]="N/A";
+
+});
+
+save(localStorage.setItem(
+"hiac_meetings_v1",
+JSON.stringify(meetings)
+););
+
+renderAttendance();
+
+}
+  
 function save(){
 localStorage.setItem("hiac_tasks_v3",JSON.stringify(tasks));
 localStorage.setItem("hiac_attendance_v3",JSON.stringify(attendance));
@@ -540,7 +588,9 @@ completionRate.innerText=total?Math.round(completed/total*100)+"%":"0%";
 }
 
 function attendancePercent(a){
-let vals=[a.m1,a.m2,a.m3,a.strategic,a.future];
+let vals = meetings.map(
+m=>a[m]
+);
 let eligible=0,present=0;
 vals.forEach(v=>{
 if(["Present","Absent","Excused","Virtual"].includes(v)){
@@ -597,7 +647,25 @@ let pct=attendancePercent(a);
 let h=pct==="N/A"?18:Math.max(25,pct*2.4);
 attendanceTable.innerHTML+=`
 <tr><td>${a.name}</td><td>${a.role}</td>
-${["m1","m2","m3","strategic","future"].map(k=>`<td><select onchange="attendance[${i}].${k}=this.value;save();renderAll()">${option(vals,a[k])}</select></td>`).join("")}
+${meetings.map(meeting=>`
+
+<td>
+
+<select
+onchange="
+attendance[${i}]['${meeting}']=this.value;
+save();
+renderAll();
+">
+
+${option(vals,a[meeting])}
+
+</select>
+
+</td>
+
+`)
+.join("").map(k=>`<td><select onchange="attendance[${i}].${k}=this.value;save();renderAll()">${option(vals,a[k])}</select></td>`).join("")}
 <td><b>${pct}${pct==="N/A"?"":"%"}</b></td></tr>`;
 attendanceChart.innerHTML+=`<div class="barcol"><div class="bar" style="height:${h}px"></div><div>${a.name.split(" ")[0]}</div><b>${pct}${pct==="N/A"?"":"%"}</b></div>`;
 });
