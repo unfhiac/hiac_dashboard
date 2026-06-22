@@ -1,198 +1,557 @@
+
 <!DOCTYPE html>
-
-<html lang="en">
-
+<html>
 <head>
-
 <meta charset="UTF-8">
+<title>HIAC Executive Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="css/mobile.css">
+<style>
 
-<title>
-HIAC Executive Dashboard
-</title>
+:root{
+--navy:#06122a;
+--navy2:#102a43;
+--lime:#dfff00;
+--green:#16a34a;
+--orange:#f59e0b;
+--red:#dc2626;
+--blue:#2563eb;
+--purple:#7c3aed;
+}
 
-<link
-href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-rel="stylesheet">
+*{
+box-sizing:border-box;
+font-family:Segoe UI,Arial,sans-serif;
+}
 
-<link
-rel="stylesheet"
-href="css/style.css">
+html,
+body{
+width:100%;
+overflow-x:hidden;
+margin:0;
+}
 
-<link
-rel="stylesheet"
-href="css/mobile.css">
+body{
+padding:24px;
+background:linear-gradient(135deg,var(--navy),var(--navy2));
+color:white;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:20px;
+background:rgba(255,255,255,.12);
+border-radius:26px;
+padding:24px;
+margin-bottom:20px;
+backdrop-filter:blur(14px);
+}
+
+.brand{
+display:flex;
+align-items:center;
+gap:18px;
+}
+
+.logo-img{
+width:160px;
+max-width:100%;
+height:auto;
+background:white;
+border-radius:18px;
+padding:10px;
+}
+
+h1{
+margin:0;
+font-size:32px;
+line-height:1.2;
+}
+
+.actions{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+button{
+border:none;
+border-radius:12px;
+padding:10px 14px;
+font-weight:800;
+cursor:pointer;
+background:var(--lime);
+color:#111827;
+}
+
+button.gray{
+background:#e2e8f0;
+}
+
+button.red{
+background:#fee2e2;
+color:#991b1b;
+}
+
+/* =========================
+   SUMMARY
+========================= */
+
+.summary-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+gap:14px;
+margin-bottom:20px;
+}
+
+.summary-card{
+background:rgba(255,255,255,.15);
+border-radius:20px;
+padding:18px;
+}
+
+.summary-card span{
+display:block;
+font-size:13px;
+font-weight:700;
+color:#cbd5e1;
+}
+
+.summary-card strong{
+display:block;
+font-size:30px;
+margin-top:6px;
+}
+
+/* =========================
+   PANELS
+========================= */
+
+.panel{
+background:white;
+color:#111827;
+border-radius:22px;
+padding:20px;
+margin-bottom:20px;
+overflow-x:auto;
+overflow-y:hidden;
+}
+
+.sub{
+color:#64748b;
+margin-bottom:14px;
+}
+
+/* =========================
+   OFFICER
+========================= */
+
+.carousel-wrap{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:18px;
+width:100%;
+}
+
+.nav-btn{
+width:55px;
+height:55px;
+border-radius:50%;
+font-size:24px;
+flex-shrink:0;
+}
+
+.officer-single{
+width:100%;
+max-width:680px;
+background:#f8fafc;
+border:1px solid #e5e7eb;
+border-radius:24px;
+padding:24px;
+box-shadow:0 12px 32px rgba(0,0,0,.16);
+touch-action:pan-y;
+user-select:none;
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.card-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:14px;
+}
+
+.card{
+background:#f8fafc;
+border:1px solid #e5e7eb;
+border-radius:18px;
+padding:16px;
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+gap:10px;
+align-items:flex-start;
+}
+
+/* =========================
+   KPI
+========================= */
+
+.kpis{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:8px;
+margin-top:12px;
+}
+
+.kpi{
+background:white;
+border:1px solid #e5e7eb;
+border-radius:12px;
+padding:10px;
+}
+
+.kpi small{
+display:block;
+font-weight:700;
+color:#64748b;
+}
+
+.kpi strong{
+font-size:20px;
+}
+
+/* =========================
+   TABLES
+========================= */
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th{
+background:#0f172a;
+color:white;
+padding:11px;
+text-align:left;
+font-size:13px;
+}
+
+td{
+border-bottom:1px solid #e5e7eb;
+padding:9px;
+font-size:13px;
+vertical-align:top;
+}
+
+input,
+select,
+textarea{
+width:100%;
+padding:8px;
+border:1px solid #cbd5e1;
+border-radius:10px;
+}
+
+textarea{
+min-height:44px;
+resize:vertical;
+}
+
+/* =========================
+   BADGES
+========================= */
+
+.badge{
+display:inline-block;
+padding:5px 8px;
+border-radius:999px;
+font-size:11px;
+font-weight:800;
+}
+
+.Completed,.Published,.Approved{
+background:#dcfce7;
+color:#166534;
+}
+
+.InProgress,
+.Recorded,
+.ReadyToPublish,
+.Editing,
+.Budgeting,
+.Fundraising,
+.Marketing,
+.Reviewing,
+.Drafting,
+.RegistrationOpen{
+background:#fef3c7;
+color:#92400e;
+}
+
+.NotStarted,
+.Upcoming,
+.Planning,
+.Planned,
+.Proposed,
+.Discussion,
+.Prospect,
+.Scheduled,
+.OutreachSent,
+.Confirmed{
+background:#dbeafe;
+color:#1e40af;
+}
+
+.Declined,
+.Blocked,
+.Cancelled{
+background:#fee2e2;
+color:#991b1b;
+}
+
+.OnHold,
+.AdvisorMeeting,
+.Virtual{
+background:#ede9fe;
+color:#5b21b6;
+}
+
+/* =========================
+   PROGRESS
+========================= */
+
+.progress{
+height:12px;
+background:#e5e7eb;
+border-radius:999px;
+overflow:hidden;
+margin-top:6px;
+}
+
+.fill{
+height:100%;
+background:linear-gradient(90deg,#22c55e,#84cc16);
+}
+
+/* =========================
+   CHARTS
+========================= */
+
+.chart{
+height:280px;
+display:flex;
+align-items:flex-end;
+gap:10px;
+border-bottom:1px solid #cbd5e1;
+padding-top:20px;
+overflow-x:auto;
+overflow-y:hidden;
+}
+
+.barcol{
+flex:1;
+text-align:center;
+font-size:11px;
+color:#475569;
+min-width:50px;
+}
+
+.bar{
+width:100%;
+background:linear-gradient(180deg,#2563eb,#22c55e);
+border-radius:10px 10px 0 0;
+min-height:14px;
+}
+
+/* =========================
+   FILTERS
+========================= */
+
+.filters{
+display:grid;
+grid-template-columns:2fr 1fr 1fr 1fr;
+gap:10px;
+margin-bottom:14px;
+}
+
+/* =========================
+   AVAILABILITY
+========================= */
+
+.schedule{
+display:grid;
+grid-template-columns:105px repeat(7,1fr);
+gap:6px;
+width:max-content;
+min-width:850px;
+}
+
+.day,
+.time,
+.slot{
+text-align:center;
+padding:8px;
+border-radius:9px;
+border:1px solid #e5e7eb;
+font-size:12px;
+}
+
+.day{
+background:#0f172a;
+color:white;
+font-weight:800;
+}
+
+.time{
+background:#f1f5f9;
+font-weight:800;
+}
+
+.slot{
+cursor:pointer;
+background:white;
+}
+
+.slot.yes{
+background:#dcfce7;
+color:#166534;
+}
+
+.slot.maybe{
+background:#fef3c7;
+color:#92400e;
+}
+
+.slot.no{
+background:#fee2e2;
+color:#991b1b;
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width:1024px){
+
+body{
+padding:16px;
+}
+
+.summary-grid{
+grid-template-columns:repeat(2,1fr);
+}
+
+.card-grid{
+grid-template-columns:1fr;
+}
+
+.filters{
+grid-template-columns:1fr 1fr;
+}
+
+.officer-single{
+max-width:100%;
+}
+
+}
+
+
+
+
+/* =========================
+   PRINT
+========================= */
+
+@media print{
+
+.actions,
+button{
+display:none !important;
+}
+
+body{
+background:white !important;
+color:black !important;
+padding:0;
+}
+
+.header{
+background:white !important;
+color:black !important;
+box-shadow:none;
+}
+
+.panel{
+break-inside:avoid;
+overflow:visible;
+}
+
+table{
+display:table;
+overflow:visible;
+white-space:normal;
+}
+
+}
+}
+
+</style>
 
 </head>
 
 <body>
 
-<!-- ==========================================
-HEADER
-========================================== -->
-
-<header class="header">
-
+<div class="header">
 <div class="brand">
-
-<img
-src="assets/logo.png"
-alt="HIAC Logo"
-class="logo-img">
-
+<img src="UNF HIAC Logo & Announcement - 3 (1).png" class="logo-img">
 <div>
-
-<h1>
-HIAC Executive Dashboard
-</h1>
-
-<p class="subtitle">
-Health Informatics & Analytics Club
-</p>
-
+<h1>HIAC Executive Dashboard</h1>
 </div>
-
 </div>
-
 <div class="actions">
-
-<button onclick="addTask()">
-+ Add Task
-</button>
-
-<button onclick="addMeeting()">
-+ Meeting
-</button>
-
-<button onclick="exportCSV()">
-Export CSV
-</button>
-
-<button onclick="window.print()">
-Export PDF
-</button>
-
-<button onclick="location.reload()">
-Refresh
-</button>
-
+<button onclick="addTask()">+ Add Task</button>
+<button onclick="exportCSV()">Export CSV</button>
+<button onclick="window.print()" class="gray">Export PDF</button>
+<button onclick="location.reload()" class="gray">🔄 Refresh</button>
+</div>
 </div>
 
-</header>
-
-<!-- ==========================================
-SUMMARY KPI CARDS
-========================================== -->
-
-<section class="summary-grid">
-
-<div class="summary-card">
-
-<span>Total Tasks</span>
-
-<strong id="totalTasks">
-0
-</strong>
-
+<div class="summary-grid">
+<div class="summary-card"><span>Total Tasks</span><strong id="totalTasks">0</strong></div>
+<div class="summary-card"><span>Completed</span><strong id="completedTasks">0</strong></div>
+<div class="summary-card"><span>In Progress</span><strong id="progressTasks">0</strong></div>
+<div class="summary-card"><span>Upcoming</span><strong id="upcomingTasks">0</strong></div>
+<div class="summary-card"><span>Declined/Blocked</span><strong id="declinedTasks">0</strong></div>
+<div class="summary-card"><span>Completion</span><strong id="completionRate">0%</strong></div>
 </div>
 
-<div class="summary-card">
-
-<span>Completed</span>
-
-<strong id="completedTasks">
-0
-</strong>
-
-</div>
-
-<div class="summary-card">
-
-<span>In Progress</span>
-
-<strong id="progressTasks">
-0
-</strong>
-
-</div>
-
-<div class="summary-card">
-
-<span>Upcoming</span>
-
-<strong id="upcomingTasks">
-0
-</strong>
-
-</div>
-
-<div class="summary-card">
-
-<span>Blocked</span>
-
-<strong id="declinedTasks">
-0
-</strong>
-
-</div>
-
-<div class="summary-card">
-
-<span>Completion</span>
-
-<strong id="completionRate">
-0%
-</strong>
-
-</div>
-
-</section>
-
-<!-- ==========================================
-DESKTOP DASHBOARD
-========================================== -->
-
-<div id="desktopDashboard">
-
-<!-- OFFICER DASHBOARD -->
-
-<section class="panel">
-
-<h2>
-Officer Dashboard
-</h2>
-
+<div class="panel">
+<h2>Officer Dashboard</h2>
 <div class="carousel-wrap">
-
-<button
-class="nav-btn"
-onclick="prevOfficer()">
-◀
-</button>
-
+<button class="nav-btn" onclick="prevOfficer()">◀</button>
 <div id="officerCards"></div>
-
-<button
-class="nav-btn"
-onclick="nextOfficer()">
-▶
-</button>
-
+<button class="nav-btn" onclick="nextOfficer()">▶</button>
+</div>
 </div>
 
-</section>
 
-<!-- ATTENDANCE -->
-
-<section class="panel">
-
-<h2>
-Attendance Dashboard
-</h2>
-
+  
+<div class="panel">
+<h2>Attendance Dashboard</h2>
 <div class="summary-grid">
 
 <div class="summary-card">
@@ -202,6 +561,10 @@ Attendance Dashboard
 <strong id="meetingCount">
 0
 </strong>
+
+<button onclick="addMeeting()">
++ Add Board Meeting
+</button>
 
 </div>
 
@@ -216,317 +579,91 @@ Attendance Dashboard
 </div>
 
 </div>
-
-<div
-class="chart"
-id="attendanceChart">
-</div>
-
-<br>
-
+  
+<div class="chart" id="attendanceChart"></div><br>
 <table>
 
-<thead
-id="attendanceHead">
+<thead id="attendanceHead">
 </thead>
 
-<tbody
-id="attendanceTable">
+<tbody id="attendanceTable">
 </tbody>
 
 </table>
+</div>
 
-</section>
-
-<!-- TASKS -->
-
-<section class="panel">
-
-<h2>
-Agenda Management
-</h2>
-
+<div class="panel">
+<h2>Agenda Management</h2>
 <div class="filters">
-
-<input
-id="search"
-placeholder="Search Tasks">
-
-<select
-id="agendaFilter">
-</select>
-
-<select
-id="ownerFilter">
-</select>
-
-<select
-id="statusFilter">
-</select>
-
+<input id="search" placeholder="Search tasks..." onkeyup="renderTasks()">
+<select id="agendaFilter" onchange="renderTasks()"></select>
+<select id="ownerFilter" onchange="renderTasks()"></select>
+<select id="statusFilter" onchange="renderTasks()"></select>
+</div>
+<table>
+<thead><tr><th>Agenda</th><th>Task</th><th>Owner</th><th>Priority</th><th>Status</th><th>Due</th><th>Progress</th><th>Notes</th><th></th></tr></thead>
+<tbody id="taskTable"></tbody>
+</table>
 </div>
 
-<table>
-
-<thead>
-
-<tr>
-
-<th>Agenda</th>
-<th>Task</th>
-<th>Owner</th>
-<th>Priority</th>
-<th>Status</th>
-<th>Due</th>
-<th>Progress</th>
-<th>Notes</th>
-<th>Action</th>
-
-</tr>
-
-</thead>
-
-<tbody
-id="taskTable">
-</tbody>
-
-</table>
-
-</section>
-
-<!-- HIMSS BUDGET -->
-
-<section class="panel">
-
-<h2>
-HIMSS 2027 Budget Dashboard
-</h2>
-
+<div class="panel">
+<h2>HIMSS 2027 Budget Dashboard</h2>
 <div class="card-grid">
-
 <div class="card">
-
-<div class="row">
-
-<h3>
-Budget Summary
-</h3>
-
-<span class="badge Budgeting">
-Budgeting
-</span>
-
-</div>
-
+<div class="row"><h3>Budget Summary</h3><span class="badge Budgeting">Budgeting</span></div>
 <div class="kpis">
-
-<div class="kpi">
-
-<small>
-Target Budget
-</small>
-
-<strong id="targetBudget">
-$0
-</strong>
-
+<div class="kpi"><small>Target Budget</small><strong id="targetBudget">$0</strong></div>
+<div class="kpi"><small>Current Budget</small><strong id="currentBudget">$0</strong></div>
+<div class="kpi"><small>Funds Raised</small><strong id="fundsRaised">$0</strong></div>
+<div class="kpi"><small>Remaining Gap</small><strong id="remainingGap">$0</strong></div>
 </div>
-
-<div class="kpi">
-
-<small>
-Current Budget
-</small>
-
-<strong id="currentBudget">
-$0
-</strong>
-
+<div class="progress"><div class="fill" id="budgetFill"></div></div>
 </div>
-
-<div class="kpi">
-
-<small>
-Funds Raised
-</small>
-
-<strong id="fundsRaised">
-$0
-</strong>
-
-</div>
-
-<div class="kpi">
-
-<small>
-Remaining Gap
-</small>
-
-<strong id="remainingGap">
-$0
-</strong>
-
-</div>
-
-</div>
-
-<div class="progress">
-
-<div
-class="fill"
-id="budgetFill">
-</div>
-
-</div>
-
-</div>
-
 <div class="card">
-
 <table>
-
-<thead>
-
-<tr>
-
-<th>Category</th>
-<th>Per Student</th>
-<th>Students</th>
-<th>Total</th>
-<th>Status</th>
-
-</tr>
-
-</thead>
-
-<tbody
-id="himssBody">
-</tbody>
-
+<thead><tr><th>Category</th><th>Per Student</th><th>Students</th><th>Total</th><th>Status</th></tr></thead>
+<tbody id="himssBody"></tbody>
 </table>
-
+</div>
+</div>
 </div>
 
-</div>
-
-</section>
-
-<!-- PODCASTS -->
-
-<section class="panel">
-
+<div class="panel">
 <div class="row">
-
-<h2>
-Podcast Tracker
-</h2>
-
-<button onclick="addPodcast()">
-+ Add Guest
-</button>
-
-</div>
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>Guest</th>
-<th>Owner</th>
-<th>Status</th>
-<th>Date</th>
-<th>Notes</th>
-<th>Action</th>
-
-</tr>
-
-</thead>
-
-<tbody
-id="podcastTable">
-</tbody>
-
-</table>
-
-</section>
-
-<!-- EVENTS -->
-
-<section class="panel">
-
-<h2>
-Event Dashboard
-</h2>
-
-<div
-class="card-grid"
-id="eventCards">
-</div>
-
-<br>
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>Event</th>
-<th>Lead</th>
-<th>Status</th>
-<th>Target</th>
-<th>Progress</th>
-
-</tr>
-
-</thead>
-
-<tbody
-id="eventTable">
-</tbody>
-
-</table>
-
-</section>
-
-<!-- MARKETING -->
-
-<section class="panel">
-
-<div class="row">
-
 <div>
-
-<h2>
-Marketing Dashboard
-</h2>
-
-<p class="sub">
-Cynthia • Selena • Emmanuelle
-</p>
-
+<h2>Podcast Tracker</h2>
+</div>
+<button onclick="addPodcast()">+ Add Podcast Guest</button>
+</div>
+<table>
+<thead><tr><th>Guest Name</th><th>Owner</th><th>Status</th><th>Target Date</th><th>Notes</th><th></th></tr></thead>
+<tbody id="podcastTable"></tbody>
+</table>
 </div>
 
-<button onclick="addMarketingTask()">
-+ Add Marketing Task
-</button>
-
+<div class="panel">
+<h2>Event Tracker</h2>
+<div class="card-grid" id="eventCards"></div><br>
+<table>
+<thead><tr><th>Event</th><th>Lead</th><th>Status</th><th>Target</th><th>Progress</th></tr></thead>
+<tbody id="eventTable"></tbody>
+</table>
 </div>
+
+<div class="panel">
+
+<div class="row">
 
 <div class="card-grid">
 
 <div class="card">
 
-<h3>
-Marketing Metrics
-</h3>
+<h3>Marketing Metrics</h3>
 
 <div class="kpis">
 
 <div class="kpi">
-<small>Total</small>
+<small>Total Tasks</small>
 <strong id="marketingTotal">0</strong>
 </div>
 
@@ -536,12 +673,12 @@ Marketing Metrics
 </div>
 
 <div class="kpi">
-<small>Active</small>
+<small>In Progress</small>
 <strong id="marketingProgress">0</strong>
 </div>
 
 <div class="kpi">
-<small>Completion</small>
+<small>Completion %</small>
 <strong id="marketingRate">0%</strong>
 </div>
 
@@ -551,153 +688,1177 @@ Marketing Metrics
 
 </div>
 
-<table>
+<div>
+<h2>Marketing Dashboard</h2>
+<p class="sub">
+Cynthia • Selena • Emmanuelle
+</p>
+</div>
 
-<thead>
-
-<tr>
-
-<th>Task</th>
-<th>Owner</th>
-<th>Status</th>
-<th>Due</th>
-<th>Notes</th>
-<th>Action</th>
-
-</tr>
-
-</thead>
-
-<tbody
-id="marketingTable">
-</tbody>
-
-</table>
-
-</section>
-
-<!-- AVAILABILITY -->
-
-<section class="panel">
-
-<h2>
-Availability Calendar
-</h2>
-
-<div class="filters">
-
-<select
-id="availabilityPerson">
-</select>
-
-<input
-type="date"
-id="scheduleWeek">
-
-<button onclick="findBestTime()">
-Find Best Meeting Time
+<button onclick="addMarketingTask()">
++ Add Marketing Task
 </button>
 
 </div>
 
-<div
-class="schedule"
-id="scheduleGrid">
+<table>
+
+<thead>
+<tr>
+<th>Task</th>
+<th>Owner</th>
+<th>Status</th>
+<th>Due Date</th>
+<th>Notes</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="marketingTable">
+</tbody>
+
+</table>
+
 </div>
 
-<p
-id="bestTime"
-class="sub">
-</p>
+<div class="panel">
+<h2>Availability Calendar</h2>
+<p class="sub">Each member has independent availability. Click: Available → Maybe → Busy → Blank.</p>
+<div class="filters" style="grid-template-columns:1fr 1fr 1fr">
+<select id="availabilityPerson" onchange="renderSchedule()"></select>
+<input type="date" id="scheduleWeek" value="2026-06-22" onchange="renderSchedule()">
+<button onclick="findBestTime()">Find Best Meeting Time</button>
+</div>
+<div class="schedule" id="scheduleGrid"></div>
+<p id="bestTime" class="sub"></p>
+</div>
 
-</section>
-
-<!-- ANALYTICS -->
-
-<section class="panel">
-
-<h2>
-Analytics Dashboard
-</h2>
-
+<div class="panel">
+<h2>Analytics Dashboard</h2>
 <div class="card-grid">
-
-<div class="card">
-
-<h3>
-Tasks by Status
-</h3>
-
-<div
-class="chart"
-id="statusChart">
+<div class="card"><h3>Tasks by Status</h3><div class="chart" id="statusChart"></div></div>
+<div class="card"><h3>Officer Workload</h3><div class="chart" id="workloadChart"></div></div>
+<div class="card"><h3>Event Progress</h3><div class="chart" id="eventChart"></div></div>
+</div>
 </div>
 
-</div>
-
-<div class="card">
-
-<h3>
-Officer Workload
-</h3>
-
-<div
-class="chart"
-id="workloadChart">
-</div>
-
-</div>
-
-<div class="card">
-
-<h3>
-Event Progress
-</h3>
-
-<div
-class="chart"
-id="eventChart">
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-</div>
-
-<!-- ==========================================
-MOBILE DASHBOARD
-========================================== -->
+<!-- MOBILE DASHBOARD -->
 
 <div id="mobileDashboard">
 
-<section id="mobileOfficer"></section>
+  <div id="mobileAttendance"></div>
 
-<section id="mobileAttendance"></section>
+  <div id="mobileTasks"></div>
 
-<section id="mobileTasks"></section>
+  <div id="mobileEvents"></div>
 
-<section id="mobileEvents"></section>
+  <div id="mobilePodcasts"></div>
 
-<section id="mobilePodcasts"></section>
+  <div id="mobileMarketing"></div>
 
-<section id="mobileMarketing"></section>
-
-<section id="mobileBudget"></section>
+  <div id="mobileBudget"></div>
 
 </div>
 
-<!-- ==========================================
-JAVASCRIPT FILES
-========================================== -->
+<script>
+const officers=["Agrani Sinha","Khanh Linh Lieu","Isabella Panya","Cynthia Simmons","Selena Hernandez","Emmanuelle Vinson","Kay Thiemann","All Officers"];
+const officerInfo={
+"Agrani Sinha":["President","Full Year"],
+"Khanh Linh Lieu":["Vice President","Full Year"],
+"Isabella Panya":["Treasurer","Full Year"],
+"Cynthia Simmons":["Marketing Chair","Full Year"],
+"Selena Hernandez":["Marketing Assistant","Fall"],
+"Emmanuelle Vinson":["Marketing Assistant","Spring"],
+"Kay Thiemann":["Faculty Advisor","Advisor"]
+};
+const agendas=["First Board Meeting","Second Board Meeting","Third Board Meeting","Strategic Planning"];
+const priorities=["Critical","High","Medium","Low"];
+const taskStatuses=["Not Started","In Progress","Completed","On Hold","Blocked","Declined"];
+let currentOfficerIndex=0;
 
-<script src="js/data.js"></script>
-<script src="js/ui.js"></script>
-<script src="js/mobile.js"></script>
-<script src="js/app.js"></script>
 
+
+let tasks=JSON.parse(localStorage.getItem("hiac_tasks_v3"))||[
+{agenda:"First Board Meeting",task:"Password Tracker",owner:"Agrani Sinha",priority:"High",status:"Completed",due:"2026-05-10",progress:100,notes:"Shared and completed."},
+{agenda:"First Board Meeting",task:"Meeting Schedule",owner:"Agrani Sinha",priority:"High",status:"Completed",due:"2026-05-12",progress:100,notes:"Finalized."},
+{agenda:"First Board Meeting",task:"Summer Flyer",owner:"Cynthia Simmons",priority:"Medium",status:"Completed",due:"2026-05-25",progress:100,notes:"Completed."},
+{agenda:"First Board Meeting",task:"Website Review & Updates",owner:"Cynthia Simmons",priority:"High",status:"In Progress",due:"2026-07-15",progress:65,notes:"Website review is in progress."},
+{agenda:"First Board Meeting",task:"Bulletin Board Planning",owner:"All Officers",priority:"Medium",status:"Completed",due:"2026-06-10",progress:100,notes:"Completed."},
+{agenda:"Second Board Meeting",task:"Marketing Assistant Recruitment",owner:"Cynthia Simmons",priority:"High",status:"Completed",due:"2026-06-08",progress:100,notes:"Completed."},
+{agenda:"Second Board Meeting",task:"Selena Hernandez Selection",owner:"Cynthia Simmons",priority:"High",status:"Completed",due:"2026-06-08",progress:100,notes:"Fall MA selected."},
+{agenda:"Second Board Meeting",task:"Emmanuelle Vinson Selection",owner:"Cynthia Simmons",priority:"High",status:"Completed",due:"2026-06-08",progress:100,notes:"Spring MA selected."},
+{agenda:"Second Board Meeting",task:"Bulletin Board Meeting",owner:"All Officers",priority:"High",status:"Completed",due:"2026-06-19",progress:100,notes:"Completed."},
+{agenda:"Second Board Meeting",task:"Marketing Assistant Introduction Flyer",owner:"Cynthia Simmons",priority:"Medium",status:"Completed",due:"2026-06-18",progress:100,notes:"Completed."},
+{agenda:"Second Board Meeting",task:"June Newsletter",owner:"Khanh Linh Lieu",priority:"High",status:"In Progress",due:"2026-06-30",progress:70,notes:"In progress."},
+{agenda:"Second Board Meeting",task:"Membership Outreach",owner:"Khanh Linh Lieu",priority:"Medium",status:"In Progress",due:"2026-07-10",progress:60,notes:"Ongoing."},
+{agenda:"Second Board Meeting",task:"Alumni Outreach",owner:"Khanh Linh Lieu",priority:"Medium",status:"In Progress",due:"2026-07-25",progress:40,notes:"Ongoing."},
+{agenda:"Second Board Meeting",task:"Executive Board Flyer",owner:"Cynthia Simmons",priority:"Medium",status:"In Progress",due:"2026-07-01",progress:75,notes:"In progress."},
+{agenda:"Third Board Meeting",task:"HIMSS Certification Initiative",owner:"Kay Thiemann",priority:"High",status:"Not Started",due:"2026-07-25",progress:0,notes:"Upcoming."},
+{agenda:"Third Board Meeting",task:"HIMSS Budget Development",owner:"Isabella Panya",priority:"Critical",status:"In Progress",due:"2026-08-01",progress:50,notes:"Budget planning."},
+{agenda:"Third Board Meeting",task:"Sponsorship Strategy",owner:"Isabella Panya",priority:"High",status:"Not Started",due:"2026-08-20",progress:0,notes:"Upcoming."},
+{agenda:"Third Board Meeting",task:"Heads Up Workshop Planning",owner:"Agrani Sinha",priority:"High",status:"In Progress",due:"2026-11-30",progress:40,notes:"Planning with Gavin/Tara."},
+{agenda:"Third Board Meeting",task:"HASA Collaboration",owner:"Agrani Sinha",priority:"High",status:"In Progress",due:"2026-09-30",progress:35,notes:"Planning."},
+{agenda:"Strategic Planning",task:"Eco Trail Event",owner:"Khanh Linh Lieu",priority:"Medium",status:"Not Started",due:"2026-08-31",progress:0,notes:"Upcoming."},
+{agenda:"Strategic Planning",task:"Resume Workshop",owner:"Cynthia Simmons",priority:"Medium",status:"Not Started",due:"2026-10-31",progress:0,notes:"Upcoming."},
+{agenda:"Strategic Planning",task:"Semester Marketing Calendar",owner:"Cynthia Simmons",priority:"High",status:"Not Started",due:"2026-08-20",progress:0,notes:"Upcoming."},
+{agenda:"Strategic Planning",task:"Fall Marketing Campaign",owner:"Selena Hernandez",priority:"Medium",status:"Not Started",due:"2026-09-15",progress:0,notes:"Selena Fall MA."},
+{agenda:"Strategic Planning",task:"Spring Marketing Transition",owner:"Emmanuelle Vinson",priority:"Medium",status:"Not Started",due:"2027-01-15",progress:0,notes:"Emmanuelle Spring MA."},
+{agenda:"Strategic Planning",task:"Strategic Programming Review",owner:"Kay Thiemann",priority:"High",status:"Not Started",due:"2026-08-30",progress:0,notes:"Prof. Kay guidance."}
+];
+
+let meetings =
+JSON.parse(
+localStorage.getItem(
+"hiac_meetings_v1"
+)
+) || [
+
+"Board #1",
+"Board #2",
+"Board #3",
+"Strategic Planning"
+
+];
+
+let attendance =
+JSON.parse(
+localStorage.getItem(
+"hiac_attendance_v3"
+)
+) || [
+
+{
+name:"Agrani Sinha",
+role:"President",
+
+"Board #1":"Present",
+"Board #2":"Present",
+"Board #3":"Present",
+"Strategic Planning":"Present"
+},
+
+{
+name:"Khanh Linh Lieu",
+role:"Vice President",
+
+"Board #1":"Present",
+"Board #2":"Present",
+"Board #3":"Present",
+"Strategic Planning":"Present"
+},
+
+{
+name:"Isabella Panya",
+role:"Treasurer",
+
+"Board #1":"Present",
+"Board #2":"Present",
+"Board #3":"Present",
+"Strategic Planning":"Present"
+},
+
+{
+name:"Cynthia Simmons",
+role:"Marketing Chair",
+
+"Board #1":"Present",
+"Board #2":"Present",
+"Board #3":"Present",
+"Strategic Planning":"Present"
+},
+
+{
+name:"Selena Hernandez",
+role:"Marketing Assistant (Fall)",
+
+"Board #1":"N/A",
+"Board #2":"Absent",
+"Board #3":"Present",
+"Strategic Planning":"N/A"
+},
+
+{
+name:"Emmanuelle Vinson",
+role:"Marketing Assistant (Spring)",
+
+"Board #1":"N/A",
+"Board #2":"N/A",
+"Board #3":"Present",
+"Strategic Planning":"N/A"
+},
+
+{
+name:"Kay Thiemann",
+role:"Faculty Advisor",
+
+"Board #1":"Advisor Meeting",
+"Board #2":"Advisor Meeting",
+"Board #3":"Present",
+"Strategic Planning":"Advisor Meeting"
+}
+
+];
+
+let podcasts=JSON.parse(localStorage.getItem("hiac_podcasts_v3"))||[
+{guest:"Dr. Sarah Crespi",owner:"Agrani Sinha",status:"Recorded",target:"2026-07-01",notes:"Awaiting publication"},
+{guest:"Dr. Shyam Paryani",owner:"Agrani Sinha",status:"Discussion",target:"2026-07-31",notes:"Initial outreach underway"},
+{guest:"Upcoming Podcast Guest",owner:"Agrani Sinha",status:"Prospect",target:"",notes:"Potential future guest"}
+];
+
+let events=JSON.parse(localStorage.getItem("hiac_events_v3"))||[
+{event:"HIMSS Networking Event",lead:"All Officers",status:"Planning",target:"2026-08-27",progress:20},
+{event:"Eco Trail Event",lead:"Khanh Linh Lieu",status:"Proposed",target:"2026-08-31",progress:0},
+{event:"HASA Collaboration",lead:"Agrani Sinha",status:"In Progress",target:"2026-09-30",progress:35},
+{event:"Resume Workshop",lead:"Cynthia Simmons",status:"Proposed",target:"2026-10-31",progress:0},
+{event:"Heads Up Workshop",lead:"Agrani Sinha",status:"Planning",target:"2026-11-30",progress:40}
+];
+
+
+let marketing=
+JSON.parse(
+localStorage.getItem(
+"hiac_marketing_v3"
+)
+)||[
+
+{
+task:"Executive Board Flyer",
+owner:"Cynthia Simmons",
+status:"Reviewing",
+target:"2026-07-01",
+notes:"Board introduction flyer"
+},
+
+{
+task:"Semester Marketing Calendar",
+owner:"Cynthia Simmons",
+status:"Not Started",
+target:"2026-08-20",
+notes:"Fall planning"
+},
+
+{
+task:"Fall Marketing Campaign",
+owner:"Selena Hernandez",
+status:"Not Started",
+target:"2026-09-15",
+notes:"Fall recruitment campaign"
+},
+
+{
+task:"Spring Marketing Transition",
+owner:"Emmanuelle Vinson",
+status:"Not Started",
+target:"2027-01-15",
+notes:"Spring onboarding"
+}
+
+];
+
+let himss=JSON.parse(localStorage.getItem("hiac_himss_v3"))||[
+{category:"Registration",perStudent:0,students:8,status:"Budgeting"},
+{category:"Hotel",perStudent:0,students:8,status:"Planning"},
+{category:"Flight",perStudent:0,students:8,status:"Planning"},
+{category:"Transportation",perStudent:0,students:8,status:"Planning"},
+{category:"Meals",perStudent:0,students:8,status:"Planning"},
+{category:"Contingency",perStudent:0,students:8,status:"Planning"},
+{category:"Funds Raised",perStudent:0,students:1,status:"Fundraising"}
+];
+
+let schedule=JSON.parse(localStorage.getItem("hiac_schedule_v3"))||{};
+
+
+  function renderAttendanceHeader(){
+
+let header = `
+<tr>
+<th>Name</th>
+<th>Role</th>
+`;
+
+meetings.forEach(m=>{
+
+header += `
+<th>${m}</th>
+`;
+
+});
+
+header += `
+<th>Attendance %</th>
+</tr>
+`;
+
+attendanceHead.innerHTML =
+header;
+
+}
+function addMeeting(){
+
+const name =
+prompt(
+"Enter Meeting Name"
+);
+
+if(!name) return;
+
+meetings.push(name);
+
+attendance.forEach(a=>{
+
+a[name]="N/A";
+
+});
+
+save();
+
+renderAll();
+
+}
+  
+function save(){
+
+localStorage.setItem(
+"hiac_tasks_v3",
+JSON.stringify(tasks)
+);
+
+localStorage.setItem(
+"hiac_attendance_v3",
+JSON.stringify(attendance)
+);
+
+localStorage.setItem(
+"hiac_podcasts_v3",
+JSON.stringify(podcasts)
+);
+
+localStorage.setItem(
+"hiac_events_v3",
+JSON.stringify(events)
+);
+
+localStorage.setItem(
+"hiac_marketing_v3",
+JSON.stringify(marketing)
+);
+
+localStorage.setItem(
+"hiac_himss_v3",
+JSON.stringify(himss)
+);
+
+localStorage.setItem(
+"hiac_schedule_v3",
+JSON.stringify(schedule)
+);
+
+localStorage.setItem(
+"hiac_meetings_v1",
+JSON.stringify(meetings)
+);
+
+}
+
+function renderMarketingMetrics(){
+
+let total=
+marketing.length;
+
+let completed=
+marketing.filter(
+m=>m.status==="Completed"
+).length;
+
+let progress=
+marketing.filter(
+m=>
+m.status==="Drafting" ||
+m.status==="Reviewing" ||
+m.status==="Scheduled"
+).length;
+
+marketingTotal.innerText=total;
+
+marketingCompleted.innerText=completed;
+
+marketingProgress.innerText=progress;
+
+marketingRate.innerText=
+total
+?
+Math.round(
+(completed/total)*100
+)+"%"
+:
+"0%";
+
+}
+
+function option(list,current){return list.map(x=>`<option ${x===current?"selected":""}>${x}</option>`).join("")}
+function clean(x){return String(x).replaceAll(" ","")}
+
+function initFilters(){
+agendaFilter.innerHTML='<option>All Agendas</option>'+option(agendas,"");
+ownerFilter.innerHTML='<option>All Owners</option>'+option(officers,"");
+statusFilter.innerHTML='<option>All Statuses</option>'+option(taskStatuses,"");
+availabilityPerson.innerHTML=option(Object.keys(officerInfo),"Agrani Sinha");
+}
+
+function renderAll(){
+
+renderStats();
+
+renderOfficers();
+
+renderAttendance();
+
+renderTasks();
+
+renderPodcasts();
+
+renderEvents();
+
+renderMarketing();
+
+renderMarketingMetrics();
+
+renderHIMSS();
+
+renderAnalytics();
+
+renderSchedule();
+
+if(window.innerWidth <= 768){
+
+renderMobileAttendance();
+renderMobileTasks();
+renderMobileEvents();
+renderMobilePodcasts();
+renderMobileMarketing();
+renderMobileBudget();
+
+}
+}
+
+function renderStats(){
+let total=tasks.length;
+let completed=tasks.filter(t=>t.status==="Completed").length;
+let progress=tasks.filter(t=>t.status==="In Progress").length;
+let upcoming=tasks.filter(t=>["Not Started","On Hold"].includes(t.status)).length;
+let declined=tasks.filter(t=>["Declined","Blocked"].includes(t.status)).length;
+totalTasks.innerText=total;completedTasks.innerText=completed;progressTasks.innerText=progress;upcomingTasks.innerText=upcoming;declinedTasks.innerText=declined;
+completionRate.innerText=total?Math.round(completed/total*100)+"%":"0%";
+}
+
+function attendancePercent(a){
+
+let vals = meetings.map(
+m=>a[m]
+);
+
+let eligible=0;
+
+let present=0;
+
+vals.forEach(v=>{
+
+if(
+
+[
+"Present",
+"Absent",
+"Excused",
+"Virtual",
+"Advisor Meeting"
+]
+
+.includes(v)
+
+){
+
+eligible++;
+
+if(
+v==="Present" ||
+v==="Virtual"
+){
+
+present++;
+
+}
+if(
+v==="Advisor Meeting"
+){
+present++;
+}
+if(
+v==="Excused"
+){
+
+present+=0.5;
+
+}
+
+}
+
+});
+
+return eligible
+?
+Math.round(
+present/eligible*100
+)
+:
+"N/A";
+
+}
+
+function renderOfficers(){
+let names=Object.keys(officerInfo);
+let name=names[currentOfficerIndex];
+let related=tasks.filter(t=>t.owner===name||t.owner==="All Officers");
+let done=related.filter(t=>t.status==="Completed").length;
+let active=related.filter(t=>t.status==="In Progress").length;
+let upcoming=related.filter(t=>t.status==="Not Started").length;
+let att=attendancePercent(attendance.find(a=>a.name===name)||{});
+let rate=related.length?Math.round(done/related.length*100):0;
+let workload=related.length>8?"High":related.length>4?"Medium":"Low";
+officerCards.innerHTML=`
+<div class="officer-single">
+<div class="row"><div><h2>${name}</h2><p>${officerInfo[name][0]}</p></div><span class="badge Planned">${officerInfo[name][1]}</span></div>
+<div class="progress"><div class="fill" style="width:${rate}%"></div></div>
+<div class="kpis">
+<div class="kpi"><small>Assigned</small><strong>${related.length}</strong></div>
+<div class="kpi"><small>Completed</small><strong>${done}</strong></div>
+<div class="kpi"><small>In Progress</small><strong>${active}</strong></div>
+<div class="kpi"><small>Upcoming</small><strong>${upcoming}</strong></div>
+<div class="kpi"><small>Attendance</small><strong>${att}${att==="N/A"?"":"%"}</strong></div>
+<div class="kpi"><small>Workload</small><strong>${workload}</strong></div>
+</div>
+<p class="sub">Officer ${currentOfficerIndex+1} of ${names.length}</p>
+</div>`;
+}
+
+function nextOfficer(){let total=Object.keys(officerInfo).length;currentOfficerIndex=(currentOfficerIndex+1)%total;renderOfficers()}
+function prevOfficer(){let total=Object.keys(officerInfo).length;currentOfficerIndex=(currentOfficerIndex-1+total)%total;renderOfficers()}
+
+let startX=0;
+document.addEventListener("touchstart",e=>{startX=e.changedTouches[0].clientX});
+document.addEventListener("touchend",e=>{
+let endX=e.changedTouches[0].clientX;
+if(startX-endX>50)nextOfficer();
+if(endX-startX>50)prevOfficer();
+});
+
+function renderAttendance(){
+
+meetingCount.innerText =
+meetings.length;
+
+let avgAttendance =
+attendance
+.map(a => attendancePercent(a))
+.filter(x => x !== "N/A");
+
+attendanceAvg.innerText =
+avgAttendance.length
+?
+Math.round(
+
+avgAttendance.reduce(
+(a,b)=>a+b,
+0
+)
+/avgAttendance.length
+
+) + "%"
+:
+"0%";
+
+renderAttendanceHeader();
+
+attendanceTable.innerHTML="";
+
+attendanceChart.innerHTML="";
+
+let vals=[
+
+"Present",
+"Absent",
+"Excused",
+"Virtual",
+"Advisor Meeting",
+"N/A"
+
+];
+
+meetingCount.innerText =
+meetings.length;
+
+let avg =
+attendance
+.map(
+a=>attendancePercent(a)
+)
+.filter(
+x=>x!=="N/A"
+);
+
+attendanceAvg.innerText =
+avg.length
+?
+Math.round(
+avg.reduce(
+(a,b)=>a+b,
+0
+)
+/avg.length
+)
++"%"
+:
+"0%";
+
+attendance.forEach((a,i)=>{
+
+let pct =
+attendancePercent(a);
+
+let h =
+pct==="N/A"
+?
+20
+:
+Math.max(
+25,
+pct*2.4
+);
+
+attendanceTable.innerHTML += `
+
+<tr>
+
+<td>${a.name}</td>
+
+<td>${a.role}</td>
+
+${meetings.map(meeting=>`
+
+<td>
+
+<select
+onchange="
+attendance[${i}]['${meeting}']=this.value;
+save();
+renderAll();
+">
+
+${option(
+vals,
+a[meeting] || "N/A"
+)}
+
+</select>
+
+</td>
+
+`).join("")}
+
+<td>
+
+<b>
+
+${pct}
+
+${pct==="N/A"
+?
+""
+:
+"%"
+}
+
+</b>
+
+</td>
+
+</tr>
+
+`;
+
+attendanceChart.innerHTML += `
+
+<div class="barcol">
+
+<div
+class="bar"
+style="
+height:${h}px
+">
+</div>
+
+<div>
+
+${a.name.split(" ")[0]}
+
+</div>
+
+<b>
+
+${pct}
+
+${pct==="N/A"
+?
+""
+:
+"%"
+}
+
+</b>
+
+</div>
+
+`;
+
+});
+
+}
+
+function renderTasks(){
+taskTable.innerHTML="";
+let s=search.value.toLowerCase(),af=agendaFilter.value,of=ownerFilter.value,sf=statusFilter.value;
+tasks.filter(t=>(t.task+t.owner+t.agenda+t.notes).toLowerCase().includes(s)&&(af==="All Agendas"||t.agenda===af)&&(of==="All Owners"||t.owner===of)&&(sf==="All Statuses"||t.status===sf)).forEach(t=>{
+let i=tasks.indexOf(t);
+taskTable.innerHTML+=`
+<tr>
+<td><select onchange="tasks[${i}].agenda=this.value;save();renderAll()">${option(agendas,t.agenda)}</select></td>
+<td contenteditable="true" onblur="tasks[${i}].task=this.innerText;save()">${t.task}</td>
+<td><select onchange="tasks[${i}].owner=this.value;save();renderAll()">${option(officers,t.owner)}</select></td>
+<td><select onchange="tasks[${i}].priority=this.value;save();renderAll()">${option(priorities,t.priority)}</select></td>
+<td><select onchange="tasks[${i}].status=this.value;if(this.value==='Completed'){tasks[${i}].progress=100};save();renderAll()">${option(taskStatuses,t.status)}</select></td>
+<td><input type="date" value="${t.due}" onchange="tasks[${i}].due=this.value;save();renderAll()"></td>
+<td><input type="range" value="${t.progress}" min="0" max="100" onchange="tasks[${i}].progress=parseInt(this.value);save();renderAll()"><div class="progress"><div class="fill" style="width:${t.progress}%"></div></div>${t.progress}%</td>
+<td><textarea onblur="tasks[${i}].notes=this.value;save()">${t.notes}</textarea></td>
+<td><button class="red" onclick="tasks.splice(${i},1);save();renderAll()">Delete</button></td>
+</tr>`;
+});
+}
+
+function addTask(){
+tasks.unshift({agenda:"Strategic Planning",task:"New Task",owner:"Agrani Sinha",priority:"Medium",status:"Not Started",due:"2026-08-01",progress:0,notes:""});
+save();renderAll();
+}
+
+function addMarketingTask(){
+
+marketing.unshift({
+
+task:"New Marketing Task",
+
+owner:"Cynthia Simmons",
+
+status:"Not Started",
+
+target:"",
+
+notes:""
+
+});
+
+save();
+
+renderMarketing();
+
+renderMarketingMetrics();
+
+renderAll();
+
+}
+
+function renderHIMSS(){
+himssBody.innerHTML="";
+let statuses=["Not Started","Planning","Budgeting","Fundraising","Approved","Completed"];
+himss.forEach((h,i)=>{
+let total=(Number(h.perStudent)||0)*(Number(h.students)||0);
+himssBody.innerHTML+=`
+<tr><td>${h.category}</td>
+<td><input type="number" value="${h.perStudent}" onchange="himss[${i}].perStudent=Number(this.value);save();renderHIMSS();renderAnalytics()"></td>
+<td><input type="number" value="${h.students}" onchange="himss[${i}].students=Number(this.value);save();renderHIMSS();renderAnalytics()"></td>
+<td><b>$${total.toLocaleString()}</b></td>
+<td><select onchange="himss[${i}].status=this.value;save();renderHIMSS()">${option(statuses,h.status)}</select></td></tr>`;
+});
+calcHIMSS();
+}
+
+function calcHIMSS(){
+let total=0,raised=0;
+himss.forEach(h=>{
+let rowTotal=(Number(h.perStudent)||0)*(Number(h.students)||0);
+if(h.category==="Funds Raised")raised=rowTotal;else total+=rowTotal;
+});
+targetBudget.innerText="$"+total.toLocaleString();
+currentBudget.innerText="$"+total.toLocaleString();
+fundsRaised.innerText="$"+raised.toLocaleString();
+remainingGap.innerText="$"+Math.max(total-raised,0).toLocaleString();
+budgetFill.style.width=total?Math.min(100,Math.round(raised/total*100))+"%":"0%";
+}
+
+function addPodcast(){
+podcasts.unshift({guest:"New Podcast Guest",owner:"Agrani Sinha",status:"Prospect",target:"",notes:""});
+save();renderAll();
+}
+
+function renderPodcasts(){
+let statuses=["Prospect","Outreach Sent","Discussion","Confirmed","Scheduled","Recorded","Editing","Ready to Publish","Published","Completed","Declined"];
+podcastTable.innerHTML="";
+podcasts.forEach((p,i)=>{
+podcastTable.innerHTML+=`
+<tr>
+<td contenteditable="true" onblur="podcasts[${i}].guest=this.innerText;save()">${p.guest}</td>
+<td><select onchange="podcasts[${i}].owner=this.value;save()">${option(officers,p.owner)}</select></td>
+<td><select onchange="podcasts[${i}].status=this.value;save();renderAll()">${option(statuses,p.status)}</select></td>
+<td><input type="date" value="${p.target}" onchange="podcasts[${i}].target=this.value;save()"></td>
+<td><textarea onblur="podcasts[${i}].notes=this.value;save()">${p.notes}</textarea></td>
+<td><button class="red" onclick="podcasts.splice(${i},1);save();renderAll()">Delete</button></td>
+</tr>`;
+});
+}
+
+function renderEvents(){
+let statuses=["Proposed","Planning","Marketing","Registration Open","In Progress","Completed","Cancelled"];
+eventTable.innerHTML="";eventCards.innerHTML="";
+events.forEach((e,i)=>{
+eventTable.innerHTML+=`
+<tr><td>${e.event}</td><td><select onchange="events[${i}].lead=this.value;save();renderAll()">${option(officers,e.lead)}</select></td>
+<td><select onchange="events[${i}].status=this.value;save();renderAll()">${option(statuses,e.status)}</select></td>
+<td><input type="date" value="${e.target}" onchange="events[${i}].target=this.value;save()"></td>
+<td><input type="range" value="${e.progress}" min="0" max="100" onchange="events[${i}].progress=parseInt(this.value);save();renderAll()"> ${e.progress}%</td></tr>`;
+eventCards.innerHTML+=`<div class="card"><div class="row"><h3>${e.event}</h3><span class="badge ${clean(e.status)}">${e.status}</span></div><p>${e.lead}</p><div class="progress"><div class="fill" style="width:${e.progress}%"></div></div></div>`;
+});
+}
+
+function renderMarketing(){
+
+const statuses=[
+
+"Not Started",
+
+"Drafting",
+
+"Reviewing",
+
+"Scheduled",
+
+"Published",
+
+"Completed"
+
+];
+
+const owners=[
+
+"Cynthia Simmons",
+
+"Selena Hernandez",
+
+"Emmanuelle Vinson"
+
+];
+
+marketingTable.innerHTML="";
+
+marketing.forEach((m,i)=>{
+
+marketingTable.innerHTML+=`
+
+<tr>
+
+<td contenteditable="true"
+
+onblur="marketing[${i}].task=this.innerText;save()">
+
+${m.task}
+
+</td>
+
+<td>
+
+<select
+
+onchange="marketing[${i}].owner=this.value;save()">
+
+${option(owners,m.owner)}
+
+</select>
+
+</td>
+
+<td>
+
+<select
+
+onchange="marketing[${i}].status=this.value;save();renderAll()">
+
+${option(statuses,m.status)}
+
+</select>
+
+</td>
+
+<td>
+
+<input
+
+type="date"
+
+value="${m.target}"
+
+onchange="marketing[${i}].target=this.value;save()">
+
+</td>
+
+<td>
+
+<textarea
+
+onblur="marketing[${i}].notes=this.value;save()">
+
+${m.notes}
+
+</textarea>
+
+</td>
+
+<td>
+
+<button
+
+class="red"
+
+onclick="
+
+marketing.splice(${i},1);
+
+save();
+
+renderAll();
+
+">
+
+Delete
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+function renderAnalytics(){
+renderMiniChart(statusChart,["Completed","In Progress","Not Started","Declined","Blocked"],s=>tasks.filter(t=>t.status===s).length);
+renderMiniChart(workloadChart,Object.keys(officerInfo),o=>tasks.filter(t=>t.owner===o).length,true);
+renderMiniChart(eventChart,events.map(e=>e.event),x=>events.find(e=>e.event===x).progress,true);
+}
+
+function renderMiniChart(el,labels,fn,short=false){
+el.innerHTML="";
+let max=Math.max(...labels.map(fn),1);
+labels.forEach(l=>{
+let v=fn(l),h=Math.max(25,(v/max)*240);
+el.innerHTML+=`<div class="barcol"><div class="bar" style="height:${h}px"></div><div>${short?l.split(" ")[0]:l}</div><b>${v}</b></div>`;
+});
+}
+
+function renderSchedule(){
+let person=availabilityPerson.value||"Agrani Sinha";
+let week=scheduleWeek.value||"2026-06-22";
+let days=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+let times=["9 AM","10 AM","11 AM","12 PM","1 PM","2 PM","3 PM","4 PM","5 PM","6 PM","7 PM","8 PM"];
+scheduleGrid.innerHTML='<div class="day">Time</div>'+days.map(d=>`<div class="day">${d}</div>`).join("");
+times.forEach(t=>{
+scheduleGrid.innerHTML+=`<div class="time">${t}</div>`;
+days.forEach(d=>{
+let key=person+"_"+week+"_"+d+"_"+t;
+let state=schedule[key]||"";
+let label=state==="yes"?"YES":state==="maybe"?"MAYBE":state==="no"?"BUSY":"";
+scheduleGrid.innerHTML+=`<div class="slot ${state}" onclick="toggleSlot('${key}')">${label}</div>`;
+});
+});
+}
+
+function toggleSlot(key){
+let current=schedule[key]||"";
+let next=current===""?"yes":current==="yes"?"maybe":current==="maybe"?"no":"";
+if(next)schedule[key]=next;else delete schedule[key];
+save();renderSchedule();
+}
+
+function findBestTime(){
+let week=scheduleWeek.value||"2026-06-22";
+let days=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+let times=["9 AM","10 AM","11 AM","12 PM","1 PM","2 PM","3 PM","4 PM","5 PM","6 PM","7 PM","8 PM"];
+let best={slot:"No shared availability yet",score:-1};
+days.forEach(d=>times.forEach(t=>{
+let score=0;
+Object.keys(officerInfo).forEach(p=>{
+let s=schedule[p+"_"+week+"_"+d+"_"+t];
+if(s==="yes")score+=2;
+if(s==="maybe")score+=1;
+});
+if(score>best.score)best={slot:d+" at "+t,score};
+}));
+bestTime.innerText="Best meeting time: "+best.slot+" | Score: "+best.score;
+}
+
+function exportCSV(){
+let csv="Agenda,Task,Owner,Priority,Status,Due,Progress,Notes\n";
+tasks.forEach(t=>csv+=`"${t.agenda}","${t.task}","${t.owner}","${t.priority}","${t.status}","${t.due}","${t.progress}%","${t.notes}"\n`);
+let blob=new Blob([csv],{type:"text/csv"});
+let a=document.createElement("a");
+a.href=URL.createObjectURL(blob);
+a.download="HIAC_Final_Dashboard.csv";
+a.click();
+}
+   
+function renderMobileAttendance(){
+
+const el=document.getElementById("mobileAttendance");
+if(!el) return;
+
+el.innerHTML=`
+<div class="mobile-section">
+<h2 class="mobile-title">Attendance</h2>
+${attendance.map(a=>`
+<div class="mobile-card">
+<h3>${a.name}</h3>
+<div class="mobile-row"><span class="mobile-label">Role</span><span class="mobile-value">${a.role}</span></div>
+<div class="mobile-row"><span class="mobile-label">Attendance</span><span class="mobile-value">${attendancePercent(a)}%</span></div>
+</div>
+`).join("")}
+</div>
+`;
+
+}
+
+function renderMobileTasks(){
+
+const el=document.getElementById("mobileTasks");
+if(!el) return;
+
+el.innerHTML=`
+<div class="mobile-section">
+<h2 class="mobile-title">Agenda Tasks</h2>
+${tasks.map(t=>`
+<div class="mobile-card">
+<h3>${t.task}</h3>
+<div class="mobile-row"><span class="mobile-label">Agenda</span><span class="mobile-value">${t.agenda}</span></div>
+<div class="mobile-row"><span class="mobile-label">Owner</span><span class="mobile-value">${t.owner}</span></div>
+<div class="mobile-row"><span class="mobile-label">Status</span><span class="badge ${clean(t.status)}">${t.status}</span></div>
+<div class="mobile-row"><span class="mobile-label">Due</span><span class="mobile-value">${t.due}</span></div>
+<div class="progress"><div class="fill" style="width:${t.progress}%"></div></div>
+</div>
+`).join("")}
+</div>
+`;
+
+}
+
+function renderMobileEvents(){
+
+const el=document.getElementById("mobileEvents");
+if(!el) return;
+
+el.innerHTML=`
+<div class="mobile-section">
+<h2 class="mobile-title">Events</h2>
+${events.map(e=>`
+<div class="mobile-card">
+<h3>${e.event}</h3>
+<div class="mobile-row"><span class="mobile-label">Lead</span><span class="mobile-value">${e.lead}</span></div>
+<div class="mobile-row"><span class="mobile-label">Status</span><span class="badge ${clean(e.status)}">${e.status}</span></div>
+<div class="mobile-row"><span class="mobile-label">Target</span><span class="mobile-value">${e.target}</span></div>
+<div class="progress"><div class="fill" style="width:${e.progress}%"></div></div>
+</div>
+`).join("")}
+</div>
+`;
+
+}
+
+function renderMobilePodcasts(){
+
+const el=document.getElementById("mobilePodcasts");
+if(!el) return;
+
+el.innerHTML=`
+<div class="mobile-section">
+<h2 class="mobile-title">Podcasts</h2>
+${podcasts.map(p=>`
+<div class="mobile-card">
+<h3>${p.guest}</h3>
+<div class="mobile-row"><span class="mobile-label">Owner</span><span class="mobile-value">${p.owner}</span></div>
+<div class="mobile-row"><span class="mobile-label">Status</span><span class="badge ${clean(p.status)}">${p.status}</span></div>
+<div class="mobile-row"><span class="mobile-label">Target</span><span class="mobile-value">${p.target}</span></div>
+<p>${p.notes}</p>
+</div>
+`).join("")}
+</div>
+`;
+
+}
+
+function renderMobileMarketing(){
+
+const el=document.getElementById("mobileMarketing");
+if(!el) return;
+
+el.innerHTML=`
+<div class="mobile-section">
+<h2 class="mobile-title">Marketing</h2>
+${marketing.map(m=>`
+<div class="mobile-card">
+<h3>${m.task}</h3>
+<div class="mobile-row"><span class="mobile-label">Owner</span><span class="mobile-value">${m.owner}</span></div>
+<div class="mobile-row"><span class="mobile-label">Status</span><span class="badge ${clean(m.status)}">${m.status}</span></div>
+<div class="mobile-row"><span class="mobile-label">Due</span><span class="mobile-value">${m.target}</span></div>
+<p>${m.notes}</p>
+</div>
+`).join("")}
+</div>
+`;
+
+}
+
+function renderMobileBudget(){
+
+const el=document.getElementById("mobileBudget");
+if(!el) return;
+
+el.innerHTML=`
+<div class="mobile-section">
+<h2 class="mobile-title">HIMSS Budget</h2>
+${himss.map(h=>{
+const total=(Number(h.perStudent)||0)*(Number(h.students)||0);
+return `
+<div class="mobile-card">
+<h3>${h.category}</h3>
+<div class="mobile-row"><span class="mobile-label">Per Student</span><span class="mobile-value">$${Number(h.perStudent||0).toLocaleString()}</span></div>
+<div class="mobile-row"><span class="mobile-label">Students</span><span class="mobile-value">${h.students}</span></div>
+<div class="mobile-row"><span class="mobile-label">Total</span><span class="mobile-value">$${total.toLocaleString()}</span></div>
+<div class="mobile-row"><span class="mobile-label">Status</span><span class="badge ${clean(h.status)}">${h.status}</span></div>
+</div>
+`;
+}).join("")}
+</div>
+`;
+
+}
+initFilters();
+renderAll();
+</script>
 </body>
-
 </html>
