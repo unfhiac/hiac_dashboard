@@ -1,0 +1,541 @@
+/* ======================================
+HIAC DASHBOARD
+PART 2 - FOUNDATION CSS
+====================================== */
+
+:root{
+
+--navy:#06122a;
+--navy2:#102a43;
+
+--lime:#dfff00;
+
+--white:#ffffff;
+
+--text:#111827;
+
+--muted:#64748b;
+
+--border:#e5e7eb;
+
+--bg:#f4f7fb;
+
+--shadow:
+0 10px 30px rgba(0,0,0,.12);
+
+}
+
+/* ======================================
+RESET
+====================================== */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+html{
+width:100%;
+overflow-x:hidden;
+}
+
+body{
+
+font-family:
+Inter,
+Segoe UI,
+Arial,
+sans-serif;
+
+background:
+linear-gradient(
+135deg,
+var(--navy),
+var(--navy2)
+);
+
+color:white;
+
+overflow-x:hidden;
+
+}
+
+/* ======================================
+APP CONTAINER
+====================================== */
+
+.app-container{
+
+max-width:1500px;
+
+margin:auto;
+
+padding:24px;
+
+}
+
+/* ======================================
+HEADER
+====================================== */
+
+.app-header{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+gap:20px;
+
+padding:22px;
+
+border-radius:26px;
+
+background:
+rgba(255,255,255,.12);
+
+backdrop-filter:
+blur(14px);
+
+margin-bottom:18px;
+
+box-shadow:var(--shadow);
+
+}
+
+.brand{
+
+display:flex;
+
+align-items:center;
+
+gap:16px;
+
+}
+
+.logo-img{
+
+width:140px;
+
+height:auto;
+
+background:white;
+
+padding:10px;
+
+border-radius:18px;
+
+}
+
+.brand h1{
+
+font-size:32px;
+
+font-weight:800;
+
+line-height:1.1;
+
+}
+
+.subtitle{
+
+margin-top:6px;
+
+font-size:13px;
+
+color:#cbd5e1;
+
+font-weight:600;
+
+}
+
+.header-actions{
+
+display:flex;
+
+gap:10px;
+
+flex-wrap:wrap;
+
+}
+
+/* ======================================
+BUTTONS
+====================================== */
+
+button{
+
+border:none;
+
+cursor:pointer;
+
+padding:10px 14px;
+
+border-radius:12px;
+
+font-weight:800;
+
+background:var(--lime);
+
+color:#111827;
+
+transition:.2s;
+
+}
+
+button:hover{
+
+transform:translateY(-2px);
+
+}
+
+/* ======================================
+SUMMARY
+====================================== */
+
+.summary-grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(4,1fr);
+
+gap:14px;
+
+margin-bottom:20px;
+
+}
+
+.summary-card{
+
+background:
+rgba(255,255,255,.15);
+
+padding:18px;
+
+border-radius:20px;
+
+box-shadow:var(--shadow);
+
+}
+
+.summary-card span{
+
+display:block;
+
+font-size:12px;
+
+font-weight:700;
+
+color:#cbd5e1;
+
+text-transform:uppercase;
+
+}
+
+.summary-card strong{
+
+display:block;
+
+margin-top:8px;
+
+font-size:30px;
+
+font-weight:900;
+
+}
+
+/* ======================================
+DASHBOARD CONTAINERS
+====================================== */
+
+#desktopDashboard{
+display:block;
+}
+
+#mobileDashboard{
+display:none;
+}
+
+/* ======================================
+PANEL
+====================================== */
+
+.panel{
+
+background:white;
+
+color:var(--text);
+
+border-radius:24px;
+
+padding:20px;
+
+margin-bottom:20px;
+
+box-shadow:var(--shadow);
+
+}
+
+.panel h2{
+
+font-size:22px;
+
+font-weight:800;
+
+margin-bottom:14px;
+
+}
+
+.panel h3{
+
+font-size:16px;
+
+font-weight:700;
+
+margin-bottom:10px;
+
+}
+
+.sub{
+
+font-size:13px;
+
+color:var(--muted);
+
+margin-bottom:14px;
+
+}
+
+/* ======================================
+CARD GRID
+====================================== */
+
+.card-grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(
+auto-fit,
+minmax(280px,1fr)
+);
+
+gap:14px;
+
+}
+
+.card{
+
+background:#f8fafc;
+
+border:1px solid
+var(--border);
+
+border-radius:18px;
+
+padding:16px;
+
+}
+
+/* ======================================
+ROWS
+====================================== */
+
+.row{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:flex-start;
+
+gap:10px;
+
+}
+
+/* ======================================
+TABLES
+====================================== */
+
+.table-wrap{
+
+overflow-x:auto;
+
+}
+
+table{
+
+width:100%;
+
+border-collapse:collapse;
+
+}
+
+th{
+
+background:#0f172a;
+
+color:white;
+
+padding:12px;
+
+text-align:left;
+
+font-size:13px;
+
+}
+
+td{
+
+padding:10px;
+
+border-bottom:
+1px solid var(--border);
+
+font-size:13px;
+
+}
+
+/* ======================================
+FORM ELEMENTS
+====================================== */
+
+input,
+select,
+textarea{
+
+width:100%;
+
+padding:10px;
+
+border:
+1px solid #cbd5e1;
+
+border-radius:10px;
+
+font-family:inherit;
+
+}
+
+textarea{
+
+resize:vertical;
+
+}
+
+/* ======================================
+STATUS BADGES
+====================================== */
+
+.badge{
+
+display:inline-block;
+
+padding:5px 8px;
+
+border-radius:999px;
+
+font-size:11px;
+
+font-weight:800;
+
+}
+
+.Completed{
+background:#dcfce7;
+color:#166534;
+}
+
+.InProgress{
+background:#fef3c7;
+color:#92400e;
+}
+
+.Planning{
+background:#dbeafe;
+color:#1e40af;
+}
+
+.Cancelled{
+background:#fee2e2;
+color:#991b1b;
+}
+
+/* ======================================
+PROGRESS BAR
+====================================== */
+
+.progress{
+
+height:10px;
+
+background:#e5e7eb;
+
+border-radius:999px;
+
+overflow:hidden;
+
+margin-top:8px;
+
+}
+
+.fill{
+
+height:100%;
+
+background:
+linear-gradient(
+90deg,
+#2563eb,
+#22c55e
+);
+
+}
+
+/* ======================================
+DESKTOP TABLET
+====================================== */
+
+@media (max-width:1024px){
+
+.summary-grid{
+
+grid-template-columns:
+repeat(2,1fr);
+
+}
+
+.app-header{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+}
+
+}
+
+/* ======================================
+PRINT
+====================================== */
+
+@media print{
+
+button{
+display:none;
+}
+
+body{
+background:white;
+color:black;
+}
+
+.panel,
+.summary-card{
+box-shadow:none;
+}
+
+}
