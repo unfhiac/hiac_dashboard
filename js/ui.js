@@ -1,91 +1,85 @@
 // ======================================
 // HIAC DASHBOARD 2.0
 // UI.JS
-// DESKTOP RENDERERS
+// DESKTOP RENDERERS + ADVANCED FEATURES
 // ======================================
+
 // ======================================
 // HELPERS
 // ======================================
 
 function clean(value){
-
-return String(value)
-.replaceAll(" ","");
-
+  return String(value || "")
+    .replaceAll(" ","")
+    .replaceAll("/","");
 }
 
 function option(list,current){
+  return list.map(x=>`
+    <option ${x===current?"selected":""}>
+      ${x}
+    </option>
+  `).join("");
+}
 
-return list.map(x=>`
-
-<option
-${x===current?"selected":""}
->
-
-${x}
-
-</option>
-
-`).join("");
-
+function safeNumber(value){
+  return Number(value) || 0;
 }
 
 // ======================================
-// KPI SUMMARY
+// ATTENDANCE CALCULATION
 // ======================================
 
-function renderSummary(){
+function attendancePercent(member){
 
-const totalTasks =
-tasks.length;
+  let eligible = 0;
+  let present = 0;
 
-const completed =
-tasks.filter(
-t=>t.status==="Completed"
-).length;
+  meetings.forEach(meeting=>{
 
-const eventCount =
-events.length;
+    const value = member[meeting];
 
-const attendanceRate =
-Math.round(
+    if([
+      "Present",
+      "Absent",
+      "Excused",
+      "Virtual",
+      "Advisor Meeting"
+    ].includes(value)){
 
-attendance
-.map(a=>attendancePercent(a))
-.filter(x=>x!=="N/A")
-.reduce((a,b)=>a+b,0)
+      eligible++;
 
-/
+      if(
+        value === "Present" ||
+        value === "Virtual" ||
+        value === "Advisor Meeting"
+      ){
+        present++;
+      }
 
-attendance.length
+      if(value === "Excused"){
+        present += 0.5;
+      }
 
-);
+    }
 
-document.getElementById(
-"totalTasks"
-).innerText =
-totalTasks;
+  });
 
-document.getElementById(
-"completedTasks"
-).innerText =
-completed;
-
-document.getElementById(
-"eventCount"
-).innerText =
-eventCount;
-
-document.getElementById(
-"attendanceRate"
-).innerText =
-attendanceRate+"%";
+  return eligible
+    ? Math.round((present / eligible) * 100)
+    : "N/A";
 
 }
-function clean(value){
 
-return String(value)
-.replaceAll(" ","");
+function averageAttendance(){
+
+  const rates = attendance
+    .map(a=>attendancePercent(a))
+    .filter(x=>x !== "N/A");
+
+  return rates.length
+    ? Math.round(rates.reduce((a,b)=>a+b,0) / rates.length)
+    : 0;
 
 }
 
@@ -95,49 +89,31 @@ return String(value)
 
 function renderSummary(){
 
-const totalTasks =
-tasks.length;
+  const totalTasks = tasks.length;
 
-const completedTasks =
-tasks.filter(
-t=>t.status==="Completed"
-).length;
+  const completedTasks = tasks.filter(
+    t=>t.status === "Completed"
+  ).length;
 
-const eventCount =
-events.length;
+  const eventCount = events.length;
 
-const avgAttendance =
-attendance.length
-?
-Math.round(
-attendance.reduce(
-(sum,a)=>
-sum+a.attendance,
-0
-)/attendance.length
-)
-:
-0;
+  const avgAttendance = averageAttendance();
 
-document.getElementById(
-"totalTasks"
-).innerText =
-totalTasks;
+  const budgetTotal = calculateBudget().target;
 
-document.getElementById(
-"completedTasks"
-).innerText =
-completedTasks;
+  document.getElementById("totalTasks").innerText = totalTasks;
 
-document.getElementById(
-"eventCount"
-).innerText =
-eventCount;
+  document.getElementById("completedTasks").innerText = completedTasks;
 
-document.getElementById(
-"attendanceRate"
-).innerText =
-avgAttendance+"%";
+  document.getElementById("eventCount").innerText = eventCount;
+
+  document.getElementById("attendanceRate").innerText = avgAttendance + "%";
+
+  const budgetEl = document.getElementById("budgetTotal");
+
+  if(budgetEl){
+    budgetEl.innerText = "$" + budgetTotal.toLocaleString();
+  }
 
 }
 
@@ -147,250 +123,445 @@ avgAttendance+"%";
 
 function renderOfficers(){
 
-const container =
-document.getElementById(
-"officerCards"
-);
+  const container = document.getElementById("officerCards");
 
-if(!container) return;
+  if(!container) return;
 
-container.innerHTML =
+  container.innerHTML = `
+    <div class="officer-grid">
 
-`<div class="officer-grid">
+      ${Object.keys(officerInfo).map(name=>{
 
-${Object.keys(
-officerInfo
-).map(name=>{
+        const related = tasks.filter(
+          t=>t.owner === name || t.owner === "All Officers"
+        );
 
-const related =
-tasks.filter(
-t=>t.owner===name
-);
+        const completed = related.filter(
+          t=>t.status === "Completed"
+        ).length;
 
-const completed =
-related.filter(
-t=>t.status==="Completed"
-).length;
+        const active = related.filter(
+          t=>t.status === "In Progress"
+        ).length;
 
-const active =
-related.filter(
-t=>t.status==="In Progress"
-).length;
+        const upcoming = related.filter(
+          t=>t.status === "Not Started"
+        ).length;
 
-const rate =
-related.length
-?
-Math.round(
-(completed/related.length)*100
-)
-:
-0;
+        const rate = related.length
+          ? Math.round((completed / related.length) * 100)
+          : 0;
 
-return `
+        const memberAttendance = attendancePercent(
+          attendance.find(a=>a.name === name) || {}
+        );
 
-<div class="officer-card">
+        const workload =
+          related.length > 8
+          ? "High"
+          : related.length > 4
+          ? "Medium"
+          : "Low";
 
-<div class="officer-header">
+        return `
+          <div class="officer-card">
 
-<div>
+            <div class="officer-header">
 
-<div class="officer-name">
+              <div>
+                <div class="officer-name">
+                  ${name}
+                </div>
 
-${name}
+                <div class="officer-role">
+                  ${officerInfo[name][0]}
+                </div>
+              </div>
 
-</div>
+              <span class="badge Planned">
+                ${officerInfo[name][1]}
+              </span>
 
-<div class="officer-role">
+            </div>
 
-${officerInfo[name][0]}
+            <div class="progress">
+              <div class="fill" style="width:${rate}%"></div>
+            </div>
 
-</div>
+            <div class="officer-stats">
 
-</div>
+              <div class="officer-stat">
+                <small>Tasks</small>
+                <strong>${related.length}</strong>
+              </div>
 
-<span class="badge Planned">
+              <div class="officer-stat">
+                <small>Done</small>
+                <strong>${completed}</strong>
+              </div>
 
-${officerInfo[name][1]}
+              <div class="officer-stat">
+                <small>Active</small>
+                <strong>${active}</strong>
+              </div>
 
-</span>
+              <div class="officer-stat">
+                <small>Upcoming</small>
+                <strong>${upcoming}</strong>
+              </div>
 
-</div>
+              <div class="officer-stat">
+                <small>Attendance</small>
+                <strong>
+                  ${memberAttendance}${memberAttendance==="N/A"?"":"%"}
+                </strong>
+              </div>
 
-<div class="progress">
+              <div class="officer-stat">
+                <small>Workload</small>
+                <strong>${workload}</strong>
+              </div>
 
-<div
-class="fill"
-style="width:${rate}%">
-</div>
+            </div>
 
-</div>
+          </div>
+        `;
 
-<div class="officer-stats">
+      }).join("")}
 
-<div class="officer-stat">
-
-<small>Tasks</small>
-
-<strong>
-${related.length}
-</strong>
-
-</div>
-
-<div class="officer-stat">
-
-<small>Done</small>
-
-<strong>
-${completed}
-</strong>
-
-</div>
-
-<div class="officer-stat">
-
-<small>Active</small>
-
-<strong>
-${active}
-</strong>
-
-</div>
-
-</div>
-
-</div>
-
-`;
-
-}).join("")}
-
-</div>`;
+    </div>
+  `;
 
 }
 
 // ======================================
-// ATTENDANCE
+// ATTENDANCE MATRIX
 // ======================================
 
 function renderAttendance(){
 
-const container =
-document.getElementById(
-"attendanceCards"
-);
+  const container = document.getElementById("attendanceCards");
 
-if(!container) return;
+  if(!container) return;
 
-container.innerHTML =
+  const statuses = [
+    "Present",
+    "Absent",
+    "Excused",
+    "Virtual",
+    "Advisor Meeting",
+    "N/A"
+  ];
 
-`<div class="card-grid">
+  container.innerHTML = `
+    <div class="attendance-summary-grid">
 
-${attendance.map(a=>`
+      <div class="mini-summary-card">
+        <span>Total Meetings</span>
+        <strong>${meetings.length}</strong>
+      </div>
 
-<div class="card">
+      <div class="mini-summary-card">
+        <span>Average Attendance</span>
+        <strong>${averageAttendance()}%</strong>
+      </div>
 
-<div class="row">
+      <div class="mini-summary-card">
+        <span>Members</span>
+        <strong>${attendance.length}</strong>
+      </div>
 
-<h3>
-${a.name}
-</h3>
+    </div>
 
-<span class="badge Completed">
+    <button onclick="addMeeting()" class="section-btn">
+      + Add Board Meeting
+    </button>
 
-${a.attendance}%
+    <div class="table-wrap">
 
-</span>
+      <table>
 
-</div>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Role</th>
+            ${meetings.map(m=>`<th>${m}</th>`).join("")}
+            <th>Attendance %</th>
+          </tr>
+        </thead>
 
-<p>
-${a.role}
-</p>
+        <tbody>
 
-<div class="progress">
+          ${attendance.map((member,rowIndex)=>`
 
-<div
-class="fill"
-style="
-width:${a.attendance}%
-">
-</div>
+            <tr>
 
-</div>
+              <td>${member.name}</td>
 
-</div>
+              <td>${member.role}</td>
 
-`).join("")}
+              ${meetings.map(meeting=>`
 
-</div>`;
+                <td>
+                  <select
+                    onchange="
+                      attendance[${rowIndex}]['${meeting}']=this.value;
+                      saveData();
+                      renderAll();
+                    "
+                  >
+                    ${option(statuses,member[meeting] || "N/A")}
+                  </select>
+                </td>
+
+              `).join("")}
+
+              <td>
+                <strong>
+                  ${attendancePercent(member)}
+                  ${attendancePercent(member)==="N/A"?"":"%"}
+                </strong>
+              </td>
+
+            </tr>
+
+          `).join("")}
+
+        </tbody>
+
+      </table>
+
+    </div>
+  `;
 
 }
 
 // ======================================
-// TASKS
+// TASK FILTERS + EDITABLE TASKS
 // ======================================
 
 function renderTasks(){
 
-const container =
-document.getElementById(
-"taskCards"
-);
+  const container = document.getElementById("taskCards");
 
-if(!container) return;
+  if(!container) return;
 
-container.innerHTML =
+  const searchValue =
+    document.getElementById("taskSearch")?.value?.toLowerCase() || "";
 
-`<div class="card-grid">
+  const agendaValue =
+    document.getElementById("agendaFilter")?.value || "All Agendas";
 
-${tasks.map(t=>`
+  const ownerValue =
+    document.getElementById("ownerFilter")?.value || "All Owners";
 
-<div class="card">
+  const statusValue =
+    document.getElementById("statusFilter")?.value || "All Statuses";
 
-<div class="row">
+  const filteredTasks = tasks.filter(t=>{
 
-<h3>
-${t.task}
-</h3>
+    const searchMatch =
+      (t.task + t.owner + t.agenda + t.notes)
+      .toLowerCase()
+      .includes(searchValue);
 
-<span class="badge ${clean(t.status)}">
+    const agendaMatch =
+      agendaValue === "All Agendas" || t.agenda === agendaValue;
 
-${t.status}
+    const ownerMatch =
+      ownerValue === "All Owners" || t.owner === ownerValue;
 
-</span>
+    const statusMatch =
+      statusValue === "All Statuses" || t.status === statusValue;
 
-</div>
+    return searchMatch && agendaMatch && ownerMatch && statusMatch;
 
-<p>
+  });
 
-Owner:
-<b>${t.owner}</b>
+  container.innerHTML = `
+    <div class="filters">
 
-</p>
+      <input
+        id="taskSearch"
+        placeholder="Search tasks..."
+        onkeyup="renderTasks()"
+        value="${searchValue}"
+      >
 
-<div class="progress">
+      <select id="agendaFilter" onchange="renderTasks()">
+        <option>All Agendas</option>
+        ${option(agendas,agendaValue)}
+      </select>
 
-<div
-class="fill"
-style="
-width:${t.progress}%
-">
-</div>
+      <select id="ownerFilter" onchange="renderTasks()">
+        <option>All Owners</option>
+        ${option(officers,ownerValue)}
+      </select>
 
-</div>
+      <select id="statusFilter" onchange="renderTasks()">
+        <option>All Statuses</option>
+        ${option(taskStatuses,statusValue)}
+      </select>
 
-<p>
+    </div>
 
-${t.progress}%
+    <div class="table-wrap">
 
-</p>
+      <table>
 
-</div>
+        <thead>
+          <tr>
+            <th>Agenda</th>
+            <th>Task</th>
+            <th>Owner</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Due</th>
+            <th>Progress</th>
+            <th>Notes</th>
+            <th>Action</th>
+          </tr>
+        </thead>
 
-`).join("")}
+        <tbody>
 
-</div>`;
+          ${filteredTasks.map(t=>{
+
+            const index = tasks.indexOf(t);
+
+            return `
+              <tr>
+
+                <td>
+                  <select
+                    onchange="
+                      tasks[${index}].agenda=this.value;
+                      saveData();
+                      renderAll();
+                    "
+                  >
+                    ${option(agendas,t.agenda)}
+                  </select>
+                </td>
+
+                <td
+                  contenteditable="true"
+                  onblur="
+                    tasks[${index}].task=this.innerText;
+                    saveData();
+                    renderAll();
+                  "
+                >
+                  ${t.task}
+                </td>
+
+                <td>
+                  <select
+                    onchange="
+                      tasks[${index}].owner=this.value;
+                      saveData();
+                      renderAll();
+                    "
+                  >
+                    ${option(officers,t.owner)}
+                  </select>
+                </td>
+
+                <td>
+                  <select
+                    onchange="
+                      tasks[${index}].priority=this.value;
+                      saveData();
+                      renderAll();
+                    "
+                  >
+                    ${option(priorities,t.priority)}
+                  </select>
+                </td>
+
+                <td>
+                  <select
+                    onchange="
+                      tasks[${index}].status=this.value;
+                      if(this.value==='Completed'){
+                        tasks[${index}].progress=100;
+                      }
+                      saveData();
+                      renderAll();
+                    "
+                  >
+                    ${option(taskStatuses,t.status)}
+                  </select>
+                </td>
+
+                <td>
+                  <input
+                    type="date"
+                    value="${t.due || ""}"
+                    onchange="
+                      tasks[${index}].due=this.value;
+                      saveData();
+                      renderAll();
+                    "
+                  >
+                </td>
+
+                <td>
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value="${t.progress}"
+                    onchange="
+                      tasks[${index}].progress=parseInt(this.value);
+                      saveData();
+                      renderAll();
+                    "
+                  >
+
+                  <div class="progress">
+                    <div
+                      class="fill"
+                      style="width:${t.progress}%"
+                    ></div>
+                  </div>
+
+                  <small>${t.progress}%</small>
+                </td>
+
+                <td>
+                  <textarea
+                    onblur="
+                      tasks[${index}].notes=this.value;
+                      saveData();
+                    "
+                  >${t.notes || ""}</textarea>
+                </td>
+
+                <td>
+                  <button
+                    class="danger-btn"
+                    onclick="
+                      tasks.splice(${index},1);
+                      saveData();
+                      renderAll();
+                    "
+                  >
+                    Delete
+                  </button>
+                </td>
+
+              </tr>
+            `;
+
+          }).join("")}
+
+        </tbody>
+
+      </table>
+
+    </div>
+  `;
 
 }
 
@@ -400,58 +571,90 @@ ${t.progress}%
 
 function renderEvents(){
 
-const container =
-document.getElementById(
-"eventCards"
-);
+  const container = document.getElementById("eventCards");
 
-if(!container) return;
+  if(!container) return;
 
-container.innerHTML =
+  container.innerHTML = `
+    <div class="card-grid">
 
-`<div class="card-grid">
+      ${events.map((e,index)=>`
 
-${events.map(e=>`
+        <div class="card">
 
-<div class="card">
+          <div class="row">
+            <input
+              value="${e.event}"
+              onchange="
+                events[${index}].event=this.value;
+                saveData();
+                renderAll();
+              "
+            >
 
-<div class="row">
+            <span class="badge ${clean(e.status)}">
+              ${e.status}
+            </span>
+          </div>
 
-<h3>
-${e.event}
-</h3>
+          <label>Lead</label>
+          <select
+            onchange="
+              events[${index}].lead=this.value;
+              saveData();
+              renderAll();
+            "
+          >
+            ${option(officers,e.lead)}
+          </select>
 
-<span class="badge ${clean(e.status)}">
+          <label>Status</label>
+          <select
+            onchange="
+              events[${index}].status=this.value;
+              saveData();
+              renderAll();
+            "
+          >
+            ${option(eventStatuses,e.status)}
+          </select>
 
-${e.status}
+          <label>Target Date</label>
+          <input
+            type="date"
+            value="${e.target || ""}"
+            onchange="
+              events[${index}].target=this.value;
+              saveData();
+              renderAll();
+            "
+          >
 
-</span>
+          <label>Progress</label>
+          <input
+            type="range"
+            min="0"
+            max="100"
+            value="${e.progress}"
+            onchange="
+              events[${index}].progress=parseInt(this.value);
+              saveData();
+              renderAll();
+            "
+          >
 
-</div>
+          <div class="progress">
+            <div class="fill" style="width:${e.progress}%"></div>
+          </div>
 
-<p>
+          <small>${e.progress}%</small>
 
-Lead:
-<b>${e.lead}</b>
+        </div>
 
-</p>
+      `).join("")}
 
-<div class="progress">
-
-<div
-class="fill"
-style="
-width:${e.progress}%
-">
-</div>
-
-</div>
-
-</div>
-
-`).join("")}
-
-</div>`;
+    </div>
+  `;
 
 }
 
@@ -461,47 +664,77 @@ width:${e.progress}%
 
 function renderPodcasts(){
 
-const container =
-document.getElementById(
-"podcastCards"
-);
+  const container = document.getElementById("podcastCards");
 
-if(!container) return;
+  if(!container) return;
 
-container.innerHTML =
+  container.innerHTML = `
+    <button onclick="addPodcast()" class="section-btn">
+      + Add Podcast Guest
+    </button>
 
-`<div class="card-grid">
+    <div class="card-grid">
 
-${podcasts.map(p=>`
+      ${podcasts.map((p,index)=>`
 
-<div class="card">
+        <div class="card">
 
-<div class="row">
+          <input
+            value="${p.guest}"
+            onchange="
+              podcasts[${index}].guest=this.value;
+              saveData();
+              renderAll();
+            "
+          >
 
-<h3>
-${p.guest}
-</h3>
+          <label>Owner</label>
+          <select
+            onchange="
+              podcasts[${index}].owner=this.value;
+              saveData();
+              renderAll();
+            "
+          >
+            ${option(officers,p.owner)}
+          </select>
 
-<span class="badge ${clean(p.status)}">
+          <label>Status</label>
+          <select
+            onchange="
+              podcasts[${index}].status=this.value;
+              saveData();
+              renderAll();
+            "
+          >
+            ${option(podcastStatuses,p.status)}
+          </select>
 
-${p.status}
+          <label>Target Date</label>
+          <input
+            type="date"
+            value="${p.target || ""}"
+            onchange="
+              podcasts[${index}].target=this.value;
+              saveData();
+              renderAll();
+            "
+          >
 
-</span>
+          <label>Notes</label>
+          <textarea
+            onblur="
+              podcasts[${index}].notes=this.value;
+              saveData();
+            "
+          >${p.notes || ""}</textarea>
 
-</div>
+        </div>
 
-<p>
+      `).join("")}
 
-Owner:
-<b>${p.owner}</b>
-
-</p>
-
-</div>
-
-`).join("")}
-
-</div>`;
+    </div>
+  `;
 
 }
 
@@ -511,47 +744,111 @@ Owner:
 
 function renderMarketing(){
 
-const container =
-document.getElementById(
-"marketingCards"
-);
+  const container = document.getElementById("marketingCards");
 
-if(!container) return;
+  if(!container) return;
 
-container.innerHTML =
+  const total = marketing.length;
 
-`<div class="card-grid">
+  const completed = marketing.filter(
+    m=>m.status==="Completed" || m.status==="Published"
+  ).length;
 
-${marketing.map(m=>`
+  const rate =
+    total
+    ? Math.round((completed/total)*100)
+    : 0;
 
-<div class="card">
+  container.innerHTML = `
+    <div class="attendance-summary-grid">
 
-<div class="row">
+      <div class="mini-summary-card">
+        <span>Total Marketing Tasks</span>
+        <strong>${total}</strong>
+      </div>
 
-<h3>
-${m.task}
-</h3>
+      <div class="mini-summary-card">
+        <span>Completed</span>
+        <strong>${completed}</strong>
+      </div>
 
-<span class="badge ${clean(m.status)}">
+      <div class="mini-summary-card">
+        <span>Completion Rate</span>
+        <strong>${rate}%</strong>
+      </div>
 
-${m.status}
+    </div>
 
-</span>
+    <button onclick="addMarketingTask()" class="section-btn">
+      + Add Marketing Task
+    </button>
 
-</div>
+    <div class="card-grid">
 
-<p>
+      ${marketing.map((m,index)=>`
 
-Owner:
-<b>${m.owner}</b>
+        <div class="card">
 
-</p>
+          <input
+            value="${m.task}"
+            onchange="
+              marketing[${index}].task=this.value;
+              saveData();
+              renderAll();
+            "
+          >
 
-</div>
+          <label>Owner</label>
+          <select
+            onchange="
+              marketing[${index}].owner=this.value;
+              saveData();
+              renderAll();
+            "
+          >
+            ${option([
+              "Cynthia Simmons",
+              "Selena Hernandez",
+              "Emmanuelle Vinson"
+            ],m.owner)}
+          </select>
 
-`).join("")}
+          <label>Status</label>
+          <select
+            onchange="
+              marketing[${index}].status=this.value;
+              saveData();
+              renderAll();
+            "
+          >
+            ${option(marketingStatuses,m.status)}
+          </select>
 
-</div>`;
+          <label>Due Date</label>
+          <input
+            type="date"
+            value="${m.target || ""}"
+            onchange="
+              marketing[${index}].target=this.value;
+              saveData();
+              renderAll();
+            "
+          >
+
+          <label>Notes</label>
+          <textarea
+            onblur="
+              marketing[${index}].notes=this.value;
+              saveData();
+            "
+          >${m.notes || ""}</textarea>
+
+        </div>
+
+      `).join("")}
+
+    </div>
+  `;
 
 }
 
@@ -559,50 +856,231 @@ Owner:
 // HIMSS BUDGET
 // ======================================
 
+function calculateBudget(){
+
+  let target = 0;
+  let raised = 0;
+
+  budget.forEach(b=>{
+
+    const rowTotal =
+      safeNumber(b.perStudent) *
+      safeNumber(b.students);
+
+    if(b.category === "Funds Raised"){
+      raised = rowTotal;
+    }else{
+      target += rowTotal;
+    }
+
+  });
+
+  return {
+    target,
+    raised,
+    gap: Math.max(target-raised,0)
+  };
+
+}
+
 function renderBudget(){
 
-const container =
-document.getElementById(
-"budgetCards"
-);
+  const container = document.getElementById("budgetCards");
 
-if(!container) return;
+  if(!container) return;
 
-container.innerHTML =
+  const totals = calculateBudget();
 
-`<div class="card-grid">
+  container.innerHTML = `
+    <div class="attendance-summary-grid">
 
-${budget.map(b=>`
+      <div class="mini-summary-card">
+        <span>Target Budget</span>
+        <strong>$${totals.target.toLocaleString()}</strong>
+      </div>
 
-<div class="card">
+      <div class="mini-summary-card">
+        <span>Funds Raised</span>
+        <strong>$${totals.raised.toLocaleString()}</strong>
+      </div>
 
-<div class="row">
+      <div class="mini-summary-card">
+        <span>Remaining Gap</span>
+        <strong>$${totals.gap.toLocaleString()}</strong>
+      </div>
 
-<h3>
-${b.category}
-</h3>
+    </div>
 
-<span class="badge ${clean(b.status)}">
+    <div class="table-wrap">
 
-${b.status}
+      <table>
 
-</span>
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Per Student</th>
+            <th>Students</th>
+            <th>Total</th>
+            <th>Status</th>
+          </tr>
+        </thead>
 
-</div>
+        <tbody>
 
-<h2>
+          ${budget.map((b,index)=>{
 
-$${Number(
-b.amount
-).toLocaleString()}
+            const total =
+              safeNumber(b.perStudent) *
+              safeNumber(b.students);
 
-</h2>
+            return `
+              <tr>
 
-</div>
+                <td>${b.category}</td>
 
-`).join("")}
+                <td>
+                  <input
+                    type="number"
+                    value="${b.perStudent}"
+                    onchange="
+                      budget[${index}].perStudent=Number(this.value);
+                      saveData();
+                      renderAll();
+                    "
+                  >
+                </td>
 
-</div>`;
+                <td>
+                  <input
+                    type="number"
+                    value="${b.students}"
+                    onchange="
+                      budget[${index}].students=Number(this.value);
+                      saveData();
+                      renderAll();
+                    "
+                  >
+                </td>
+
+                <td>
+                  <strong>
+                    $${total.toLocaleString()}
+                  </strong>
+                </td>
+
+                <td>
+                  <select
+                    onchange="
+                      budget[${index}].status=this.value;
+                      saveData();
+                      renderAll();
+                    "
+                  >
+                    ${option(budgetStatuses,b.status)}
+                  </select>
+                </td>
+
+              </tr>
+            `;
+
+          }).join("")}
+
+        </tbody>
+
+      </table>
+
+    </div>
+  `;
+
+}
+
+// ======================================
+// ADD BUTTONS
+// ======================================
+
+function addTask(){
+
+  tasks.unshift({
+    agenda:"Strategic Planning",
+    task:"New Task",
+    owner:"Agrani Sinha",
+    priority:"Medium",
+    status:"Not Started",
+    due:"",
+    progress:0,
+    notes:""
+  });
+
+  saveData();
+
+  renderAll();
+
+}
+
+function addPodcast(){
+
+  podcasts.unshift({
+    guest:"New Podcast Guest",
+    owner:"Agrani Sinha",
+    status:"Prospect",
+    target:"",
+    notes:""
+  });
+
+  saveData();
+
+  renderAll();
+
+}
+
+function addMarketingTask(){
+
+  marketing.unshift({
+    task:"New Marketing Task",
+    owner:"Cynthia Simmons",
+    status:"Not Started",
+    target:"",
+    notes:""
+  });
+
+  saveData();
+
+  renderAll();
+
+}
+
+// ======================================
+// CSV EXPORT
+// ======================================
+
+function exportCSV(){
+
+  let csv =
+    "Agenda,Task,Owner,Priority,Status,Due,Progress,Notes\n";
+
+  tasks.forEach(t=>{
+
+    csv +=
+      `"${t.agenda}","${t.task}","${t.owner}","${t.priority}","${t.status}","${t.due}","${t.progress}%","${t.notes}"\n`;
+
+  });
+
+  const blob =
+    new Blob(
+      [csv],
+      {type:"text/csv"}
+    );
+
+  const a =
+    document.createElement("a");
+
+  a.href =
+    URL.createObjectURL(blob);
+
+  a.download =
+    "HIAC_Dashboard_Tasks.csv";
+
+  a.click();
 
 }
 
@@ -612,20 +1090,20 @@ b.amount
 
 function renderAll(){
 
-renderSummary();
+  renderSummary();
 
-renderOfficers();
+  renderOfficers();
 
-renderAttendance();
+  renderAttendance();
 
-renderTasks();
+  renderTasks();
 
-renderEvents();
+  renderEvents();
 
-renderPodcasts();
+  renderPodcasts();
 
-renderMarketing();
+  renderMarketing();
 
-renderBudget();
+  renderBudget();
 
 }
