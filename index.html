@@ -1354,6 +1354,16 @@ renderAnalytics();
 
 renderSchedule();
 
+if(window.innerWidth <= 768){
+
+renderMobileAttendance();
+renderMobileTasks();
+renderMobileEvents();
+renderMobilePodcasts();
+renderMobileMarketing();
+renderMobileBudget();
+
+}
 }
 
 function renderStats(){
