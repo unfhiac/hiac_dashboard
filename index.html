@@ -1883,7 +1883,99 @@ option(Object.keys(officerInfo),"Agrani Sinha");
 
 }
 
+//----------------------------------
+// CORD TRACKER SUMMARY
+//----------------------------------
+
+let members =
+JSON.parse(
+localStorage.getItem(
+"hiac_members_v1"
+)
+) || [];
+
+let graduatedMembers =
+JSON.parse(
+localStorage.getItem(
+"hiac_graduated_v1"
+)
+) || [];
+
+function renderCordSummary(){
+
+members =
+JSON.parse(
+localStorage.getItem(
+"hiac_members_v1"
+)
+) || [];
+
+graduatedMembers =
+JSON.parse(
+localStorage.getItem(
+"hiac_graduated_v1"
+)
+) || [];
+
+const active =
+members.length;
+
+const graduated =
+graduatedMembers.length;
+
+const eligible =
+members.filter(m=>{
+
+const attended =
+m.eventsAttended || 0;
+
+const total =
+m.eligibleEvents || 0;
+
+if(total===0){
+return false;
+}
+
+return (
+attended/total
+)>=0.5;
+
+}).length;
+
+const activeEl =
+document.getElementById(
+"activeMemberCount"
+);
+
+const eligibleEl =
+document.getElementById(
+"eligibleMemberCount"
+);
+
+const graduatedEl =
+document.getElementById(
+"graduatedMemberCount"
+);
+
+if(activeEl){
+activeEl.innerText =
+active;
+}
+
+if(eligibleEl){
+eligibleEl.innerText =
+eligible;
+}
+
+if(graduatedEl){
+graduatedEl.innerText =
+graduated;
+}
+
+}
 function renderAll(){
+
+renderCordSummary();
 
 normalizeMeetingLists();
 syncAgendaMeetings();
