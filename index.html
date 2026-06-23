@@ -1788,7 +1788,9 @@ attendance
 
 await saveSheet(
 "Meetings",
-meetings
+meetings.map(m=>({
+meetingName:m
+}))
 );
 
 await saveSheet(
@@ -1917,19 +1919,6 @@ option(Object.keys(officerInfo),"Agrani Sinha");
 // CORD TRACKER SUMMARY
 //----------------------------------
 
-let members =
-JSON.parse(
-localStorage.getItem(
-"hiac_members_v1"
-)
-) || [];
-
-let graduatedMembers =
-JSON.parse(
-localStorage.getItem(
-"hiac_graduated_v1"
-)
-) || [];
 
 function renderCordSummary(){
 
@@ -3264,7 +3253,8 @@ attendance =
 await loadSheet("Attendance");
 
 meetings =
-await loadSheet("Meetings");
+(await loadSheet("Meetings"))
+.map(x=>x.meetingName);
 
 podcasts =
 await loadSheet("Podcasts");
@@ -3278,8 +3268,14 @@ await loadSheet("Marketing");
 himss =
 await loadSheet("HIMSSBudget");
 
-schedule =
+const avail =
 await loadSheet("Availability");
+
+schedule = {};
+
+avail.forEach(r=>{
+schedule[r.key]=r.value;
+});
 
 members =
 await loadSheet("Members");
