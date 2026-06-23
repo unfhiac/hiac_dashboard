@@ -3246,24 +3246,74 @@ async function loadDatabase(){
 
 try{
 
-tasks =
-await loadSheet("Tasks");
+// ---------------------
+// TASKS
+// ---------------------
+
+try{
+
+tasks = await loadSheet("Tasks");
+
+if(!Array.isArray(tasks))
+tasks = [];
 
 console.log("TASKS",tasks);
+
+}catch(e){
+
+console.error("Tasks Error",e);
+
+tasks = [];
+
+}
+
+// ---------------------
+// ATTENDANCE
+// ---------------------
+
+try{
 
 attendance =
 await loadSheet("Attendance");
 
-console.log("ATTENDANCE",attendance);
+if(!Array.isArray(attendance))
+attendance = [];
+
+console.log(
+"ATTENDANCE",
+attendance
+);
+
+}catch(e){
+
+console.error(
+"Attendance Error",
+e
+);
+
+attendance = [];
+
+}
+
+// ---------------------
+// MEETINGS
+// ---------------------
+
+try{
 
 const meetingData =
-await loadSheet("Meetings");
+await loadSheet(
+"Meetings"
+);
 
-console.log("MEETINGS",meetingData);
+console.log(
+"MEETINGS",
+meetingData
+);
 
 meetings =
 meetingData.map(
-m =>
+m=>
 m.meetingName ||
 m.Meeting ||
 m.meeting ||
@@ -3271,41 +3321,284 @@ m.agenda ||
 Object.values(m)[0]
 );
 
-console.log("PARSED MEETINGS",meetings);
+if(
+!meetings.length
+){
+
+meetings = [
+
+"Board #1",
+"Board #2",
+"Board #3",
+"Strategic Planning"
+
+];
+
+}
+
+console.log(
+"PARSED MEETINGS",
+meetings
+);
+
+}catch(e){
+
+console.error(
+"Meetings Error",
+e
+);
+
+meetings = [
+
+"Board #1",
+"Board #2",
+"Board #3",
+"Strategic Planning"
+
+];
+
+}
+
+// ---------------------
+// PODCASTS
+// ---------------------
+
+try{
 
 podcasts =
-await loadSheet("Podcasts");
+await loadSheet(
+"Podcasts"
+);
+
+if(!Array.isArray(podcasts))
+podcasts=[];
+
+console.log(
+"PODCASTS",
+podcasts
+);
+
+}catch(e){
+
+console.error(
+"Podcasts Error",
+e
+);
+
+podcasts=[];
+
+}
+
+// ---------------------
+// EVENTS
+// ---------------------
+
+try{
 
 events =
-await loadSheet("Events");
+await loadSheet(
+"Events"
+);
+
+if(!Array.isArray(events))
+events=[];
+
+console.log(
+"EVENTS",
+events
+);
+
+}catch(e){
+
+console.error(
+"Events Error",
+e
+);
+
+events=[];
+
+}
+
+// ---------------------
+// MARKETING
+// ---------------------
+
+try{
 
 marketing =
-await loadSheet("Marketing");
+await loadSheet(
+"Marketing"
+);
+
+if(!Array.isArray(marketing))
+marketing=[];
+
+console.log(
+"MARKETING",
+marketing
+);
+
+}catch(e){
+
+console.error(
+"Marketing Error",
+e
+);
+
+marketing=[];
+
+}
+
+// ---------------------
+// HIMSS
+// ---------------------
+
+try{
 
 himss =
-await loadSheet("HIMSSBudget");
+await loadSheet(
+"HIMSSBudget"
+);
+
+if(!Array.isArray(himss))
+himss=[];
+
+console.log(
+"HIMSS",
+himss
+);
+
+}catch(e){
+
+console.error(
+"HIMSS Error",
+e
+);
+
+himss=[];
+
+}
+
+// ---------------------
+// AVAILABILITY
+// ---------------------
+
+try{
 
 const avail =
-await loadSheet("Availability");
+await loadSheet(
+"Availability"
+);
 
 schedule = {};
 
+if(Array.isArray(avail)){
+
 avail.forEach(r=>{
+
+if(
+r.key !== undefined
+){
 
 schedule[r.key] =
 r.value;
 
+}
+
 });
 
+}
+
+console.log(
+"AVAILABILITY",
+schedule
+);
+
+}catch(e){
+
+console.error(
+"Availability Error",
+e
+);
+
+schedule={};
+
+}
+
+// ---------------------
+// MEMBERS
+// ---------------------
+
+try{
+
 members =
-await loadSheet("Members");
+await loadSheet(
+"Members"
+);
+
+if(!Array.isArray(members))
+members=[];
+
+console.log(
+"MEMBERS",
+members
+);
+
+}catch(e){
+
+console.error(
+"Members Error",
+e
+);
+
+members=[];
+
+}
+
+// ---------------------
+// GRADUATED MEMBERS
+// ---------------------
+
+try{
 
 graduatedMembers =
-await loadSheet("GraduatedMembers");
+await loadSheet(
+"GraduatedMembers"
+);
+
+if(
+!Array.isArray(
+graduatedMembers
+)
+)
+graduatedMembers=[];
+
+console.log(
+"GRADUATED",
+graduatedMembers
+);
+
+}catch(e){
+
+console.error(
+"Graduated Error",
+e
+);
+
+graduatedMembers=[];
+
+}
+
+console.log(
+"DATABASE LOADED SUCCESSFULLY"
+);
 
 }catch(error){
 
-console.error(error);
+console.error(
+"DATABASE ERROR",
+error
+);
 
 alert(
 "Database connection failed"
