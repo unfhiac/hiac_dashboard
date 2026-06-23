@@ -3301,40 +3301,48 @@ html += `
 
 people.forEach(person=>{
 
+html += `
+<li>
+<b>${person}</b> marked availability on:
+<ul>
+`;
+
 const dates =
 Object.keys(memberDates[person])
 .sort();
 
 dates.forEach(date=>{
 
-let info =
+const info =
 memberDates[person][date];
 
-let times =
-info.times.sort((a,b)=>{
-
-return parseTime(a) - parseTime(b);
-
-});
+const times =
+info.times.sort(
+(a,b)=>
+parseTime(a)-parseTime(b)
+);
 
 const firstTime =
 times[0];
 
 const lastTime =
-times[times.length - 1];
+times[times.length-1];
 
 html += `
 <li>
-<b>${person}</b> marked availability on
-<b>${formatDateLabel(date)}</b>
-(${info.day}, ${firstTime}${firstTime !== lastTime ? "–" + lastTime : ""})
+${formatDateLabel(date)}
+(${firstTime}${firstTime!==lastTime ? "–"+lastTime : ""})
 </li>
 `;
 
 });
 
-});
+html += `
+</ul>
+</li>
+`;
 
+});
 }
 
 html += `
@@ -3345,8 +3353,9 @@ html += `
 
 const bestSlots =
 Object.entries(slotCounts)
+.filter(x=>x[1] >= 2)
 .sort((a,b)=>b[1]-a[1])
-.slice(0,5);
+.slice(0,3);
 
 if(bestSlots.length === 0){
 
