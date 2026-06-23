@@ -421,7 +421,7 @@ const API_URL =
 
 function save(){
 
-await saveDatabase();
+saveDatabase();
 
 }
 
@@ -593,7 +593,7 @@ eligibleEvents:previous?.eligibleEvents || 0
 
 }
 
-save();
+await saveDatabase();
 render();
 
 alert(
@@ -861,15 +861,24 @@ graduatedMembers = [];
 
 try{
 
-members =
-await fetch(
+const [memberResponse, gradResponse] =
+await Promise.all([
+
+fetch(
 `${API_URL}?action=Members`
-).then(r=>r.json());
+),
+
+fetch(
+`${API_URL}?action=GraduatedMembers`
+)
+
+]);
+
+members =
+await memberResponse.json();
 
 graduatedMembers =
-await fetch(
-`${API_URL}?action=GraduatedMembers`
-).then(r=>r.json());
+await gradResponse.json();
 
 console.log(
 "Members Loaded:",
