@@ -1813,7 +1813,12 @@ himss
 
 await saveSheet(
 "Availability",
-schedule
+Object.entries(schedule).map(
+([key,value])=>({
+key:key,
+value:value
+})
+)
 );
 
 await saveSheet(
