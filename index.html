@@ -3104,38 +3104,14 @@ loadSheet("GraduatedMembers")
 
 ]);
 
-console.log(
-"Availability rows:",
-availData.length
-);
-
-console.log(
-availData
-);
-
-// TASKS
-
-tasks = tasksData || [];
-
-tasks = tasks.map(t=>({
-
+tasks =
+(tasksData || []).map(t=>({
 ...t,
-
-due:
-t.due &&
-!isNaN(new Date(t.due))
-?
-new Date(t.due).toISOString().split("T")[0]
-:
-""
-
+due: cleanDate(t.due)
 }));
 
-// ATTENDANCE
-
-attendance = attendanceData || [];
-
-// MEETINGS
+attendance =
+attendanceData || [];
 
 meetings =
 (meetingData || []).map(m=>
@@ -3157,85 +3133,50 @@ meetings=[
 
 }
 
-// PODCASTS
-
-podcasts = podcastsData || [];
-
-podcasts = podcasts.map(p=>({
-
+podcasts =
+(podcastsData || []).map(p=>({
 ...p,
-
-target:
-p.target &&
-!isNaN(new Date(p.target))
-?
-new Date(p.target).toISOString().split("T")[0]
-:
-""
-
+target: cleanDate(p.target)
 }));
 
-// EVENTS
-
-events = eventsData || [];
-
-events = events.map(e=>({
-
+events =
+(eventsData || []).map(e=>({
 ...e,
-
-target:
-e.target &&
-!isNaN(new Date(e.target))
-?
-new Date(e.target).toISOString().split("T")[0]
-:
-""
-
+target: cleanDate(e.target)
 }));
 
-// MARKETING
-
-marketing = marketingData || [];
-
-marketing = marketing.map(m=>({
-
+marketing =
+(marketingData || []).map(m=>({
 ...m,
-
-target:
-m.target &&
-!isNaN(new Date(m.target))
-?
-new Date(m.target).toISOString().split("T")[0]
-:
-""
-
+target: cleanDate(m.target)
 }));
 
-// HIMSS
-
-himss = himssData || [];
-
-// AVAILABILITY
+himss =
+himssData || [];
 
 schedule = {};
 
 (availData || []).forEach(r=>{
 
 if(r.key){
-schedule[r.key] = r.value;
+
+schedule[r.key] =
+r.value;
+
 }
 
 });
 
-// MEMBERS
+members =
+membersData || [];
 
-members = membersData || [];
+graduatedMembers =
+graduatedData || [];
 
-// GRADUATED
-
-graduatedMembers = graduatedData || [];
-
-console.log("Database loaded successfully");
+console.log(
+"Availability Loaded:",
+Object.keys(schedule).length
+);
 
 }
 catch(error){
@@ -3245,12 +3186,9 @@ console.error(
 error
 );
 
-// no alert here
-
 }
 
 }
-
 window.onload = async () => {
 
 await loadDatabase();
