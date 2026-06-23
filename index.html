@@ -3181,39 +3181,57 @@ target: cleanDate(m.target)
 himss =
 himssData || [];
 
-// AVAILABILITY
-
 schedule = {};
 
 (availData || []).forEach(r=>{
 
-if(
-r.person &&
-r.date &&
-r.day &&
-r.time
-){
+let date =
+r.date;
+
+if(date){
+
+date =
+new Date(date)
+.toISOString()
+.split("T")[0];
+
+}
+
+let time =
+r.time;
+
+if(time){
+
+const d =
+new Date(time);
+
+if(!isNaN(d)){
+
+time =
+d.toLocaleTimeString(
+'en-US',
+{
+hour:'numeric'
+}
+);
+
+}
+
+}
 
 const key =
 r.person +
 "_" +
-r.date +
+date +
 "_" +
 r.day +
 "_" +
-r.time;
+time;
 
 schedule[key] =
 r.status;
 
-}
-
 });
-
-console.log(
-"Availability Loaded:",
-Object.keys(schedule).length
-);
 
 console.log(schedule);
 
