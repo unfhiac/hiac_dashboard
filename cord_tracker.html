@@ -320,22 +320,28 @@ onchange="render()"
 
 <select
 id="sortBy"
-onchange="render()"
+onchange="
+currentSort=this.value;
+render();
+"
 >
-<option value="name">
-Sort By Name
-</option>
 
-<option value="attendance">
-Sort By Attendance %
-</option>
-
-<option value="events">
-Sort By Events Attended
-</option>
+<option value="name">Sort By Name</option>
+<option value="email">Sort By Email</option>
+<option value="attended">Sort By Attended</option>
+<option value="eligibleEvents">Sort By Eligible Events</option>
+<option value="percent">Sort By Attendance %</option>
 
 </select>
 
+<button
+onclick="
+sortAsc=!sortAsc;
+render();
+"
+>
+⇅ Reverse
+</button>
 </div>
 
 <table>
@@ -783,7 +789,10 @@ bv-av;
 // RENDER
 //----------------------------------
 
-filtered.forEach((m,i)=>{
+filtered.forEach((m)=>{
+
+const i =
+members.indexOf(m);
 
 const pct =
 percent(m);
