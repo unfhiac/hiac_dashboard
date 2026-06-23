@@ -1557,6 +1557,7 @@ const officerInfo={
 
 let members = [];
 let graduatedMembers = [];
+let schedule = {};
 let currentOfficerIndex = 0;
 
 let plannerMonth =
@@ -3076,18 +3077,41 @@ async function loadDatabase(){
 
 try{
 
-// ======================
+const [
+
+tasksData,
+attendanceData,
+meetingData,
+podcastsData,
+eventsData,
+marketingData,
+himssData,
+availData,
+membersData,
+graduatedData
+
+] = await Promise.all([
+
+loadSheet("Tasks"),
+loadSheet("Attendance"),
+loadSheet("Meetings"),
+loadSheet("Podcasts"),
+loadSheet("Events"),
+loadSheet("Marketing"),
+loadSheet("HIMSSBudget"),
+loadSheet("Availability"),
+loadSheet("Members"),
+loadSheet("GraduatedMembers")
+
+]);
+
+// =====================
 // TASKS
-// ======================
+// =====================
 
-tasks =
-await loadSheet("Tasks");
+tasks = tasksData || [];
 
-if(!Array.isArray(tasks)){
-tasks=[];
-}
-
-tasks = tasks.map(t => ({
+tasks = tasks.map(t=>({
 
 ...t,
 
@@ -3102,81 +3126,48 @@ new Date(t.due)
 ""
 
 }));
-console.log(
-"TASKS",
-tasks
-);
 
-// ======================
+// =====================
 // ATTENDANCE
-// ======================
+// =====================
 
-attendance =
-await loadSheet("Attendance");
+attendance = attendanceData || [];
 
-if(!Array.isArray(attendance)){
-attendance=[];
-}
-
-console.log(
-"ATTENDANCE",
-attendance
-);
-
-// ======================
+// =====================
 // MEETINGS
-// ======================
-
-const meetingData =
-await loadSheet("Meetings");
-
-console.log(
-"MEETINGS",
-meetingData
-);
+// =====================
 
 meetings =
-Array.isArray(meetingData)
-?
-meetingData.map(
-m=>
+(meetingData || []).map(m=>
+
 m.meetingName ||
 m.Meeting ||
 m.meeting ||
 m.agenda ||
 Object.values(m)[0]
-)
-:
-[];
 
-if(meetings.length===0){
+);
 
-meetings=[
+if(!meetings.length){
+
+meetings = [
+
 "Board #1",
 "Board #2",
 "Board #3",
 "Strategic Planning"
+
 ];
 
 }
 
-console.log(
-"PARSED MEETINGS",
-meetings
-);
-
-// ======================
+// =====================
 // PODCASTS
-// ======================
+// =====================
 
-podcasts =
-await loadSheet("Podcasts");
+podcasts = podcastsData || [];
 
-if(!Array.isArray(podcasts)){
-podcasts=[];
-}
-
-podcasts = podcasts.map(p => ({
+podcasts = podcasts.map(p=>({
 
 ...p,
 
@@ -3192,18 +3183,13 @@ new Date(p.target)
 
 }));
 
-// ======================
+// =====================
 // EVENTS
-// ======================
+// =====================
 
-events =
-await loadSheet("Events");
+events = eventsData || [];
 
-if(!Array.isArray(events)){
-events=[];
-}
-
-events = events.map(e => ({
+events = events.map(e=>({
 
 ...e,
 
@@ -3219,18 +3205,13 @@ new Date(e.target)
 
 }));
 
-// ======================
+// =====================
 // MARKETING
-// ======================
+// =====================
 
-marketing =
-await loadSheet("Marketing");
+marketing = marketingData || [];
 
-if(!Array.isArray(marketing)){
-marketing=[];
-}
-
-marketing = marketing.map(m => ({
+marketing = marketing.map(m=>({
 
 ...m,
 
@@ -3246,72 +3227,92 @@ new Date(m.target)
 
 }));
 
-// ======================
-// HIMSS BUDGET
-// ======================
+// =====================
+// HIMSS
+// =====================
 
-himss =
-await loadSheet("HIMSSBudget");
+himss = himssData || [];
 
-if(!Array.isArray(himss)){
-himss=[];
-}
-
-// ======================
+// =====================
 // AVAILABILITY
-// ======================
+// =====================
 
-const avail =
-await loadSheet("Availability");
+schedule = {};
 
-schedule={};
+(availData || []).forEach(r=>{
 
-if(Array.isArray(avail)){
-
-avail.forEach(r=>{
-
-if(r.key){
-
-schedule[r.key]=
+schedule[r.key] =
 r.value;
-
-}
 
 });
 
-}
-
-// ======================
+// =====================
 // MEMBERS
-// ======================
+// =====================
 
-members =
-await loadSheet("Members");
+members = membersData || [];
 
-if(!Array.isArray(members)){
-members=[];
-}
-
-// ======================
-// GRADUATED MEMBERS
-// ======================
+// =====================
+// GRADUATED
+// =====================
 
 graduatedMembers =
-await loadSheet("GraduatedMembers");
+graduatedData || [];
 
-if(!Array.isArray(graduatedMembers)){
-graduatedMembers=[];
-}
+// =====================
+// DEBUG
+// =====================
 
 console.log(
-"DATABASE LOADED SUCCESSFULLY"
+"Tasks:",
+tasks.length
+);
+
+console.log(
+"Attendance:",
+attendance.length
+);
+
+console.log(
+"Meetings:",
+meetings.length
+);
+
+console.log(
+"Podcasts:",
+podcasts.length
+);
+
+console.log(
+"Events:",
+events.length
+);
+
+console.log(
+"Marketing:",
+marketing.length
+);
+
+console.log(
+"HIMSS:",
+himss.length
+);
+
+console.log(
+"Members:",
+members.length
+);
+
+console.log(
+"Graduated:",
+graduatedMembers.length
 );
 
 }
 catch(error){
 
 console.error(
-"DATABASE ERROR",
+"Database Error:",
 error
 );
 
@@ -3322,7 +3323,6 @@ alert(
 }
 
 }
-
 window.onload = async () => {
 
 await loadDatabase();
