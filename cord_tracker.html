@@ -643,6 +643,24 @@ render();
 
 
 function render(){
+
+if(
+!Array.isArray(members)
+){
+members = [];
+}
+
+if(
+!Array.isArray(graduatedMembers)
+){
+graduatedMembers = [];
+}
+
+console.log(
+"Rendering:",
+members.length,
+graduatedMembers.length
+);
 document.getElementById("activeCount").innerText =
 members.length;
 
@@ -877,8 +895,25 @@ fetch(
 members =
 await memberResponse.json();
 
+members = members.map(m => ({
+
+...m,
+
+eventsAttended:
+Number(m.eventsAttended || 0),
+
+eligibleEvents:
+Number(m.eligibleEvents || 0)
+
+}));
+
 graduatedMembers =
 await gradResponse.json();
+if(
+!Array.isArray(graduatedMembers)
+){
+graduatedMembers = [];
+}
 
 console.log(
 "Members Loaded:",
@@ -947,7 +982,17 @@ alert(
 
 window.onload = async () => {
 
+try{
+
 await loadDatabase();
+
+render();
+
+}catch(error){
+
+console.error(error);
+
+}
 
 };
 </script>
