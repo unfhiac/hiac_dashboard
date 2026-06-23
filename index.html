@@ -1795,7 +1795,13 @@ localStorage.getItem(
 )
 ) || [];
 
-  
+let graduatedMembers =
+JSON.parse(
+localStorage.getItem(
+"hiac_graduated_v1"
+)
+) || [];
+
 function save(){
 
 localStorage.setItem(
@@ -1810,7 +1816,12 @@ localStorage.setItem(
 "hiac_attendance_v3",
 JSON.stringify(attendance)
 );
-
+localStorage.setItem(
+"hiac_graduated_v1",
+JSON.stringify(
+graduatedMembers
+)
+);
 localStorage.setItem(
 "hiac_podcasts_v3",
 JSON.stringify(podcasts)
@@ -3136,71 +3147,106 @@ csv
 .filter(r=>r.trim());
 
 const headers =
-parseCsvRow(rows[0])
-.map(h=>h.trim());
+parseCsvRow(rows[0]);
 
-const lowerHeaders =
-headers.map(h=>h.toLowerCase());
+//----------------------------------
+// FIND COLUMNS
+//----------------------------------
 
-const nameIndex =
-lowerHeaders.findIndex(h =>
-h==="name" ||
-h.includes("full name") ||
-h.includes("member name") ||
-h.includes("first name")
+const firstNameIndex =
+headers.findIndex(
+h=>h.trim()==="First Name"
+);
+
+const lastNameIndex =
+headers.findIndex(
+h=>h.trim()==="Last Name"
 );
 
 const emailIndex =
-lowerHeaders.findIndex(h =>
-h==="email" ||
-h.includes("email address") ||
-h.includes("campus email")
+headers.findIndex(
+h=>h.trim()==="Email"
 );
 
 const tagIndex =
-lowerHeaders.findIndex(h =>
-h.includes("member tag") ||
-h.includes("member tags") ||
-h.includes("tags") ||
-h.includes("tag") ||
-h.includes("membership") ||
-h.includes("status")
+headers.findIndex(
+h=>h.trim()==="Member Tags"
 );
 
+//----------------------------------
+// DEBUG
+//----------------------------------
+
 const debugBox =
-document.getElementById("csvDebugBox");
+document.getElementById(
+"csvDebugBox"
+);
 
 if(debugBox){
 
 debugBox.style.display="block";
 
-debugBox.innerHTML = `
+debugBox.innerHTML=`
+
 <strong>CSV Import Debug</strong><br>
-Headers found: ${headers.join(" | ")}<br>
-Name column: ${nameIndex >= 0 ? headers[nameIndex] : "NOT FOUND"}<br>
-Email column: ${emailIndex >= 0 ? headers[emailIndex] : "NOT FOUND"}<br>
-Member Tags column: ${tagIndex >= 0 ? headers[tagIndex] : "NOT FOUND"}
+
+First Name:
+${firstNameIndex}<br>
+
+Last Name:
+${lastNameIndex}<br>
+
+Email:
+${emailIndex}<br>
+
+Member Tags:
+${tagIndex}<br>
+
 `;
 
 }
 
-if(
-nameIndex < 0 ||
-emailIndex < 0
-){
+//----------------------------------
+// PRESERVE HISTORY
+//----------------------------------
 
-alert(
-"Could not find Name or Email column. Please check the CSV headers."
-);
+let existingAttendance =
+{};
 
-return;
+members.forEach(m=>{
 
-}
+existingAttendance[
+m.email.toLowerCase()
+] = {
+
+eventsAttended:
+m.eventsAttended || 0,
+
+eligibleEvents:
+m.eligibleEvents || 0
+
+};
+
+});
+
+//----------------------------------
+// RESET DATA
+//----------------------------------
 
 members=[];
 
-let graduatedCount = 0;
+graduatedMembers=[];
+
+localStorage.removeItem(
+"hiac_members_v1"
+);
+
+//----------------------------------
+// IMPORT
+//----------------------------------
+
 let activeCount = 0;
+let graduatedCount = 0;
 
 for(
 let i=1;
@@ -3211,81 +3257,147 @@ i++
 const cols =
 parseCsvRow(rows[i]);
 
+const firstName =
+(cols[firstNameIndex]||"")
+.trim();
+
+const lastName =
+(cols[lastNameIndex]||"")
+.trim();
+
 const name =
-(cols[nameIndex] || "")
-.replaceAll('"',"")
+`${firstName} ${lastName}`
 .trim();
 
 const email =
-(cols[emailIndex] || "")
-.replaceAll('"',"")
+(cols[emailIndex]||"")
 .trim();
 
 const tag =
-tagIndex >= 0
-?
-(cols[tagIndex] || "")
-.replaceAll('"',"")
-.trim()
-:
-"";
+(cols[tagIndex]||"")
+.trim();
 
-if(!name || !email)
-continue;
+if(
+!name ||
+!email
+) continue;
 
 const tagText =
 tag.toLowerCase();
 
 const graduated =
-tagText.includes("graduated") ||
-tagText.includes("alumni") ||
-tagText.includes("former") ||
-tagText.includes("past member") ||
-tagText.includes("class of") ||
-tagText.includes("spring 2025") ||
-tagText.includes("fall 2025") ||
-tagText.includes("spring 2026");
+
+tagText.includes(
+"graduated"
+)
+
+||
+
+tagText.includes(
+"alumni"
+)
+
+||
+
+tagText.includes(
+"former"
+)
+
+||
+
+tagText.includes(
+"class of"
+);
+
+//----------------------------------
+// ATTENDANCE HISTORY
+//----------------------------------
+
+const history =
+existingAttendance[
+email.toLowerCase()
+];
+
+//----------------------------------
+// SAVE
+//----------------------------------
 
 if(graduated){
+
 graduatedCount++;
+
+graduatedMembers.push({
+
+name,
+email
+
+});
+
 }else{
+
 activeCount++;
-}
 
 members.push({
 
-name:name,
-email:email,
+name,
+email,
+
 memberTags:tag,
-status:graduated ? "Graduated" : "Active",
-eventsAttended:0,
-eligibleEvents:0
+
+status:"Active",
+
+eventsAttended:
+history?.eventsAttended || 0,
+
+eligibleEvents:
+history?.eligibleEvents || 0
 
 });
 
 }
 
-if(debugBox){
-
-debugBox.innerHTML += `
-<br>
-Rows imported: ${members.length}<br>
-Active detected: ${activeCount}<br>
-Graduated detected: ${graduatedCount}<br>
-`;
-
 }
+
+//----------------------------------
+// SAVE
+//----------------------------------
 
 save();
 
 renderCordTracker();
 
+//----------------------------------
+// DEBUG
+//----------------------------------
+
+if(debugBox){
+
+debugBox.innerHTML += `
+
+<br>
+
+Active Members:
+${activeCount}
+
+<br>
+
+Graduated Members:
+${graduatedCount}
+
+`;
+
+}
+
 alert(
-members.length +
-" members imported. Active: " +
-activeCount +
-", Graduated: " +
-graduatedCount
+
+`Import Complete
+
+Active Members:
+${activeCount}
+
+Graduated:
+${graduatedCount}`
+
 );
 
 };
@@ -3293,7 +3405,6 @@ graduatedCount
 reader.readAsText(file);
 
 }
-
 function parseCsvRow(row){
 
 const result = [];
@@ -3482,19 +3593,19 @@ ${pct>=50?'Eligible':'At Risk'}
 
 graduatedTable.innerHTML="";
 
-members
-.filter(
-m=>m.status==="Graduated"
-)
-.forEach(m=>{
+graduatedMembers.forEach(m=>{
 
 graduatedTable.innerHTML += `
 
 <tr>
 
-<td>${m.name}</td>
+<td>
+${m.name}
+</td>
 
-<td>${m.email}</td>
+<td>
+${m.email}
+</td>
 
 </tr>
 
@@ -3502,7 +3613,6 @@ graduatedTable.innerHTML += `
 
 });
 
-}
 
 window.onload = () => {
 initFilters();
