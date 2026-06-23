@@ -40,6 +40,33 @@ margin-bottom:20px;
 overflow-x:auto;
 }
 
+.member-filters{
+display:flex;
+gap:12px;
+margin-bottom:20px;
+flex-wrap:wrap;
+}
+
+.member-filters input{
+flex:1;
+min-width:250px;
+}
+
+.member-filters select{
+padding:10px;
+border-radius:10px;
+border:1px solid #cbd5e1;
+}
+
+.sortable{
+cursor:pointer;
+user-select:none;
+}
+
+.sortable:hover{
+background:#1e293b;
+}
+
 button{
 background:var(--lime);
 border:none;
@@ -190,16 +217,89 @@ Graduated
 <div class="panel">
 <h2>Active Members</h2>
 
+<div class="member-filters">
+
+<input
+id="memberSearch"
+placeholder="Search name or email..."
+oninput="render()"
+>
+
+<select
+id="statusFilter"
+onchange="render()"
+>
+<option value="All">All Status</option>
+<option value="Eligible">Eligible</option>
+<option value="At Risk">At Risk</option>
+</select>
+
+<select
+id="sortBy"
+onchange="render()"
+>
+<option value="name">
+Sort By Name
+</option>
+
+<option value="attendance">
+Sort By Attendance %
+</option>
+
+<option value="events">
+Sort By Events Attended
+</option>
+
+</select>
+
+</div>
+
 <table>
 <thead>
+
 <tr>
-<th>Name</th>
-<th>Email</th>
-<th>Attended</th>
-<th>Eligible Events</th>
-<th>%</th>
-<th>Status</th>
+
+<th
+class="sortable"
+onclick="changeSort('name')"
+>
+Name ▲▼
+</th>
+
+<th
+class="sortable"
+onclick="changeSort('email')"
+>
+Email ▲▼
+</th>
+
+<th
+class="sortable"
+onclick="changeSort('attended')"
+>
+Attended ▲▼
+</th>
+
+<th
+class="sortable"
+onclick="changeSort('eligibleEvents')"
+>
+Eligible Events ▲▼
+</th>
+
+<th
+class="sortable"
+onclick="changeSort('percent')"
+>
+Attendance % ▲▼
+</th>
+
+<th>
+Status
+</th>
+
 </tr>
+
 </thead>
 
 <tbody id="memberTable"></tbody>
@@ -434,7 +534,31 @@ return Math.round(
 (member.eventsAttended/member.eligibleEvents)*100
 );
 }
+//----------------------------------
+// SORTING
+//----------------------------------
 
+let currentSort = "name";
+
+let sortAsc = true;
+
+function changeSort(field){
+
+if(currentSort === field){
+
+sortAsc = !sortAsc;
+
+}else{
+
+currentSort = field;
+
+sortAsc = true;
+
+}
+
+render();
+
+}
 function render(){
 document.getElementById("activeCount").innerText =
 members.length;
@@ -461,9 +585,121 @@ memberTable.innerHTML = `
 `;
 }else{
 
-members
-.sort((a,b)=>a.name.localeCompare(b.name))
-.forEach((m,i)=>{
+let filtered =
+[...members];
+
+const search =
+document.getElementById(
+"memberSearch"
+)?.value
+.toLowerCase() || "";
+
+const status =
+document.getElementById(
+"statusFilter"
+)?.value || "All";
+
+filtered =
+filtered.filter(m=>{
+
+const pct =
+percent(m);
+
+const memberStatus =
+pct>=50
+?
+"Eligible"
+:
+"At Risk";
+
+const matchesSearch =
+
+m.name.toLowerCase()
+.includes(search)
+
+||
+
+m.email.toLowerCase()
+.includes(search);
+
+const matchesStatus =
+
+status==="All"
+
+||
+
+memberStatus===status;
+
+return matchesSearch &&
+matchesStatus;
+
+});
+
+//----------------------------------
+// SORT
+//----------------------------------
+
+filtered.sort((a,b)=>{
+
+let av;
+let bv;
+
+switch(currentSort){
+
+case "email":
+
+av=a.email;
+bv=b.email;
+break;
+
+case "attended":
+
+av=a.eventsAttended;
+bv=b.eventsAttended;
+break;
+
+case "eligibleEvents":
+
+av=a.eligibleEvents;
+bv=b.eligibleEvents;
+break;
+
+case "percent":
+
+av=percent(a);
+bv=percent(b);
+break;
+
+default:
+
+av=a.name;
+bv=b.name;
+
+}
+
+if(typeof av==="string"){
+
+return sortAsc
+?
+av.localeCompare(bv)
+:
+bv.localeCompare(av);
+
+}
+
+return sortAsc
+?
+av-bv
+:
+bv-av;
+
+});
+
+//----------------------------------
+// RENDER
+//----------------------------------
+
+filtered.forEach((m,i)=>{
 
 const pct =
 percent(m);
