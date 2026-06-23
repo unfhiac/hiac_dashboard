@@ -419,16 +419,10 @@ let graduatedMembers = [];
 const API_URL =
 "https://script.google.com/macros/s/AKfycbzeopu9kln5zjYtCK3hqsetHzHKI2j2i4LEFBYkdL5jaIhWGPr0xpFXuWlgyqZhm5CPzw/exec";
 
-function save(){
-localStorage.setItem(
-"hiac_members_v1",
-JSON.stringify(members)
-);
+async function save(){
 
-localStorage.setItem(
-"hiac_graduated_v1",
-JSON.stringify(graduatedMembers)
-);
+await saveDatabase();
+
 }
 
 function parseCsvRow(row){
@@ -599,7 +593,7 @@ eligibleEvents:previous?.eligibleEvents || 0
 
 }
 
-save();
+await save();
 render();
 
 alert(
@@ -807,7 +801,7 @@ min="0"
 value="${m.eventsAttended}"
 onchange="
 members[${i}].eventsAttended=parseInt(this.value)||0;
-save();
+await save();
 render();
 ">
 </td>
@@ -818,7 +812,7 @@ min="0"
 value="${m.eligibleEvents}"
 onchange="
 members[${i}].eligibleEvents=parseInt(this.value)||0;
-save();
+await save();
 render();
 ">
 </td>
@@ -892,6 +886,47 @@ console.error(error);
 
 alert(
 "Failed to load Google Sheets data"
+);
+
+}
+
+}
+async function saveDatabase(){
+
+try{
+
+await fetch(
+API_URL,
+{
+method:"POST",
+body:JSON.stringify({
+sheet:"Members",
+data:members
+})
+}
+);
+
+await fetch(
+API_URL,
+{
+method:"POST",
+body:JSON.stringify({
+sheet:"GraduatedMembers",
+data:graduatedMembers
+})
+}
+);
+
+console.log(
+"Database Saved"
+);
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Failed to save database"
 );
 
 }
