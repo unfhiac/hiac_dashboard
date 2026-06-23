@@ -3270,89 +3270,18 @@ parts.slice(3).join("_");
 
 if(!date.startsWith(selectedMonth)) return;
 
-if(!memberDates[person]){
-memberDates[person] = {};
-}
-
-if(!memberDates[person][date]){
-memberDates[person][date] = {
+if(!memberDates[date]){
+memberDates[date] = {
 day:day,
 times:[]
 };
 }
 
-memberDates[person][date].times.push(time);
-
-
+memberDates[date].times.push(time);
 
 });
 
 let html = `
-<h4>📅 Availability Updates This Month</h4>
-<ul>
-`;
-
-const people =
-Object.keys(memberDates)
-.sort();
-
-if(people.length === 0){
-
-html += `
-<li>No availability has been marked for this month yet.</li>
-`;
-
-}else{
-
-people.forEach(person=>{
-
-html += `
-<li>
-<b>${person}</b> marked availability on:
-<ul>
-`;
-
-const dates =
-Object.keys(memberDates[person])
-.sort();
-
-dates.forEach(date=>{
-
-const info =
-memberDates[person][date];
-
-const times =
-info.times.sort(
-(a,b)=>
-parseTime(a)-parseTime(b)
-);
-
-const firstTime =
-times[0];
-
-const lastTime =
-times[times.length-1];
-
-html += `
-<li>
-${formatDateLabel(date)}
-(${firstTime}${firstTime!==lastTime ? "–"+lastTime : ""})
-</li>
-`;
-
-});
-
-html += `
-</ul>
-</li>
-`;
-
-});
-}
-
-html += `
-</ul>
-html = `
 <h4>
 📅 ${selectedPerson}'s Availability
 </h4>
@@ -3360,9 +3289,7 @@ html = `
 `;
 
 const dates =
-Object.keys(
-memberDates[selectedPerson] || {}
-).sort();
+Object.keys(memberDates).sort();
 
 if(!dates.length){
 
@@ -3377,7 +3304,7 @@ No availability recorded this month.
 dates.forEach(date=>{
 
 const info =
-memberDates[selectedPerson][date];
+memberDates[date];
 
 const times =
 info.times.sort(
@@ -3392,56 +3319,9 @@ times[times.length-1];
 
 html += `
 <li>
-<b>${formatDateLabel(date)}</b><br>
-${firstTime}
-${firstTime!==lastTime ? " – "+lastTime : ""}
-</li>
-`;
-});
-
-}
-
-html = `
-<h4>
-📅 ${selectedPerson}'s Availability
-</h4>
-<ul>
-`;
-
-const dates =
-Object.keys(
-memberDates[selectedPerson] || {}
-).sort();
-
-if(!dates.length){
-
-html += `
-<li>
-No availability recorded this month.
-</li>
-`;
-
-}else{
-
-dates.forEach(date=>{
-
-const info =
-memberDates[selectedPerson][date];
-
-const times =
-info.times.sort(
-(a,b)=>parseTime(a)-parseTime(b)
-);
-
-const firstTime =
-times[0];
-
-const lastTime =
-times[times.length-1];
-
-html += `
-<li>
-<b>${formatDateLabel(date)}</b><br>
+<b>${formatDateLabel(date)}</b>
+<br>
+${info.day},
 ${firstTime}
 ${firstTime!==lastTime ? " – "+lastTime : ""}
 </li>
@@ -3458,21 +3338,22 @@ html += `
 const totalSlots =
 dates.reduce(
 (sum,date)=>
-sum +
-memberDates[selectedPerson][date]
-.times.length,
+sum + memberDates[date].times.length,
 0
 );
 
 html += `
 <hr style="margin:15px 0;">
 
+<p>
 <b>Total Available Slots:</b>
 ${totalSlots}
+</p>
 `;
 
 availabilitySummary.innerHTML =
 html;
+
 }
 
 function parseTime(time){
