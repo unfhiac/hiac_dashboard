@@ -3185,53 +3185,24 @@ schedule = {};
 
 (availData || []).forEach(r=>{
 
-let date =
-r.date;
+const date =
+String(r.date).trim();
 
-if(date){
+const day =
+String(r.day).trim();
 
-date =
-new Date(date)
-.toISOString()
-.split("T")[0];
-
-}
-
-let time =
-r.time;
-
-if(time){
-
-const d =
-new Date(time);
-
-if(!isNaN(d)){
-
-time =
-d.toLocaleTimeString(
-'en-US',
-{
-hour:'numeric'
-}
-);
-
-}
-
-}
-
-let time = r.time;
-
-time =
-String(time)
+const time =
+String(r.time)
+.trim()
 .replace(":00 AM"," AM")
 .replace(":00 PM"," PM");
 
 const key =
 r.person +
 "_" +
-r.date +
+date +
 "_" +
-r.day +
+day +
 "_" +
 time;
 
