@@ -3052,12 +3052,14 @@ const selectedMonth =
 scheduleWeek.value.substring(0,7);
 
 let memberDates = {};
+let slotCounts = {};
 
 Object.entries(schedule).forEach(([key,val])=>{
 
 if(val !== "yes") return;
 
-const parts = key.split("_");
+const parts =
+key.split("_");
 
 if(parts.length < 4) return;
 
@@ -3067,98 +3069,167 @@ parts[0];
 const date =
 parts[1];
 
+const day =
+parts[2];
+
 const time =
 parts.slice(3).join("_");
 
-if(!date.startsWith(selectedMonth))
-return;
+if(!date.startsWith(selectedMonth)) return;
 
 if(!memberDates[person]){
-
 memberDates[person] = {};
-
 }
 
 if(!memberDates[person][date]){
-
-memberDates[person][date] = [];
-
+memberDates[person][date] = {
+day:day,
+times:[]
+};
 }
 
-memberDates[person][date].push(time);
+memberDates[person][date].times.push(time);
+
+const slotKey =
+day + " " + time;
+
+slotCounts[slotKey] =
+(slotCounts[slotKey] || 0) + 1;
 
 });
 
-let html =
-`
-<h4>
-📅 Recent Availability Updates
-</h4>
+let html = `
+<h4>📅 Availability Updates This Month</h4>
 <ul>
 `;
 
-Object.entries(memberDates)
-.forEach(([person,dates])=>{
-
-const allDates =
-Object.keys(dates)
+const people =
+Object.keys(memberDates)
 .sort();
 
-let start =
-allDates[0];
+if(people.length === 0){
 
-let end =
-allDates[0];
-
-for(let i=1;i<=allDates.length;i++){
-
-const current =
-allDates[i];
-
-const previous =
-allDates[i-1];
-
-const nextDate =
-new Date(previous);
-
-nextDate.setDate(
-nextDate.getDate()+1
-);
-
-const expected =
-nextDate
-.toISOString()
-.split("T")[0];
-
-if(current === expected){
-
-end = current;
+html += `
+<li>No availability has been marked for this month yet.</li>
+`;
 
 }else{
 
+people.forEach(person=>{
+
+const dates =
+Object.keys(memberDates[person])
+.sort();
+
+dates.forEach(date=>{
+
+let info =
+memberDates[person][date];
+
+let times =
+info.times.sort((a,b)=>{
+
+return parseTime(a) - parseTime(b);
+
+});
+
+const firstTime =
+times[0];
+
+const lastTime =
+times[times.length - 1];
+
 html += `
 <li>
-<b>${person}</b>
-marked availability
-from
-${start}
-to
-${end}
+<b>${person}</b> marked availability on
+<b>${formatDateLabel(date)}</b>
+(${info.day}, ${firstTime}${firstTime !== lastTime ? "–" + lastTime : ""})
 </li>
 `;
 
-start = current;
-end = current;
-
-}
-
-}
 });
 
-html += "</ul>";
+});
+
+}
+
+html += `
+</ul>
+<h4>🏆 Best Meeting Windows</h4>
+<ul>
+`;
+
+const bestSlots =
+Object.entries(slotCounts)
+.sort((a,b)=>b[1]-a[1])
+.slice(0,5);
+
+if(bestSlots.length === 0){
+
+html += `
+<li>No shared availability found yet.</li>
+`;
+
+}else{
+
+bestSlots.forEach(([slot,count])=>{
+
+html += `
+<li>
+<b>${slot}</b> — ${count} member${count>1 ? "s" : ""} available
+</li>
+`;
+
+});
+
+}
+
+html += `
+</ul>
+`;
 
 availabilitySummary.innerHTML =
 html;
+
+}
+
+function parseTime(time){
+
+const match =
+String(time).match(/(\d+)\s*(AM|PM)/i);
+
+if(!match) return 0;
+
+let hour =
+Number(match[1]);
+
+const period =
+match[2].toUpperCase();
+
+if(period === "PM" && hour !== 12){
+hour += 12;
+}
+
+if(period === "AM" && hour === 12){
+hour = 0;
+}
+
+return hour;
+
+}
+
+function formatDateLabel(date){
+
+const d =
+new Date(date + "T00:00:00");
+
+return d.toLocaleDateString(
+"en-US",
+{
+month:"short",
+day:"numeric"
+}
+);
 
 }
 function toggleSlot(key){
