@@ -3249,12 +3249,29 @@ try{
 tasks =
 await loadSheet("Tasks");
 
+console.log("TASKS",tasks);
+
 attendance =
 await loadSheet("Attendance");
 
+console.log("ATTENDANCE",attendance);
+
+const meetingData =
+await loadSheet("Meetings");
+
+console.log("MEETINGS",meetingData);
+
 meetings =
-(await loadSheet("Meetings"))
-.map(x=>x.meetingName);
+meetingData.map(
+m =>
+m.meetingName ||
+m.Meeting ||
+m.meeting ||
+m.agenda ||
+Object.values(m)[0]
+);
+
+console.log("PARSED MEETINGS",meetings);
 
 podcasts =
 await loadSheet("Podcasts");
@@ -3274,7 +3291,10 @@ await loadSheet("Availability");
 schedule = {};
 
 avail.forEach(r=>{
-schedule[r.key]=r.value;
+
+schedule[r.key] =
+r.value;
+
 });
 
 members =
@@ -3287,54 +3307,14 @@ await loadSheet("GraduatedMembers");
 
 console.error(error);
 
-alert("Database connection failed");
-
-}
-
-}
-async function loadAllSheets(){
-
-try{
-
-tasks =
-await loadSheet("Tasks");
-
-attendance =
-await loadSheet("Attendance");
-
-const meetingData =
-await loadSheet("Meetings");
-
-meetings =
-meetingData.map(
-m => m.meetingName
+alert(
+"Database connection failed"
 );
 
-podcasts =
-await loadSheet("Podcasts");
-
-events =
-await loadSheet("Events");
-
-marketing =
-await loadSheet("Marketing");
-
-himss =
-await loadSheet("HIMSSBudget");
-
-renderAll();
-
-}catch(err){
-
-console.error(err);
-
-renderAll();
-
 }
 
 }
 
-window.onload = loadAllSheets;
 window.onload = async () => {
 
 await loadDatabase();
