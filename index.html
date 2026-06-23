@@ -3401,6 +3401,56 @@ ${firstTime!==lastTime ? " – "+lastTime : ""}
 
 }
 
+html = `
+<h4>
+📅 ${selectedPerson}'s Availability
+</h4>
+<ul>
+`;
+
+const dates =
+Object.keys(
+memberDates[selectedPerson] || {}
+).sort();
+
+if(!dates.length){
+
+html += `
+<li>
+No availability recorded this month.
+</li>
+`;
+
+}else{
+
+dates.forEach(date=>{
+
+const info =
+memberDates[selectedPerson][date];
+
+const times =
+info.times.sort(
+(a,b)=>parseTime(a)-parseTime(b)
+);
+
+const firstTime =
+times[0];
+
+const lastTime =
+times[times.length-1];
+
+html += `
+<li>
+<b>${formatDateLabel(date)}</b><br>
+${firstTime}
+${firstTime!==lastTime ? " – "+lastTime : ""}
+</li>
+`;
+
+});
+
+}
+
 html += `
 </ul>
 `;
@@ -3415,19 +3465,14 @@ memberDates[selectedPerson][date]
 );
 
 html += `
-<hr style="
-margin:15px 0;
-">
+<hr style="margin:15px 0;">
 
-<b>
-Total Available Slots:
-</b>
+<b>Total Available Slots:</b>
 ${totalSlots}
 `;
 
 availabilitySummary.innerHTML =
 html;
-
 }
 
 function parseTime(time){
