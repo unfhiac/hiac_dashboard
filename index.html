@@ -3087,12 +3087,13 @@ if(!Array.isArray(tasks)){
 tasks=[];
 }
 
-tasks = tasks.map(t=>({
+tasks = tasks.map(t => ({
 
 ...t,
 
 due:
-t.due
+t.due &&
+!isNaN(new Date(t.due))
 ?
 new Date(t.due)
 .toISOString()
@@ -3101,7 +3102,6 @@ new Date(t.due)
 ""
 
 }));
-
 console.log(
 "TASKS",
 tasks
@@ -3203,15 +3203,15 @@ if(!Array.isArray(events)){
 events=[];
 }
 
-events = events.map(e=>({
+events = events.map(e => ({
 
 ...e,
 
 target:
-m.target &&
-!isNaN(new Date(m.target))
+e.target &&
+!isNaN(new Date(e.target))
 ?
-new Date(m.target)
+new Date(e.target)
 .toISOString()
 .split("T")[0]
 :
