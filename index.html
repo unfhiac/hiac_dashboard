@@ -1150,21 +1150,6 @@ td,
 th{
 display:table-cell !important;
 }
-.csv-debug-box{
-margin-top:12px;
-padding:12px;
-border-radius:14px;
-background:#f8fafc;
-border:1px solid #e5e7eb;
-color:#111827;
-font-size:13px;
-line-height:1.6;
-display:none;
-}
-
-.csv-debug-box strong{
-color:#0f172a;
-}
 
 }
 </style>
@@ -1290,10 +1275,7 @@ onchange="importMembers(event)"
 Upload CampusGroups CSV export.
 </p>
 
-<div
-id="csvDebugBox"
-class="csv-debug-box">
-</div>
+
    
 </div>
 
@@ -3177,35 +3159,13 @@ h=>h.trim()==="Member Tags"
 // DEBUG
 //----------------------------------
 
-const debugBox =
-document.getElementById(
-"csvDebugBox"
+alert(
+`Import Complete
+
+Active Members: ${activeCount}
+
+Graduated Members: ${graduatedCount}`
 );
-
-if(debugBox){
-
-debugBox.style.display="block";
-
-debugBox.innerHTML=`
-
-<strong>CSV Import Debug</strong><br>
-
-First Name:
-${firstNameIndex}<br>
-
-Last Name:
-${lastNameIndex}<br>
-
-Email:
-${emailIndex}<br>
-
-Member Tags:
-${tagIndex}<br>
-
-`;
-
-}
-
 //----------------------------------
 // PRESERVE HISTORY
 //----------------------------------
@@ -3272,6 +3232,14 @@ const name =
 const email =
 (cols[emailIndex]||"")
 .trim();
+
+if(
+name === "Kay Thiemann" ||
+email.toLowerCase().includes("k.thiemann") ||
+email.toLowerCase().includes("kay")
+){
+continue;
+}
 
 const tag =
 (cols[tagIndex]||"")
