@@ -146,7 +146,91 @@ color:#991b1b;
 .sub{
 color:#64748b;
 }
+/* ======================================
+   MEMBER FILTERS
+====================================== */
 
+.member-filters{
+display:flex;
+gap:12px;
+align-items:center;
+flex-wrap:wrap;
+margin-bottom:20px;
+}
+
+.member-filters input{
+flex:1;
+min-width:260px;
+padding:12px 14px;
+border:1px solid #cbd5e1;
+border-radius:12px;
+background:white;
+}
+
+.member-filters select{
+padding:12px 14px;
+border:1px solid #cbd5e1;
+border-radius:12px;
+background:white;
+font-weight:600;
+min-width:180px;
+}
+
+.member-filters button{
+background:var(--lime);
+color:#111827;
+padding:12px 18px;
+font-weight:800;
+border:none;
+border-radius:12px;
+cursor:pointer;
+}
+
+.member-filters button:hover{
+transform:translateY(-1px);
+}
+
+/* ======================================
+   SORTABLE TABLE HEADERS
+====================================== */
+
+.sortable{
+cursor:pointer;
+user-select:none;
+transition:.2s;
+}
+
+.sortable:hover{
+background:#1f2937;
+color:var(--lime);
+}
+
+/* ======================================
+   MOBILE
+====================================== */
+
+@media(max-width:768px){
+
+.member-filters{
+flex-direction:column;
+align-items:stretch;
+}
+
+.member-filters input{
+width:100%;
+min-width:100%;
+}
+
+.member-filters select{
+width:100%;
+min-width:100%;
+}
+
+.member-filters button{
+width:100%;
+}
+
+}
 @media(max-width:768px){
 body{
 padding:10px;
