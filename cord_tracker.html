@@ -6,7 +6,6 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
 <style>
-
 :root{
 --navy:#06122a;
 --lime:#dfff00;
@@ -14,11 +13,15 @@
 --red:#dc2626;
 }
 
+*{
+box-sizing:border-box;
+font-family:Segoe UI,Arial,sans-serif;
+}
+
 body{
 margin:0;
 padding:20px;
 background:#06122a;
-font-family:Segoe UI,Arial,sans-serif;
 }
 
 .header{
@@ -44,6 +47,19 @@ padding:12px 16px;
 font-weight:800;
 border-radius:12px;
 cursor:pointer;
+}
+
+input{
+width:100%;
+padding:8px;
+border:1px solid #cbd5e1;
+border-radius:10px;
+}
+
+input[type="file"]{
+padding:14px;
+border:2px dashed var(--lime);
+background:#f8fafc;
 }
 
 .kpis{
@@ -74,6 +90,7 @@ th{
 background:#111827;
 color:white;
 padding:10px;
+text-align:left;
 }
 
 td{
@@ -81,12 +98,8 @@ padding:8px;
 border-bottom:1px solid #e5e7eb;
 }
 
-input{
-width:100%;
-padding:8px;
-}
-
 .badge{
+display:inline-block;
 padding:6px 10px;
 border-radius:999px;
 font-size:12px;
@@ -103,31 +116,38 @@ background:#fee2e2;
 color:#991b1b;
 }
 
+.sub{
+color:#64748b;
+}
+
 @media(max-width:768px){
+body{
+padding:10px;
+}
 
 .kpis{
 grid-template-columns:1fr;
 }
 
+table{
+font-size:12px;
 }
 
+td input{
+min-width:70px;
+}
+}
 </style>
 </head>
 
 <body>
 
 <div class="header">
-
 <h1>🎓 HIAC Cord Eligibility Tracker</h1>
-
-<p>
-Tracks active members and graduation cord eligibility.
-</p>
-
+<p>Tracks active members and graduation cord eligibility.</p>
 </div>
 
 <div class="panel">
-
 <h2>Import CampusGroups CSV</h2>
 
 <input
@@ -136,10 +156,12 @@ accept=".csv"
 onchange="importMembers(event)"
 >
 
+<p class="sub">
+Upload CampusGroups CSV. Graduated/alumni members will be moved to the archive automatically.
+</p>
 </div>
 
 <div class="panel">
-
 <div class="kpis">
 
 <div class="kpi">
@@ -163,17 +185,13 @@ Graduated
 </div>
 
 </div>
-
 </div>
 
 <div class="panel">
-
 <h2>Active Members</h2>
 
 <table>
-
 <thead>
-
 <tr>
 <th>Name</th>
 <th>Email</th>
@@ -182,34 +200,329 @@ Graduated
 <th>%</th>
 <th>Status</th>
 </tr>
-
 </thead>
 
-<tbody id="memberTable">
-</tbody>
-
+<tbody id="memberTable"></tbody>
 </table>
-
 </div>
 
 <div class="panel">
-
 <h2>Graduated Archive</h2>
 
 <table>
-
 <thead>
-
 <tr>
 <th>Name</th>
 <th>Email</th>
 </tr>
-
 </thead>
 
-<tbody id="graduateTable">
-</tbody>
-
+<tbody id="graduateTable"></tbody>
 </table>
-
 </div>
+
+<script>
+let members =
+JSON.parse(
+localStorage.getItem("hiac_members_v1")
+) || [];
+
+let graduatedMembers =
+JSON.parse(
+localStorage.getItem("hiac_graduated_v1")
+) || [];
+
+function save(){
+localStorage.setItem(
+"hiac_members_v1",
+JSON.stringify(members)
+);
+
+localStorage.setItem(
+"hiac_graduated_v1",
+JSON.stringify(graduatedMembers)
+);
+}
+
+function parseCsvRow(row){
+const result=[];
+let current="";
+let insideQuotes=false;
+
+for(let i=0;i<row.length;i++){
+const char=row[i];
+const next=row[i+1];
+
+if(char === '"' && insideQuotes && next === '"'){
+current += '"';
+i++;
+continue;
+}
+
+if(char === '"'){
+insideQuotes=!insideQuotes;
+continue;
+}
+
+if(char === "," && !insideQuotes){
+result.push(current);
+current="";
+continue;
+}
+
+current += char;
+}
+
+result.push(current);
+return result;
+}
+
+function importMembers(event){
+const file =
+event.target.files[0];
+
+if(!file) return;
+
+const reader =
+new FileReader();
+
+reader.onload =
+function(e){
+
+const rows =
+e.target.result
+.split(/\r?\n/)
+.filter(r=>r.trim());
+
+if(rows.length < 2){
+alert("CSV is empty or invalid.");
+return;
+}
+
+const headers =
+parseCsvRow(rows[0])
+.map(h=>h.trim());
+
+const firstNameIndex =
+headers.findIndex(h=>h==="First Name");
+
+const lastNameIndex =
+headers.findIndex(h=>h==="Last Name");
+
+const emailIndex =
+headers.findIndex(h=>h==="Email");
+
+const tagIndex =
+headers.findIndex(h=>h==="Member Tags");
+
+if(
+firstNameIndex < 0 ||
+lastNameIndex < 0 ||
+emailIndex < 0 ||
+tagIndex < 0
+){
+alert("CSV must include First Name, Last Name, Email, and Member Tags.");
+return;
+}
+
+const history = {};
+
+members.forEach(m=>{
+history[
+String(m.email).toLowerCase()
+]={
+eventsAttended:m.eventsAttended || 0,
+eligibleEvents:m.eligibleEvents || 0
+};
+});
+
+members=[];
+graduatedMembers=[];
+
+for(let i=1;i<rows.length;i++){
+
+const cols =
+parseCsvRow(rows[i]);
+
+const firstName =
+(cols[firstNameIndex] || "").trim();
+
+const lastName =
+(cols[lastNameIndex] || "").trim();
+
+const name =
+`${firstName} ${lastName}`.trim();
+
+const email =
+(cols[emailIndex] || "").trim();
+
+const tags =
+(cols[tagIndex] || "").toLowerCase();
+
+if(!name || !email) continue;
+
+if(
+name === "Kay Thiemann" ||
+email.toLowerCase().includes("k.thiemann")
+){
+continue;
+}
+
+const previous =
+history[
+email.toLowerCase()
+];
+
+const isGraduated =
+tags.includes("graduated") ||
+tags.includes("alumni") ||
+tags.includes("former") ||
+tags.includes("class of");
+
+if(isGraduated){
+
+graduatedMembers.push({
+name,
+email
+});
+
+}else{
+
+members.push({
+name,
+email,
+memberTags:tags,
+eventsAttended:previous?.eventsAttended || 0,
+eligibleEvents:previous?.eligibleEvents || 0
+});
+
+}
+
+}
+
+save();
+render();
+
+alert(
+`Import Complete
+
+Active Members: ${members.length}
+Graduated Members: ${graduatedMembers.length}`
+);
+
+};
+
+reader.readAsText(file);
+}
+
+function percent(member){
+if(member.eligibleEvents===0) return 0;
+
+return Math.round(
+(member.eventsAttended/member.eligibleEvents)*100
+);
+}
+
+function render(){
+document.getElementById("activeCount").innerText =
+members.length;
+
+document.getElementById("eligibleCount").innerText =
+members.filter(m=>percent(m)>=50).length;
+
+document.getElementById("riskCount").innerText =
+members.filter(m=>percent(m)<50).length;
+
+document.getElementById("graduateCount").innerText =
+graduatedMembers.length;
+
+const memberTable =
+document.getElementById("memberTable");
+
+memberTable.innerHTML = "";
+
+if(members.length===0){
+memberTable.innerHTML = `
+<tr>
+<td colspan="6">No active members imported yet.</td>
+</tr>
+`;
+}else{
+
+members
+.sort((a,b)=>a.name.localeCompare(b.name))
+.forEach((m,i)=>{
+
+const pct =
+percent(m);
+
+memberTable.innerHTML += `
+<tr>
+<td>${m.name}</td>
+<td>${m.email}</td>
+<td>
+<input
+type="number"
+min="0"
+value="${m.eventsAttended}"
+onchange="
+members[${i}].eventsAttended=parseInt(this.value)||0;
+save();
+render();
+">
+</td>
+<td>
+<input
+type="number"
+min="0"
+value="${m.eligibleEvents}"
+onchange="
+members[${i}].eligibleEvents=parseInt(this.value)||0;
+save();
+render();
+">
+</td>
+<td>${pct}%</td>
+<td>
+<span class="badge ${pct>=50?'eligible':'risk'}">
+${pct>=50?'Eligible':'At Risk'}
+</span>
+</td>
+</tr>
+`;
+});
+
+}
+
+const graduateTable =
+document.getElementById("graduateTable");
+
+graduateTable.innerHTML = "";
+
+if(graduatedMembers.length===0){
+graduateTable.innerHTML = `
+<tr>
+<td colspan="2">No graduated members found.</td>
+</tr>
+`;
+}else{
+
+graduatedMembers
+.sort((a,b)=>a.name.localeCompare(b.name))
+.forEach(m=>{
+graduateTable.innerHTML += `
+<tr>
+<td>${m.name}</td>
+<td>${m.email}</td>
+</tr>
+`;
+});
+
+}
+}
+
+window.onload = render;
+</script>
+
+</body>
+</html>
