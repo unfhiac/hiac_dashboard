@@ -301,19 +301,31 @@ return;
 
 const headers =
 parseCsvRow(rows[0])
-.map(h=>h.trim());
+.map(h=>
+String(h)
+.replace(/\uFEFF/g,"")
+.trim()
+);
 
 const firstNameIndex =
-headers.findIndex(h=>h==="First Name");
+headers.findIndex(
+h=>h.toLowerCase().includes("first name")
+);
 
 const lastNameIndex =
-headers.findIndex(h=>h==="Last Name");
+headers.findIndex(
+h=>h.toLowerCase().includes("last name")
+);
 
 const emailIndex =
-headers.findIndex(h=>h==="Email");
+headers.findIndex(
+h=>h.toLowerCase().trim()==="email"
+);
 
 const tagIndex =
-headers.findIndex(h=>h==="Member Tags");
+headers.findIndex(
+h=>h.toLowerCase().includes("member tags")
+);
 
 if(
 firstNameIndex < 0 ||
