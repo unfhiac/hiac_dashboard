@@ -412,15 +412,12 @@ Status
 </div>
 
 <script>
-let members =
-JSON.parse(
-localStorage.getItem("hiac_members_v1")
-) || [];
+let members = [];
 
-let graduatedMembers =
-JSON.parse(
-localStorage.getItem("hiac_graduated_v1")
-) || [];
+let graduatedMembers = [];
+
+const API_URL =
+"https://script.google.com/macros/s/AKfycbzeopu9kln5zjYtCK3hqsetHzHKI2j2i4LEFBYkdL5jaIhWGPr0xpFXuWlgyqZhm5CPzw/exec";
 
 function save(){
 localStorage.setItem(
