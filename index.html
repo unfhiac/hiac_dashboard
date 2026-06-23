@@ -3292,7 +3292,49 @@ alert("Database connection failed");
 }
 
 }
+async function loadAllSheets(){
 
+try{
+
+tasks =
+await loadSheet("Tasks");
+
+attendance =
+await loadSheet("Attendance");
+
+const meetingData =
+await loadSheet("Meetings");
+
+meetings =
+meetingData.map(
+m => m.meetingName
+);
+
+podcasts =
+await loadSheet("Podcasts");
+
+events =
+await loadSheet("Events");
+
+marketing =
+await loadSheet("Marketing");
+
+himss =
+await loadSheet("HIMSSBudget");
+
+renderAll();
+
+}catch(err){
+
+console.error(err);
+
+renderAll();
+
+}
+
+}
+
+window.onload = loadAllSheets;
 window.onload = async () => {
 
 await loadDatabase();
