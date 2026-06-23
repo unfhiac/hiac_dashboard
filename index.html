@@ -1666,7 +1666,10 @@ style="grid-template-columns:1fr 1fr 1fr">
 
 <select
 id="availabilityPerson"
-onchange="renderSchedule()">
+onchange="
+renderSchedule();
+renderAvailabilitySummary();
+">
 </select>
 
 <input
