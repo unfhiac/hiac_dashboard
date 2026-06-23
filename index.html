@@ -3176,15 +3176,15 @@ if(!Array.isArray(podcasts)){
 podcasts=[];
 }
 
-podcasts = podcasts.map(p=>({
+podcasts = podcasts.map(p => ({
 
 ...p,
 
 target:
-m.target &&
-!isNaN(new Date(m.target))
+p.target &&
+!isNaN(new Date(p.target))
 ?
-new Date(m.target)
+new Date(p.target)
 .toISOString()
 .split("T")[0]
 :
@@ -3230,7 +3230,7 @@ if(!Array.isArray(marketing)){
 marketing=[];
 }
 
-marketing = marketing.map(m=>({
+marketing = marketing.map(m => ({
 
 ...m,
 
