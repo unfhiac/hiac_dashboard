@@ -3089,15 +3089,6 @@ availData,
 membersData,
 graduatedData
 
-console.log(
-"Availability rows:",
-availData.length
-);
-
-console.log(
-availData
-);
-
 ] = await Promise.all([
 
 loadSheet("Tasks"),
@@ -3113,9 +3104,16 @@ loadSheet("GraduatedMembers")
 
 ]);
 
-// =====================
+console.log(
+"Availability rows:",
+availData.length
+);
+
+console.log(
+availData
+);
+
 // TASKS
-// =====================
 
 tasks = tasksData || [];
 
@@ -3127,51 +3125,39 @@ due:
 t.due &&
 !isNaN(new Date(t.due))
 ?
-new Date(t.due)
-.toISOString()
-.split("T")[0]
+new Date(t.due).toISOString().split("T")[0]
 :
 ""
 
 }));
 
-// =====================
 // ATTENDANCE
-// =====================
 
 attendance = attendanceData || [];
 
-// =====================
 // MEETINGS
-// =====================
 
 meetings =
 (meetingData || []).map(m=>
-
 m.meetingName ||
 m.Meeting ||
 m.meeting ||
 m.agenda ||
 Object.values(m)[0]
-
 );
 
 if(!meetings.length){
 
-meetings = [
-
+meetings=[
 "Board #1",
 "Board #2",
 "Board #3",
 "Strategic Planning"
-
 ];
 
 }
 
-// =====================
 // PODCASTS
-// =====================
 
 podcasts = podcastsData || [];
 
@@ -3183,17 +3169,13 @@ target:
 p.target &&
 !isNaN(new Date(p.target))
 ?
-new Date(p.target)
-.toISOString()
-.split("T")[0]
+new Date(p.target).toISOString().split("T")[0]
 :
 ""
 
 }));
 
-// =====================
 // EVENTS
-// =====================
 
 events = eventsData || [];
 
@@ -3205,17 +3187,13 @@ target:
 e.target &&
 !isNaN(new Date(e.target))
 ?
-new Date(e.target)
-.toISOString()
-.split("T")[0]
+new Date(e.target).toISOString().split("T")[0]
 :
 ""
 
 }));
 
-// =====================
 // MARKETING
-// =====================
 
 marketing = marketingData || [];
 
@@ -3227,94 +3205,37 @@ target:
 m.target &&
 !isNaN(new Date(m.target))
 ?
-new Date(m.target)
-.toISOString()
-.split("T")[0]
+new Date(m.target).toISOString().split("T")[0]
 :
 ""
 
 }));
 
-// =====================
 // HIMSS
-// =====================
 
 himss = himssData || [];
 
-// =====================
 // AVAILABILITY
-// =====================
 
 schedule = {};
 
 (availData || []).forEach(r=>{
 
-schedule[r.key] =
-r.value;
+if(r.key){
+schedule[r.key] = r.value;
+}
 
 });
 
-// =====================
 // MEMBERS
-// =====================
 
 members = membersData || [];
 
-// =====================
 // GRADUATED
-// =====================
 
-graduatedMembers =
-graduatedData || [];
+graduatedMembers = graduatedData || [];
 
-// =====================
-// DEBUG
-// =====================
-
-console.log(
-"Tasks:",
-tasks.length
-);
-
-console.log(
-"Attendance:",
-attendance.length
-);
-
-console.log(
-"Meetings:",
-meetings.length
-);
-
-console.log(
-"Podcasts:",
-podcasts.length
-);
-
-console.log(
-"Events:",
-events.length
-);
-
-console.log(
-"Marketing:",
-marketing.length
-);
-
-console.log(
-"HIMSS:",
-himss.length
-);
-
-console.log(
-"Members:",
-members.length
-);
-
-console.log(
-"Graduated:",
-graduatedMembers.length
-);
+console.log("Database loaded successfully");
 
 }
 catch(error){
@@ -3324,13 +3245,11 @@ console.error(
 error
 );
 
-alert(
-"Database connection failed"
-);
+// no alert here
 
 }
 
-} // end loadDatabase
+}
 
 window.onload = async () => {
 
