@@ -1507,6 +1507,33 @@ Cynthia • Selena • Emmanuelle
 </div>
 
 <script>
+const API_URL =
+"https://script.google.com/macros/s/AKfycbwmXToJsz_p8fbYrYpHIPZGP-Mcksd7pbacsW6EwzGvPQf75X8NOEEItsHR6FSqAh8b7Q/exec";
+async function loadSheet(sheet){
+
+const response =
+await fetch(
+`${API_URL}?action=${sheet}`
+);
+
+return await response.json();
+
+}
+
+async function saveSheet(
+sheet,
+data
+){
+
+await fetch(API_URL,{
+method:"POST",
+body:JSON.stringify({
+sheet:sheet,
+data:data
+})
+});
+
+}
 const officers=["Agrani Sinha","Khanh Linh Lieu","Isabella Panya","Cynthia Simmons","Selena Hernandez","Emmanuelle Vinson","Kay Thiemann","All Officers"];
 const officerInfo={
 "Agrani Sinha":["President","Full Year"],
@@ -1747,59 +1774,57 @@ let schedule=JSON.parse(localStorage.getItem("hiac_schedule_v3"))||{};
 
 
 
-function save(){
+async function save(){
 
-localStorage.setItem(
-"hiac_tasks_v3",
-JSON.stringify(tasks)
+await saveSheet(
+"Tasks",
+tasks
 );
-localStorage.setItem(
-"hiac_members_v1",
-JSON.stringify(members)
+
+await saveSheet(
+"Attendance",
+attendance
 );
-localStorage.setItem(
-"hiac_attendance_v3",
-JSON.stringify(attendance)
+
+await saveSheet(
+"Meetings",
+meetings
 );
-localStorage.setItem(
-"hiac_graduated_v1",
-JSON.stringify(
+
+await saveSheet(
+"Podcasts",
+podcasts
+);
+
+await saveSheet(
+"Events",
+events
+);
+
+await saveSheet(
+"Marketing",
+marketing
+);
+
+await saveSheet(
+"HIMSSBudget",
+himss
+);
+
+await saveSheet(
+"Availability",
+schedule
+);
+
+await saveSheet(
+"Members",
+members
+);
+
+await saveSheet(
+"GraduatedMembers",
 graduatedMembers
-)
 );
-localStorage.setItem(
-"hiac_podcasts_v3",
-JSON.stringify(podcasts)
-);
-
-localStorage.setItem(
-"hiac_events_v3",
-JSON.stringify(events)
-);
-localStorage.setItem(
-"hiac_meetings_v1",
-JSON.stringify(meetings)
-);
-
-localStorage.setItem(
-"hiac_agendas_v1",
-JSON.stringify(meetings)
-);
-localStorage.setItem(
-"hiac_marketing_v3",
-JSON.stringify(marketing)
-);
-
-localStorage.setItem(
-"hiac_himss_v3",
-JSON.stringify(himss)
-);
-
-localStorage.setItem(
-"hiac_schedule_v3",
-JSON.stringify(schedule)
-);
-
 
 }
 
@@ -3223,9 +3248,53 @@ return result;
 
 }
 
+async function loadDatabase(){
 
+try{
 
-window.onload = () => {
+tasks =
+await loadSheet("Tasks");
+
+attendance =
+await loadSheet("Attendance");
+
+meetings =
+await loadSheet("Meetings");
+
+podcasts =
+await loadSheet("Podcasts");
+
+events =
+await loadSheet("Events");
+
+marketing =
+await loadSheet("Marketing");
+
+himss =
+await loadSheet("HIMSSBudget");
+
+schedule =
+await loadSheet("Availability");
+
+members =
+await loadSheet("Members");
+
+graduatedMembers =
+await loadSheet("GraduatedMembers");
+
+}catch(error){
+
+console.error(error);
+
+alert("Database connection failed");
+
+}
+
+}
+
+window.onload = async () => {
+
+await loadDatabase();
 
 initFilters();
 
