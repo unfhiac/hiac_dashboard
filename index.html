@@ -1150,6 +1150,21 @@ td,
 th{
 display:table-cell !important;
 }
+.csv-debug-box{
+margin-top:12px;
+padding:12px;
+border-radius:14px;
+background:#f8fafc;
+border:1px solid #e5e7eb;
+color:#111827;
+font-size:13px;
+line-height:1.6;
+display:none;
+}
+
+.csv-debug-box strong{
+color:#0f172a;
+}
 
 }
 </style>
@@ -1275,6 +1290,11 @@ onchange="importMembers(event)"
 Upload CampusGroups CSV export.
 </p>
 
+<div
+id="csvDebugBox"
+class="csv-debug-box">
+</div>
+   
 </div>
 
 <div class="attendance-kpi-grid">
@@ -3111,31 +3131,76 @@ const csv =
 e.target.result;
 
 const rows =
-csv.split(/\r?\n/);
+csv
+.split(/\r?\n/)
+.filter(r=>r.trim());
 
 const headers =
-rows[0]
-.split(",")
-.map(x=>x.trim());
+parseCsvRow(rows[0])
+.map(h=>h.trim());
+
+const lowerHeaders =
+headers.map(h=>h.toLowerCase());
 
 const nameIndex =
-headers.findIndex(
-h=>h.toLowerCase().includes("name")
+lowerHeaders.findIndex(h =>
+h==="name" ||
+h.includes("full name") ||
+h.includes("member name") ||
+h.includes("first name")
 );
 
 const emailIndex =
-headers.findIndex(
-h=>h.toLowerCase().includes("email")
+lowerHeaders.findIndex(h =>
+h==="email" ||
+h.includes("email address") ||
+h.includes("campus email")
 );
 
 const tagIndex =
-headers.findIndex(
-h=>
-h.toLowerCase().includes("tag") ||
-h.toLowerCase().includes("member")
+lowerHeaders.findIndex(h =>
+h.includes("member tag") ||
+h.includes("member tags") ||
+h.includes("tags") ||
+h.includes("tag") ||
+h.includes("membership") ||
+h.includes("status")
 );
 
+const debugBox =
+document.getElementById("csvDebugBox");
+
+if(debugBox){
+
+debugBox.style.display="block";
+
+debugBox.innerHTML = `
+<strong>CSV Import Debug</strong><br>
+Headers found: ${headers.join(" | ")}<br>
+Name column: ${nameIndex >= 0 ? headers[nameIndex] : "NOT FOUND"}<br>
+Email column: ${emailIndex >= 0 ? headers[emailIndex] : "NOT FOUND"}<br>
+Member Tags column: ${tagIndex >= 0 ? headers[tagIndex] : "NOT FOUND"}
+`;
+
+}
+
+if(
+nameIndex < 0 ||
+emailIndex < 0
+){
+
+alert(
+"Could not find Name or Email column. Please check the CSV headers."
+);
+
+return;
+
+}
+
 members=[];
+
+let graduatedCount = 0;
+let activeCount = 0;
 
 for(
 let i=1;
@@ -3143,54 +3208,71 @@ i<rows.length;
 i++
 ){
 
-if(!rows[i].trim())
-continue;
-
 const cols =
-rows[i].split(",");
+parseCsvRow(rows[i]);
 
 const name =
-(cols[nameIndex]||"").trim();
+(cols[nameIndex] || "")
+.replaceAll('"',"")
+.trim();
 
 const email =
-(cols[emailIndex]||"").trim();
+(cols[emailIndex] || "")
+.replaceAll('"',"")
+.trim();
 
 const tag =
-(cols[tagIndex]||"").trim();
+tagIndex >= 0
+?
+(cols[tagIndex] || "")
+.replaceAll('"',"")
+.trim()
+:
+"";
 
 if(!name || !email)
 continue;
 
+const tagText =
+tag.toLowerCase();
+
 const graduated =
+tagText.includes("graduated") ||
+tagText.includes("alumni") ||
+tagText.includes("former") ||
+tagText.includes("past member") ||
+tagText.includes("class of") ||
+tagText.includes("spring 2025") ||
+tagText.includes("fall 2025") ||
+tagText.includes("spring 2026");
 
-tag.toLowerCase().includes(
-"graduated"
-)
-
-||
-
-tag.toLowerCase().includes(
-"alumni"
-);
+if(graduated){
+graduatedCount++;
+}else{
+activeCount++;
+}
 
 members.push({
 
 name:name,
-
 email:email,
-
-status:
-graduated
-?
-"Graduated"
-:
-"Active",
-
+memberTags:tag,
+status:graduated ? "Graduated" : "Active",
 eventsAttended:0,
-
 eligibleEvents:0
 
 });
+
+}
+
+if(debugBox){
+
+debugBox.innerHTML += `
+<br>
+Rows imported: ${members.length}<br>
+Active detected: ${activeCount}<br>
+Graduated detected: ${graduatedCount}<br>
+`;
 
 }
 
@@ -3200,12 +3282,75 @@ renderCordTracker();
 
 alert(
 members.length +
-" members imported"
+" members imported. Active: " +
+activeCount +
+", Graduated: " +
+graduatedCount
 );
 
 };
 
 reader.readAsText(file);
+
+}
+
+function parseCsvRow(row){
+
+const result = [];
+let current = "";
+let insideQuotes = false;
+
+for(
+let i=0;
+i<row.length;
+i++
+){
+
+const char =
+row[i];
+
+const next =
+row[i+1];
+
+if(
+char === '"' &&
+insideQuotes &&
+next === '"'
+){
+
+current += '"';
+i++;
+continue;
+
+}
+
+if(char === '"'){
+
+insideQuotes =
+!insideQuotes;
+
+continue;
+
+}
+
+if(
+char === "," &&
+!insideQuotes
+){
+
+result.push(current);
+current = "";
+continue;
+
+}
+
+current += char;
+
+}
+
+result.push(current);
+
+return result;
 
 }
 function cordPercent(member){
