@@ -3235,8 +3235,10 @@ function renderAvailabilitySummary(){
 const selectedMonth =
 scheduleWeek.value.substring(0,7);
 
+const selectedPerson =
+availabilityPerson.value;
+
 let memberDates = {};
-let slotCounts = {};
 
 Object.entries(schedule).forEach(([key,val])=>{
 
@@ -3249,6 +3251,10 @@ if(parts.length < 4) return;
 
 const person =
 parts[0];
+
+if(person !== selectedPerson){
+return;
+}
 
 const date =
 parts[1];
@@ -3274,11 +3280,7 @@ times:[]
 
 memberDates[person][date].times.push(time);
 
-const slotKey =
-day + " " + time;
 
-slotCounts[slotKey] =
-(slotCounts[slotKey] || 0) + 1;
 
 });
 
