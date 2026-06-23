@@ -1667,11 +1667,26 @@ himss
 await saveSheet(
 "Availability",
 Object.entries(schedule).map(
-([key,value])=>({
-key:key,
-value:value
+([key,value])=>{
+
+const parts =
+key.split("_");
+
+return {
+
+person: parts[0],
+
+date: parts[1],
+
+day: parts[2],
+
+time: parts.slice(3).join("_"),
+
+status: value
+
+};
+
 })
-)
 );
 
 await saveSheet(
@@ -2970,7 +2985,14 @@ scheduleGrid.innerHTML='<div class="day">Time</div>'+days.map(d=>`<div class="da
 times.forEach(t=>{
 scheduleGrid.innerHTML+=`<div class="time">${t}</div>`;
 days.forEach(d=>{
-let key=person+"_"+week+"_"+d+"_"+t;
+let key =
+person +
+"_" +
+week +
+"_" +
+d +
+"_" +
+t;
 let state=schedule[key]||"";
 let label=state==="yes"?"YES":state==="maybe"?"MAYBE":state==="no"?"BUSY":"";
 scheduleGrid.innerHTML+=`<div class="slot ${state}" onclick="toggleSlot('${key}')">${label}</div>`;
@@ -3158,15 +3180,20 @@ schedule = {};
 
 (availData || []).forEach(r=>{
 
-if(r.key){
+const key =
+r.person +
+"_" +
+r.date +
+"_" +
+r.day +
+"_" +
+r.time;
 
-schedule[r.key] =
-r.value;
-
-}
+schedule[key] =
+r.status;
 
 });
-
+   
 members =
 membersData || [];
 
