@@ -3181,9 +3181,18 @@ target: cleanDate(m.target)
 himss =
 himssData || [];
 
+// AVAILABILITY
+
 schedule = {};
 
 (availData || []).forEach(r=>{
+
+if(
+r.person &&
+r.date &&
+r.day &&
+r.time
+){
 
 const key =
 r.person +
@@ -3197,8 +3206,17 @@ r.time;
 schedule[key] =
 r.status;
 
+}
+
 });
-   
+
+console.log(
+"Availability Loaded:",
+Object.keys(schedule).length
+);
+
+console.log(schedule);
+
 members =
 membersData || [];
 
