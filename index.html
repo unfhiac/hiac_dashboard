@@ -3324,10 +3324,14 @@ console.error(
 error
 );
 
+alert(
+"Database connection failed"
+);
 
 }
 
-}
+} // end loadDatabase
+
 window.onload = async () => {
 
 await loadDatabase();
@@ -3335,6 +3339,8 @@ await loadDatabase();
 initFilters();
 
 renderAll();
+
+
 
 };
 </script>
