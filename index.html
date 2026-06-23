@@ -3219,15 +3219,19 @@ hour:'numeric'
 
 }
 
+let time =
+String(r.time)
+.replace(":00 AM"," AM")
+.replace(":00 PM"," PM");
+
 const key =
 r.person +
 "_" +
-date +
+r.date +
 "_" +
 r.day +
 "_" +
 time;
-
 schedule[key] =
 r.status;
 
