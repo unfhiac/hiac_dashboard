@@ -3219,8 +3219,10 @@ hour:'numeric'
 
 }
 
-let time =
-String(r.time)
+let time = r.time;
+
+time =
+String(time)
 .replace(":00 AM"," AM")
 .replace(":00 PM"," PM");
 
@@ -3232,9 +3234,8 @@ r.date +
 r.day +
 "_" +
 time;
-schedule[key] =
-r.status;
 
+schedule[key] = r.status;
 });
 
 console.log(schedule);
