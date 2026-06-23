@@ -1251,32 +1251,22 @@ display:table-cell !important;
 
 <div class="panel">
 
-<div class="panel">
-
 <div class="row">
 
 <div>
-
 <h2>🎓 Cord Eligibility Tracker</h2>
-
 <p class="sub">
-Track member attendance and graduation cord eligibility.
+Track general member attendance and graduation cord eligibility.
 </p>
-
 </div>
 
-<button
-onclick="
-window.open(
-'cord_tracker.html',
-'_blank'
-)
-">
-Open Tracker
+<button onclick="window.open('cord_tracker.html','_blank')">
+Open Cord Tracker
 </button>
 
 </div>
 
+</div>
 
 
 <div class="attendance-kpi-grid">
@@ -3109,123 +3099,59 @@ a.click();
 }
 function importMembers(event){
 
-const file =
-event.target.files[0];
+const file = event.target.files[0];
 
 if(!file) return;
 
-const reader =
-new FileReader();
+const reader = new FileReader();
 
-reader.onload =
-function(e){
+reader.onload = function(e){
 
-const csv =
-e.target.result;
+const csv = e.target.result;
 
-const rows =
-csv
+const rows = csv
 .split(/\r?\n/)
 .filter(r=>r.trim());
 
-const headers =
-parseCsvRow(rows[0]);
+const headers = parseCsvRow(rows[0]);
 
-//----------------------------------
-// FIND COLUMNS
-//----------------------------------
+const firstNameIndex = headers.findIndex(h=>h.trim()==="First Name");
+const lastNameIndex = headers.findIndex(h=>h.trim()==="Last Name");
+const emailIndex = headers.findIndex(h=>h.trim()==="Email");
+const tagIndex = headers.findIndex(h=>h.trim()==="Member Tags");
 
-const firstNameIndex =
-headers.findIndex(
-h=>h.trim()==="First Name"
-);
-
-const lastNameIndex =
-headers.findIndex(
-h=>h.trim()==="Last Name"
-);
-
-const emailIndex =
-headers.findIndex(
-h=>h.trim()==="Email"
-);
-
-const tagIndex =
-headers.findIndex(
-h=>h.trim()==="Member Tags"
-);
-
-//----------------------------------
-// DEBUG
-//----------------------------------
-
-
-//----------------------------------
-// PRESERVE HISTORY
-//----------------------------------
-
-let existingAttendance =
-{};
+let existingAttendance = {};
 
 members.forEach(m=>{
 
-existingAttendance[
-m.email.toLowerCase()
-] = {
-
-eventsAttended:
-m.eventsAttended || 0,
-
-eligibleEvents:
-m.eligibleEvents || 0
-
+existingAttendance[m.email.toLowerCase()] = {
+eventsAttended:m.eventsAttended || 0,
+eligibleEvents:m.eligibleEvents || 0
 };
 
 });
 
-//----------------------------------
-// RESET DATA
-//----------------------------------
+members = [];
+graduatedMembers = [];
 
-members=[];
-
-graduatedMembers=[];
-
-localStorage.removeItem(
-"hiac_members_v1"
-);
-
-//----------------------------------
-// IMPORT
-//----------------------------------
+localStorage.removeItem("hiac_members_v1");
+localStorage.removeItem("hiac_graduated_v1");
 
 let activeCount = 0;
 let graduatedCount = 0;
 
-for(
-let i=1;
-i<rows.length;
-i++
-){
+for(let i=1;i<rows.length;i++){
 
-const cols =
-parseCsvRow(rows[i]);
+const cols = parseCsvRow(rows[i]);
 
-const firstName =
-(cols[firstNameIndex]||"")
-.trim();
+const firstName = (cols[firstNameIndex] || "").trim();
+const lastName = (cols[lastNameIndex] || "").trim();
+const name = `${firstName} ${lastName}`.trim();
 
-const lastName =
-(cols[lastNameIndex]||"")
-.trim();
+const email = (cols[emailIndex] || "").trim();
+const tag = (cols[tagIndex] || "").trim();
 
-const name =
-`${firstName} ${lastName}`
-.trim();
-
-const email =
-(cols[emailIndex]||"")
-.trim();
+if(!name || !email) continue;
 
 if(
 name === "Kay Thiemann" ||
@@ -3235,64 +3161,23 @@ email.toLowerCase().includes("kay")
 continue;
 }
 
-const tag =
-(cols[tagIndex]||"")
-.trim();
-
-if(
-!name ||
-!email
-) continue;
-
-const tagText =
-tag.toLowerCase();
+const tagText = tag.toLowerCase();
 
 const graduated =
+tagText.includes("graduated") ||
+tagText.includes("alumni") ||
+tagText.includes("former") ||
+tagText.includes("class of");
 
-tagText.includes(
-"graduated"
-)
-
-||
-
-tagText.includes(
-"alumni"
-)
-
-||
-
-tagText.includes(
-"former"
-)
-
-||
-
-tagText.includes(
-"class of"
-);
-
-//----------------------------------
-// ATTENDANCE HISTORY
-//----------------------------------
-
-const history =
-existingAttendance[
-email.toLowerCase()
-];
-
-//----------------------------------
-// SAVE
-//----------------------------------
+const history = existingAttendance[email.toLowerCase()];
 
 if(graduated){
 
 graduatedCount++;
 
 graduatedMembers.push({
-
 name,
 email
-
 });
 
 }else{
@@ -3300,82 +3185,33 @@ email
 activeCount++;
 
 members.push({
-
 name,
 email,
-
 memberTags:tag,
-
 status:"Active",
-
-eventsAttended:
-history?.eventsAttended || 0,
-
-eligibleEvents:
-history?.eligibleEvents || 0
-
+eventsAttended:history?.eventsAttended || 0,
+eligibleEvents:history?.eligibleEvents || 0
 });
 
 }
 
 }
 
-//----------------------------------
-// SAVE
-//----------------------------------
-
 save();
-
 renderCordTracker();
 
-//----------------------------------
-// DEBUG
-//----------------------------------
-
-if(debugBox){
-
-debugBox.innerHTML += `
-
-<br>
-
-Active Members:
-${activeCount}
-
-<br>
-
-Graduated Members:
-${graduatedCount}
-
-`;
-
-}
-
 alert(
-
 `Import Complete
 
-Active Members:
-${activeCount}
-
-Graduated:
-${graduatedCount}`
-
+Active Members: ${activeCount}
+Graduated Members: ${graduatedCount}`
 );
 
 };
 
 reader.readAsText(file);
 
-alert(
-`Import Complete
-
-Active Members: ${activeCount}
-
-Graduated Members: ${graduatedCount}`
-);
-
 }
-
 
 function parseCsvRow(row){
 
@@ -3563,10 +3399,9 @@ ${pct>=50?'Eligible':'At Risk'}
 
 });
 
-graduatedTable.innerHTML="";
+graduatedTable.innerHTML = "";
 
 graduatedMembers.forEach(m=>{
-
 graduatedTable.innerHTML += `
 <tr>
 <td>${m.name}</td>
