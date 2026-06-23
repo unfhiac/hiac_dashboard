@@ -1509,6 +1509,16 @@ Cynthia • Selena • Emmanuelle
 <script>
 const API_URL =
 "https://script.google.com/macros/s/AKfycbzeopu9kln5zjYtCK3hqsetHzHKI2j2i4LEFBYkdL5jaIhWGPr0xpFXuWlgyqZhm5CPzw/exec";
+
+function cleanDate(date){
+
+if(!date){
+return "";
+}
+
+return String(date).split("T")[0];
+
+}
 async function loadSheet(sheet){
 
 const response =
@@ -1580,20 +1590,25 @@ JSON.parse(localStorage.getItem("hiac_meetings_v1")) || [
 ];
 
 let agendas = [...meetings];
-
 function normalizeMeetingLists(){
 
-meetings =
-JSON.parse(
-localStorage.getItem(
-"hiac_meetings_v1"
-)
-) || meetings;
+if(
+!Array.isArray(meetings) ||
+meetings.length===0
+){
+
+meetings=[
+"Board #1",
+"Board #2",
+"Board #3",
+"Strategic Planning"
+];
+
+}
 
 agendas=[...meetings];
 
 }
-
 
 let tasks=JSON.parse(localStorage.getItem("hiac_tasks_v3"))||[
 {agenda:"Board #1",task:"Password Tracker",owner:"Agrani Sinha",priority:"High",status:"Completed",due:"2026-05-10",progress:100,notes:"Shared and completed."},
@@ -1922,19 +1937,13 @@ option(Object.keys(officerInfo),"Agrani Sinha");
 
 function renderCordSummary(){
 
-members =
-JSON.parse(
-localStorage.getItem(
-"hiac_members_v1"
-)
-) || [];
+if(!Array.isArray(members)){
+members=[];
+}
 
-graduatedMembers =
-JSON.parse(
-localStorage.getItem(
-"hiac_graduated_v1"
-)
-) || [];
+if(!Array.isArray(graduatedMembers)){
+graduatedMembers=[];
+}
 
 const active =
 members.length;
@@ -1946,49 +1955,38 @@ const eligible =
 members.filter(m=>{
 
 const attended =
-m.eventsAttended || 0;
+Number(m.eventsAttended || 0);
 
 const total =
-m.eligibleEvents || 0;
+Number(m.eligibleEvents || 0);
 
 if(total===0){
 return false;
 }
 
-return (
-attended/total
-)>=0.5;
+return attended/total >= 0.5;
 
 }).length;
 
 const activeEl =
-document.getElementById(
-"activeMemberCount"
-);
+document.getElementById("activeMemberCount");
 
 const eligibleEl =
-document.getElementById(
-"eligibleMemberCount"
-);
+document.getElementById("eligibleMemberCount");
 
 const graduatedEl =
-document.getElementById(
-"graduatedMemberCount"
-);
+document.getElementById("graduatedMemberCount");
 
 if(activeEl){
-activeEl.innerText =
-active;
+activeEl.innerText=active;
 }
 
 if(eligibleEl){
-eligibleEl.innerText =
-eligible;
+eligibleEl.innerText=eligible;
 }
 
 if(graduatedEl){
-graduatedEl.innerText =
-graduated;
+graduatedEl.innerText=graduated;
 }
 
 }
@@ -3246,65 +3244,57 @@ async function loadDatabase(){
 
 try{
 
-// ---------------------
+// ======================
 // TASKS
-// ---------------------
+// ======================
 
-try{
+tasks =
+await loadSheet("Tasks");
 
-tasks = await loadSheet("Tasks");
-
-if(!Array.isArray(tasks))
-tasks = [];
-
-console.log("TASKS",tasks);
-
-}catch(e){
-
-console.error("Tasks Error",e);
-
-tasks = [];
-
+if(!Array.isArray(tasks)){
+tasks=[];
 }
 
-// ---------------------
-// ATTENDANCE
-// ---------------------
+tasks = tasks.map(t=>({
 
-try{
+...t,
+
+due:
+t.due
+?
+String(t.due).split("T")[0]
+:
+""
+
+}));
+
+console.log(
+"TASKS",
+tasks
+);
+
+// ======================
+// ATTENDANCE
+// ======================
 
 attendance =
 await loadSheet("Attendance");
 
-if(!Array.isArray(attendance))
-attendance = [];
+if(!Array.isArray(attendance)){
+attendance=[];
+}
 
 console.log(
 "ATTENDANCE",
 attendance
 );
 
-}catch(e){
-
-console.error(
-"Attendance Error",
-e
-);
-
-attendance = [];
-
-}
-
-// ---------------------
+// ======================
 // MEETINGS
-// ---------------------
-
-try{
+// ======================
 
 const meetingData =
-await loadSheet(
-"Meetings"
-);
+await loadSheet("Meetings");
 
 console.log(
 "MEETINGS",
@@ -3312,6 +3302,8 @@ meetingData
 );
 
 meetings =
+Array.isArray(meetingData)
+?
 meetingData.map(
 m=>
 m.meetingName ||
@@ -3319,19 +3311,17 @@ m.Meeting ||
 m.meeting ||
 m.agenda ||
 Object.values(m)[0]
-);
+)
+:
+[];
 
-if(
-!meetings.length
-){
+if(meetings.length===0){
 
-meetings = [
-
+meetings=[
 "Board #1",
 "Board #2",
 "Board #3",
 "Strategic Planning"
-
 ];
 
 }
@@ -3341,166 +3331,105 @@ console.log(
 meetings
 );
 
-}catch(e){
-
-console.error(
-"Meetings Error",
-e
-);
-
-meetings = [
-
-"Board #1",
-"Board #2",
-"Board #3",
-"Strategic Planning"
-
-];
-
-}
-
-// ---------------------
+// ======================
 // PODCASTS
-// ---------------------
-
-try{
+// ======================
 
 podcasts =
-await loadSheet(
-"Podcasts"
-);
+await loadSheet("Podcasts");
 
-if(!Array.isArray(podcasts))
+if(!Array.isArray(podcasts)){
 podcasts=[];
-
-console.log(
-"PODCASTS",
-podcasts
-);
-
-}catch(e){
-
-console.error(
-"Podcasts Error",
-e
-);
-
-podcasts=[];
-
 }
 
-// ---------------------
-// EVENTS
-// ---------------------
+podcasts = podcasts.map(p=>({
 
-try{
+...p,
+
+target:
+p.target
+?
+String(p.target).split("T")[0]
+:
+""
+
+}));
+
+// ======================
+// EVENTS
+// ======================
 
 events =
-await loadSheet(
-"Events"
-);
+await loadSheet("Events");
 
-if(!Array.isArray(events))
+if(!Array.isArray(events)){
 events=[];
-
-console.log(
-"EVENTS",
-events
-);
-
-}catch(e){
-
-console.error(
-"Events Error",
-e
-);
-
-events=[];
-
 }
 
-// ---------------------
-// MARKETING
-// ---------------------
+events = events.map(e=>({
 
-try{
+...e,
+
+target:
+e.target
+?
+String(e.target).split("T")[0]
+:
+""
+
+}));
+
+// ======================
+// MARKETING
+// ======================
 
 marketing =
-await loadSheet(
-"Marketing"
-);
+await loadSheet("Marketing");
 
-if(!Array.isArray(marketing))
+if(!Array.isArray(marketing)){
 marketing=[];
-
-console.log(
-"MARKETING",
-marketing
-);
-
-}catch(e){
-
-console.error(
-"Marketing Error",
-e
-);
-
-marketing=[];
-
 }
 
-// ---------------------
-// HIMSS
-// ---------------------
+marketing = marketing.map(m=>({
 
-try{
+...m,
+
+target:
+m.target
+?
+String(m.target).split("T")[0]
+:
+""
+
+}));
+
+// ======================
+// HIMSS BUDGET
+// ======================
 
 himss =
-await loadSheet(
-"HIMSSBudget"
-);
+await loadSheet("HIMSSBudget");
 
-if(!Array.isArray(himss))
+if(!Array.isArray(himss)){
 himss=[];
-
-console.log(
-"HIMSS",
-himss
-);
-
-}catch(e){
-
-console.error(
-"HIMSS Error",
-e
-);
-
-himss=[];
-
 }
 
-// ---------------------
+// ======================
 // AVAILABILITY
-// ---------------------
-
-try{
+// ======================
 
 const avail =
-await loadSheet(
-"Availability"
-);
+await loadSheet("Availability");
 
-schedule = {};
+schedule={};
 
 if(Array.isArray(avail)){
 
 avail.forEach(r=>{
 
-if(
-r.key !== undefined
-){
+if(r.key){
 
-schedule[r.key] =
+schedule[r.key]=
 r.value;
 
 }
@@ -3509,91 +3438,34 @@ r.value;
 
 }
 
-console.log(
-"AVAILABILITY",
-schedule
-);
-
-}catch(e){
-
-console.error(
-"Availability Error",
-e
-);
-
-schedule={};
-
-}
-
-// ---------------------
+// ======================
 // MEMBERS
-// ---------------------
-
-try{
+// ======================
 
 members =
-await loadSheet(
-"Members"
-);
+await loadSheet("Members");
 
-if(!Array.isArray(members))
+if(!Array.isArray(members)){
 members=[];
-
-console.log(
-"MEMBERS",
-members
-);
-
-}catch(e){
-
-console.error(
-"Members Error",
-e
-);
-
-members=[];
-
 }
 
-// ---------------------
+// ======================
 // GRADUATED MEMBERS
-// ---------------------
-
-try{
+// ======================
 
 graduatedMembers =
-await loadSheet(
-"GraduatedMembers"
-);
+await loadSheet("GraduatedMembers");
 
-if(
-!Array.isArray(
-graduatedMembers
-)
-)
+if(!Array.isArray(graduatedMembers)){
 graduatedMembers=[];
-
-console.log(
-"GRADUATED",
-graduatedMembers
-);
-
-}catch(e){
-
-console.error(
-"Graduated Error",
-e
-);
-
-graduatedMembers=[];
-
 }
 
 console.log(
 "DATABASE LOADED SUCCESSFULLY"
 );
 
-}catch(error){
+}
+catch(error){
 
 console.error(
 "DATABASE ERROR",
