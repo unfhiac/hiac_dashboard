@@ -1152,6 +1152,34 @@ display:table-cell !important;
 }
 
 }
+#availabilitySummaryCard{
+
+margin-top:20px;
+padding:20px;
+background:white;
+border-radius:20px;
+box-shadow:0 4px 20px rgba(0,0,0,.08);
+
+}
+
+#availabilitySummary h4{
+
+margin:16px 0 10px;
+
+}
+
+#availabilitySummary ul{
+
+margin:0;
+padding-left:20px;
+
+}
+
+#availabilitySummary li{
+
+margin-bottom:8px;
+
+}
 </style>
 </head>
 
@@ -1494,6 +1522,19 @@ Cynthia • Selena • Emmanuelle
 <button onclick="findBestTime()">Find Best Meeting Time</button>
 </div>
 <div class="schedule" id="scheduleGrid"></div>
+<div class="card" id="availabilitySummaryCard">
+
+<h3>
+📊 Monthly Availability Insights
+</h3>
+
+<div id="availabilitySummary">
+
+No availability data yet.
+
+</div>
+
+</div>
 <p id="bestTime" class="sub"></p>
 </div>
 
@@ -3003,8 +3044,123 @@ let label=state==="yes"?"YES":state==="maybe"?"MAYBE":state==="no"?"BUSY":"";
 scheduleGrid.innerHTML+=`<div class="slot ${state}" onclick="toggleSlot('${key}')">${label}</div>`;
 });
 });
+renderAvailabilitySummary();
+}
+function renderAvailabilitySummary(){
+
+const selectedMonth =
+scheduleWeek.value.substring(0,7);
+
+let memberDates = {};
+
+Object.entries(schedule).forEach(([key,val])=>{
+
+if(val !== "yes") return;
+
+const parts = key.split("_");
+
+if(parts.length < 4) return;
+
+const person =
+parts[0];
+
+const date =
+parts[1];
+
+const time =
+parts.slice(3).join("_");
+
+if(!date.startsWith(selectedMonth))
+return;
+
+if(!memberDates[person]){
+
+memberDates[person] = {};
+
 }
 
+if(!memberDates[person][date]){
+
+memberDates[person][date] = [];
+
+}
+
+memberDates[person][date].push(time);
+
+});
+
+let html =
+`
+<h4>
+📅 Recent Availability Updates
+</h4>
+<ul>
+`;
+
+Object.entries(memberDates)
+.forEach(([person,dates])=>{
+
+const allDates =
+Object.keys(dates)
+.sort();
+
+let start =
+allDates[0];
+
+let end =
+allDates[0];
+
+for(let i=1;i<=allDates.length;i++){
+
+const current =
+allDates[i];
+
+const previous =
+allDates[i-1];
+
+const nextDate =
+new Date(previous);
+
+nextDate.setDate(
+nextDate.getDate()+1
+);
+
+const expected =
+nextDate
+.toISOString()
+.split("T")[0];
+
+if(current === expected){
+
+end = current;
+
+}else{
+
+html += `
+<li>
+<b>${person}</b>
+marked availability
+from
+${start}
+to
+${end}
+</li>
+`;
+
+start = current;
+end = current;
+
+}
+
+}
+});
+
+html += "</ul>";
+
+availabilitySummary.innerHTML =
+html;
+
+}
 function toggleSlot(key){
 let current=schedule[key]||"";
 let next=current===""?"yes":current==="yes"?"maybe":current==="maybe"?"no":"";
