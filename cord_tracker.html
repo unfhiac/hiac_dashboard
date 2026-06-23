@@ -419,7 +419,7 @@ let graduatedMembers = [];
 const API_URL =
 "https://script.google.com/macros/s/AKfycbzeopu9kln5zjYtCK3hqsetHzHKI2j2i4LEFBYkdL5jaIhWGPr0xpFXuWlgyqZhm5CPzw/exec";
 
-async function save(){
+function save(){
 
 await saveDatabase();
 
@@ -468,7 +468,7 @@ const reader =
 new FileReader();
 
 reader.onload =
-function(e){
+async function(e){
 
 const rows =
 e.target.result
@@ -593,7 +593,7 @@ eligibleEvents:previous?.eligibleEvents || 0
 
 }
 
-await save();
+save();
 render();
 
 alert(
@@ -801,7 +801,7 @@ min="0"
 value="${m.eventsAttended}"
 onchange="
 members[${i}].eventsAttended=parseInt(this.value)||0;
-await save();
+save();
 render();
 ">
 </td>
@@ -812,7 +812,7 @@ min="0"
 value="${m.eligibleEvents}"
 onchange="
 members[${i}].eligibleEvents=parseInt(this.value)||0;
-await save();
+save();
 render();
 ">
 </td>
@@ -855,6 +855,9 @@ graduateTable.innerHTML += `
 }
 }
 async function loadDatabase(){
+
+members = [];
+graduatedMembers = [];
 
 try{
 
