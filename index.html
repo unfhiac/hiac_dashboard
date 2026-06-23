@@ -3181,9 +3181,12 @@ podcasts = podcasts.map(p=>({
 ...p,
 
 target:
-p.target
+m.target &&
+!isNaN(new Date(m.target))
 ?
-String(p.target).split("T")[0]
+new Date(m.target)
+.toISOString()
+.split("T")[0]
 :
 ""
 
@@ -3205,9 +3208,12 @@ events = events.map(e=>({
 ...e,
 
 target:
-e.target
+m.target &&
+!isNaN(new Date(m.target))
 ?
-String(e.target).split("T")[0]
+new Date(m.target)
+.toISOString()
+.split("T")[0]
 :
 ""
 
@@ -3229,9 +3235,12 @@ marketing = marketing.map(m=>({
 ...m,
 
 target:
-m.target
+m.target &&
+!isNaN(new Date(m.target))
 ?
-String(m.target).split("T")[0]
+new Date(m.target)
+.toISOString()
+.split("T")[0]
 :
 ""
 
