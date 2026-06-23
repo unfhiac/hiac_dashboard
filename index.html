@@ -3349,38 +3349,77 @@ html += `
 
 html += `
 </ul>
-<h4>🏆 Best Meeting Windows</h4>
+html = `
+<h4>
+📅 ${selectedPerson}'s Availability
+</h4>
 <ul>
 `;
 
-const bestSlots =
-Object.entries(slotCounts)
-.filter(x=>x[1] >= 2)
-.sort((a,b)=>b[1]-a[1])
-.slice(0,3);
+const dates =
+Object.keys(
+memberDates[selectedPerson] || {}
+).sort();
 
-if(bestSlots.length === 0){
+if(!dates.length){
 
 html += `
-<li>No shared availability found yet.</li>
+<li>
+No availability recorded this month.
+</li>
 `;
 
 }else{
 
-bestSlots.forEach(([slot,count])=>{
+dates.forEach(date=>{
+
+const info =
+memberDates[selectedPerson][date];
+
+const times =
+info.times.sort(
+(a,b)=>parseTime(a)-parseTime(b)
+);
+
+const firstTime =
+times[0];
+
+const lastTime =
+times[times.length-1];
 
 html += `
 <li>
-<b>${slot}</b> — ${count} member${count>1 ? "s" : ""} available
+<b>${formatDateLabel(date)}</b><br>
+${firstTime}
+${firstTime!==lastTime ? " – "+lastTime : ""}
 </li>
 `;
-
 });
 
 }
 
 html += `
 </ul>
+`;
+
+const totalSlots =
+dates.reduce(
+(sum,date)=>
+sum +
+memberDates[selectedPerson][date]
+.times.length,
+0
+);
+
+html += `
+<hr style="
+margin:15px 0;
+">
+
+<b>
+Total Available Slots:
+</b>
+${totalSlots}
 `;
 
 availabilitySummary.innerHTML =
