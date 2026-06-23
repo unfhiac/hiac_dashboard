@@ -1251,33 +1251,33 @@ display:table-cell !important;
 
 <div class="panel">
 
+<div class="panel">
+
 <div class="row">
+
 <div>
+
 <h2>🎓 Cord Eligibility Tracker</h2>
-<p class="sub">
-Upload CampusGroups member export CSV and track graduation cord eligibility.
-</p>
-</div>
-</div>
-
-<div class="card">
-
-<h3>Import Member Roster</h3>
-
-<input
-type="file"
-id="memberCsv"
-accept=".csv"
-onchange="importMembers(event)"
->
 
 <p class="sub">
-Upload CampusGroups CSV export.
+Track member attendance and graduation cord eligibility.
 </p>
 
-
-   
 </div>
+
+<button
+onclick="
+window.open(
+'cord_tracker.html',
+'_blank'
+)
+">
+Open Tracker
+</button>
+
+</div>
+
+
 
 <div class="attendance-kpi-grid">
 
@@ -3159,13 +3159,7 @@ h=>h.trim()==="Member Tags"
 // DEBUG
 //----------------------------------
 
-alert(
-`Import Complete
 
-Active Members: ${activeCount}
-
-Graduated Members: ${graduatedCount}`
-);
 //----------------------------------
 // PRESERVE HISTORY
 //----------------------------------
@@ -3372,7 +3366,17 @@ ${graduatedCount}`
 
 reader.readAsText(file);
 
+alert(
+`Import Complete
+
+Active Members: ${activeCount}
+
+Graduated Members: ${graduatedCount}`
+);
+
 }
+
+
 function parseCsvRow(row){
 
 const result = [];
@@ -3558,6 +3562,8 @@ ${pct>=50?'Eligible':'At Risk'}
 `;
 
 });
+
+graduatedTable.innerHTML="";
 
 graduatedMembers.forEach(m=>{
 
