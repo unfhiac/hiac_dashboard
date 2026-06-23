@@ -646,6 +646,8 @@ sortAsc = true;
 render();
 
 }
+
+
 function render(){
 document.getElementById("activeCount").innerText =
 members.length;
@@ -858,8 +860,49 @@ graduateTable.innerHTML += `
 
 }
 }
+async function loadDatabase(){
 
-window.onload = render;
+try{
+
+members =
+await fetch(
+`${API_URL}?action=Members`
+).then(r=>r.json());
+
+graduatedMembers =
+await fetch(
+`${API_URL}?action=GraduatedMembers`
+).then(r=>r.json());
+
+console.log(
+"Members Loaded:",
+members.length
+);
+
+console.log(
+"Graduated Loaded:",
+graduatedMembers.length
+);
+
+render();
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Failed to load Google Sheets data"
+);
+
+}
+
+}
+
+window.onload = async () => {
+
+await loadDatabase();
+
+};
 </script>
 
 </body>
