@@ -1254,73 +1254,44 @@ display:table-cell !important;
 <div class="row">
 
 <div>
-<h2>🎓 Cord Eligibility Tracker</h2>
+
+<h2>
+🎓 Cord Eligibility Tracker
+</h2>
+
 <p class="sub">
-Track general member attendance and graduation cord eligibility.
+
+Track member attendance and graduation cord eligibility separately from the Executive Dashboard.
+
 </p>
+
 </div>
 
-<button onclick="window.open('cord_tracker.html','_blank')">
-Open Cord Tracker
+<button
+class="lime"
+onclick="
+window.open(
+'cord_tracker.html',
+'_blank'
+)
+">
+
+Open Tracker
+
 </button>
 
 </div>
 
 </div>
-
+   
 
 <div class="attendance-kpi-grid">
 
 <div class="attendance-kpi">
 <span>Active Members</span>
-<strong id="activeMemberCount">0</strong>
-</div>
 
-<div class="attendance-kpi">
-<span>Eligible (≥50%)</span>
-<strong id="eligibleCount">0</strong>
-</div>
 
-<div class="attendance-kpi">
-<span>At Risk</span>
-<strong id="atRiskMemberCount">0</strong>
-</div>
 
-</div>
-
-<table>
-
-<thead>
-<tr>
-<th>Name</th>
-<th>Email</th>
-<th>Attended</th>
-<th>Eligible Events</th>
-<th>Attendance %</th>
-<th>Status</th>
-</tr>
-</thead>
-
-<tbody id="cordTable"></tbody>
-
-</table>
-
-<br>
-
-<h3>Graduated Members Archive</h3>
-
-<table>
-
-<thead>
-<tr>
-<th>Name</th>
-<th>Email</th>
-</tr>
-</thead>
-
-<tbody id="graduatedTable"></tbody>
-
-</table>
 
 </div>
 <div class="panel agenda-panel">
@@ -1760,19 +1731,9 @@ let himss=JSON.parse(localStorage.getItem("hiac_himss_v3"))||[
 
 let schedule=JSON.parse(localStorage.getItem("hiac_schedule_v3"))||{};
 
-let members =
-JSON.parse(
-localStorage.getItem(
-"hiac_members_v1"
-)
-) || [];
 
-let graduatedMembers =
-JSON.parse(
-localStorage.getItem(
-"hiac_graduated_v1"
-)
-) || [];
+
+
 
 function save(){
 
@@ -1918,7 +1879,7 @@ syncAgendaMeetings();
 renderStats();
 renderOfficers();
 renderAttendance();
-renderCordTracker();
+
 renderTasks();
 renderAgendaPlanner();
 renderPodcasts();
@@ -3097,121 +3058,6 @@ a.href=URL.createObjectURL(blob);
 a.download="HIAC_Final_Dashboard.csv";
 a.click();
 }
-function importMembers(event){
-
-const file = event.target.files[0];
-
-if(!file) return;
-
-const reader = new FileReader();
-
-reader.onload = function(e){
-
-const csv = e.target.result;
-
-const rows = csv
-.split(/\r?\n/)
-.filter(r=>r.trim());
-
-const headers = parseCsvRow(rows[0]);
-
-const firstNameIndex = headers.findIndex(h=>h.trim()==="First Name");
-const lastNameIndex = headers.findIndex(h=>h.trim()==="Last Name");
-const emailIndex = headers.findIndex(h=>h.trim()==="Email");
-const tagIndex = headers.findIndex(h=>h.trim()==="Member Tags");
-
-let existingAttendance = {};
-
-members.forEach(m=>{
-
-existingAttendance[m.email.toLowerCase()] = {
-eventsAttended:m.eventsAttended || 0,
-eligibleEvents:m.eligibleEvents || 0
-};
-
-});
-
-members = [];
-graduatedMembers = [];
-
-localStorage.removeItem("hiac_members_v1");
-localStorage.removeItem("hiac_graduated_v1");
-
-let activeCount = 0;
-let graduatedCount = 0;
-
-for(let i=1;i<rows.length;i++){
-
-const cols = parseCsvRow(rows[i]);
-
-const firstName = (cols[firstNameIndex] || "").trim();
-const lastName = (cols[lastNameIndex] || "").trim();
-const name = `${firstName} ${lastName}`.trim();
-
-const email = (cols[emailIndex] || "").trim();
-const tag = (cols[tagIndex] || "").trim();
-
-if(!name || !email) continue;
-
-if(
-name === "Kay Thiemann" ||
-email.toLowerCase().includes("k.thiemann") ||
-email.toLowerCase().includes("kay")
-){
-continue;
-}
-
-const tagText = tag.toLowerCase();
-
-const graduated =
-tagText.includes("graduated") ||
-tagText.includes("alumni") ||
-tagText.includes("former") ||
-tagText.includes("class of");
-
-const history = existingAttendance[email.toLowerCase()];
-
-if(graduated){
-
-graduatedCount++;
-
-graduatedMembers.push({
-name,
-email
-});
-
-}else{
-
-activeCount++;
-
-members.push({
-name,
-email,
-memberTags:tag,
-status:"Active",
-eventsAttended:history?.eventsAttended || 0,
-eligibleEvents:history?.eligibleEvents || 0
-});
-
-}
-
-}
-
-save();
-renderCordTracker();
-
-alert(
-`Import Complete
-
-Active Members: ${activeCount}
-Graduated Members: ${graduatedCount}`
-);
-
-};
-
-reader.readAsText(file);
-
-}
 
 function parseCsvRow(row){
 
@@ -3272,38 +3118,7 @@ result.push(current);
 return result;
 
 }
-function cordPercent(member){
 
-if(
-member.eligibleEvents===0
-)
-return 0;
-
-return Math.round(
-
-(member.eventsAttended /
-member.eligibleEvents)
-
-*100
-
-);
-
-}
-
-function cordStatus(member){
-
-if(
-member.status==="Graduated"
-)
-return "Graduated";
-
-return cordPercent(member)>=50
-?
-"Eligible"
-:
-"At Risk";
-
-}
 
 
 window.onload = () => {
