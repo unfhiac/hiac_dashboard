@@ -3210,28 +3210,116 @@ el.innerHTML+=`<div class="barcol"><div class="bar" style="height:${h}px"></div>
 }
 
 function renderSchedule(){
-let person=availabilityPerson.value||"Agrani Sinha";
-let week=scheduleWeek.value||"2026-06-22";
-let days=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
-let times=["9 AM","10 AM","11 AM","12 PM","1 PM","2 PM","3 PM","4 PM","5 PM","6 PM","7 PM","8 PM"];
-scheduleGrid.innerHTML='<div class="day">Time</div>'+days.map(d=>`<div class="day">${d}</div>`).join("");
-times.forEach(t=>{
-scheduleGrid.innerHTML+=`<div class="time">${t}</div>`;
-days.forEach(d=>{
-let key =
-person +
-"_" +
-week +
-"_" +
-d +
-"_" +
-t;
-let state=schedule[key]||"";
-let label=state==="yes"?"YES":state==="maybe"?"MAYBE":state==="no"?"BUSY":"";
-scheduleGrid.innerHTML+=`<div class="slot ${state}" onclick="toggleSlot('${key}')">${label}</div>`;
-});
-});
-renderAvailabilitySummary();
+
+    const person =
+        availabilityPerson.value || "Agrani Sinha";
+
+    const selectedDate =
+        scheduleWeek.value || "2026-06-22";
+
+    const selectedDay =
+        new Date(selectedDate + "T00:00:00")
+        .toLocaleDateString(
+            "en-US",
+            {
+                weekday:"short"
+            }
+        );
+
+    const prettyDate =
+        new Date(selectedDate + "T00:00:00")
+        .toLocaleDateString(
+            "en-US",
+            {
+                weekday:"long",
+                month:"long",
+                day:"numeric",
+                year:"numeric"
+            }
+        );
+
+    const times=[
+        "9 AM",
+        "10 AM",
+        "11 AM",
+        "12 PM",
+        "1 PM",
+        "2 PM",
+        "3 PM",
+        "4 PM",
+        "5 PM",
+        "6 PM",
+        "7 PM",
+        "8 PM"
+    ];
+
+    const grid =
+        document.getElementById("scheduleGrid");
+
+    grid.innerHTML="";
+
+    // Only TWO columns:
+    // Time | Selected Date
+
+    grid.style.display="grid";
+    grid.style.gridTemplateColumns="120px 1fr";
+    grid.style.width="100%";
+    grid.style.minWidth="420px";
+
+    grid.innerHTML+=`
+        <div class="day">
+            Time
+        </div>
+
+        <div class="day">
+            ${prettyDate}
+        </div>
+    `;
+
+    times.forEach(time=>{
+
+        const key=
+            person+
+            "_" +
+            selectedDate+
+            "_" +
+            selectedDay+
+            "_" +
+            time;
+
+        const state=
+            schedule[key] || "";
+
+        let label="";
+
+        if(state==="yes")
+            label="✅ Available";
+
+        else if(state==="maybe")
+            label="🟡 Maybe";
+
+        else if(state==="no")
+            label="🔴 Busy";
+
+        grid.innerHTML+=`
+
+            <div class="time">
+                ${time}
+            </div>
+
+            <div
+                class="slot ${state}"
+                onclick="toggleSlot('${key}')"
+            >
+                ${label}
+            </div>
+
+        `;
+
+    });
+
+    renderAvailabilitySummary();
+
 }
 function renderAvailabilitySummary(){
 
