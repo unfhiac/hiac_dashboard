@@ -3469,20 +3469,75 @@ save();renderSchedule();
 }
 
 function findBestTime(){
-let week=scheduleWeek.value||"2026-06-22";
-let days=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
-let times=["9 AM","10 AM","11 AM","12 PM","1 PM","2 PM","3 PM","4 PM","5 PM","6 PM","7 PM","8 PM"];
-let best={slot:"No shared availability yet",score:-1};
-days.forEach(d=>times.forEach(t=>{
-let score=0;
-Object.keys(officerInfo).forEach(p=>{
-let s=schedule[p+"_"+week+"_"+d+"_"+t];
-if(s==="yes")score+=2;
-if(s==="maybe")score+=1;
-});
-if(score>best.score)best={slot:d+" at "+t,score};
-}));
-bestTime.innerText="Best meeting time: "+best.slot+" | Score: "+best.score;
+
+    const selectedDate =
+        scheduleWeek.value || "2026-06-22";
+
+    const selectedDay =
+        new Date(selectedDate + "T00:00:00")
+            .toLocaleDateString("en-US",{
+                weekday:"short"
+            });
+
+    const times=[
+        "9 AM",
+        "10 AM",
+        "11 AM",
+        "12 PM",
+        "1 PM",
+        "2 PM",
+        "3 PM",
+        "4 PM",
+        "5 PM",
+        "6 PM",
+        "7 PM",
+        "8 PM"
+    ];
+
+    let best={
+        slot:"No shared availability",
+        score:-1
+    };
+
+    times.forEach(time=>{
+
+        let score=0;
+
+        Object.keys(officerInfo).forEach(person=>{
+
+            const state =
+                schedule[
+                    person +
+                    "_" +
+                    selectedDate +
+                    "_" +
+                    selectedDay +
+                    "_" +
+                    time
+                ];
+
+            if(state==="yes") score+=2;
+            if(state==="maybe") score+=1;
+
+        });
+
+        if(score>best.score){
+
+            best={
+                slot:`${formatDateLabel(selectedDate)} at ${time}`,
+                score:score
+            };
+
+        }
+
+    });
+
+    bestTime.innerText =
+        "Best meeting time: " +
+        best.slot +
+        " | Score: " +
+        best.score;
+
 }
 
 function exportCSV(){
